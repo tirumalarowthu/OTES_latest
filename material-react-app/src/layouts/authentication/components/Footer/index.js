@@ -35,7 +35,7 @@ function Footer({ light }) {
 
   return (
     <MDBox position={pathname !== '/auth/login' ? 'absolute' : 'relative'} width="100%" bottom={0} py={4}>
-      <Container>
+      {/* <Container>
         <MDBox
           width="100%"
           display="flex"
@@ -146,7 +146,7 @@ function Footer({ light }) {
             </MDBox>
           </MDBox>
         </MDBox>
-      </Container>
+      </Container> */}
     </MDBox>
   );
 }

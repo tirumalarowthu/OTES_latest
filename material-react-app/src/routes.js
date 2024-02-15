@@ -55,6 +55,7 @@ import ResetPassword from "auth/reset-password";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import PendingApprovals from "app_components/PendingApprovals";
 
 const routes = [
   {
@@ -77,10 +78,10 @@ const routes = [
   {
     type: "collapse",
     name: "Pending Approvals",
-    key: "notifications",
+    key: "pending-approvals",
     icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
+    route: "/pending-approvals",
+    component: <PendingApprovals />,
   },
   // {
   //   type: "collapse",

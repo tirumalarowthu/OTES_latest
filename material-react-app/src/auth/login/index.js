@@ -28,17 +28,18 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 import AuthService from "services/auth-service";
 import { AuthContext } from "context";
+import axios from "axios";
 
 function Login() {
   const authContext = useContext(AuthContext);
 
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [credentialsErros, setCredentialsError] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
 
   const [inputs, setInputs] = useState({
-    email: "admin@jsonapi.com",
-    password: "secret",
+    email: "tes@gmail.com",
+    password: "tes@123",
   });
 
   const [errors, setErrors] = useState({
@@ -46,7 +47,7 @@ function Login() {
     passwordError: false,
   });
 
-  const addUserHandler = (newUser) => setUser(newUser);
+  // const addUserHandler = (newUser) => setUser(newUser);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
@@ -73,18 +74,19 @@ function Login() {
       return;
     }
 
-    const newUser = { email: inputs.email, password: inputs.password };
-    addUserHandler(newUser);
+    // const newUser = { email: inputs.email, password: inputs.password };
+    // addUserHandler(newUser);
 
-    const myData = {
-      data: {
-        type: "token",
-        attributes: { ...newUser },
-      },
-    };
+    // const myData = {
+    //   data: {
+    //     type: "token",
+    //     attributes: { ...newUser },
+    //   },
+    // };
 
     try {
-      const response = await AuthService.login(myData);
+      // const response = await AuthService.login(myData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/loginEvaluator`, inputs)
       authContext.login(response.access_token, response.refresh_token);
     } catch (res) {
       if (res.hasOwnProperty("message")) {

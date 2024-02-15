@@ -29,19 +29,20 @@ const MaterialUI = createContext();
 
 // authentication context
 export const AuthContext = createContext({
-  isAuthenticated: false,
+  isAuthenticated: true,
   login: () => {},
   register: () => {},
   logout: () => {},
 });
 
 const AuthContextProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const token = localStorage.getItem("token");
+  const token = "Hello world" ;
+  // const token = localStorage.getItem("token") ;
 
   useEffect(() => {
     if (!token) return;

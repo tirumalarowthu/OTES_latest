@@ -6,7 +6,7 @@ class AuthService {
   login = async (payload) => {
     const loginEndpoint = 'login';
     return await HttpService.post(loginEndpoint, payload);
-  };
+  }; 
 
   register = async (credentials) => {
     const registerEndpoint = 'register';

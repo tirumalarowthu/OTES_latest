@@ -130,7 +130,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   });
 
   const handleLogOut = async () => {
-    const response = await AuthService.logout();
+    // const response = await AuthService.logout();
     authContext.logout();
   };
 
@@ -146,11 +146,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <MDBox pr={1}>
+            {/* <MDBox pr={1}>
               <MDInput label="Search here" />
-            </MDBox>
+            </MDBox> */}
             <MDBox display="flex" alignItems="center" color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
+              {/* <Link to="/authentication/sign-in/basic">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
                   <Icon sx={iconsStyle}>account_circle</Icon>
                 </IconButton>
@@ -187,7 +187,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon sx={iconsStyle}>notifications</Icon>
               </IconButton>
-              {renderMenu()}
+              {renderMenu()} */}
               <MDBox>
                 <MDButton
                   variant="gradient"

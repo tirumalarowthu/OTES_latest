@@ -90,7 +90,7 @@ export default styled(Box)(({ theme, ownerState }) => {
   }
 
   // color value
-  let colorValue = color;
+  let colorValue = color; 
 
   if (validColors.find((el) => el === color)) {
     colorValue = palette[color] ? palette[color].main : greyColors[color];

@@ -51,7 +51,7 @@ function Footer({ company, links }) {
       alignItems="center"
       px={1.5}
     >
-      <MDBox
+      {/* <MDBox
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -98,7 +98,7 @@ function Footer({ company, links }) {
         })}
       >
         {renderLinks()}
-      </MDBox>
+      </MDBox> */}
     </MDBox>
   );
 }

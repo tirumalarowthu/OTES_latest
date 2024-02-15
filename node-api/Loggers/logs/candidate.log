@@ -1,0 +1,4 @@
+{"level":"info","message":"request sent to MongoDB database matched with the data abc@gmail.com login successfull","timestamp":"2024-02-13 10:21:22"}
+{"level":"error","message":"Error in candidate login","timestamp":"2024-02-13 10:21:22"}
+{"level":"info","message":"request sent to MongoDB database matched with the data ast1@gmail.com login successfull","timestamp":"2024-02-13 10:21:43"}
+{"level":"error","message":"Error in candidate login","timestamp":"2024-02-13 10:21:43"}

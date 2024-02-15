@@ -18,6 +18,9 @@ import { useState, useEffect, useContext } from "react";
 // react-router components
 import { Link } from "react-router-dom";
 
+//logo for testmaster
+import logo from "../../../assets/images/logos/testIcon.png";
+
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -49,7 +52,8 @@ function DefaultNavbar({ transparent, light, action }) {
   const [mobileNavbar, setMobileNavbar] = useState(false);
   const [mobileView, setMobileView] = useState(false);
 
-  const openMobileNavbar = ({ currentTarget }) => setMobileNavbar(currentTarget.parentNode);
+  const openMobileNavbar = ({ currentTarget }) =>
+    setMobileNavbar(currentTarget.parentNode);
   const closeMobileNavbar = () => setMobileNavbar(false);
 
   useEffect(() => {
@@ -111,19 +115,40 @@ function DefaultNavbar({ transparent, light, action }) {
           lineHeight={1}
           pl={{ xs: 0, lg: 1 }}
         >
-          <MDTypography variant="button" fontWeight="bold" color={light ? "white" : "dark"}>
-            Material Dashboard 2
+          <img
+            src={logo}
+            alt="logo"
+            height={40} // Adjust the height based on your design
+            style={{ marginRight: '1px', marginBottom: '-9px' }}
+          />
+          <MDTypography
+            variant="button"
+            fontWeight="bold"
+            fontSize={25}
+            color={light ? "white" : "dark"}
+          >
+            testmaster
           </MDTypography>
         </MDBox>
         {authContext.isAuthenticated && (
-          <MDBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
+          <MDBox
+            color="inherit"
+            display={{ xs: "none", lg: "flex" }}
+            m={0}
+            p={0}
+          >
             <DefaultNavbarLink
               icon="donut_large"
               name="dashboard"
               route="/dashboard"
               light={light}
             />
-            <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} />
+            <DefaultNavbarLink
+              icon="person"
+              name="profile"
+              route="/profile"
+              light={light}
+            />
             <DefaultNavbarLink
               icon="account_circle"
               name="sign up"
@@ -139,22 +164,27 @@ function DefaultNavbar({ transparent, light, action }) {
           </MDBox>
         )}
         {!authContext.isAuthenticated && (
-          <MDBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
+          <MDBox
+            color="inherit"
+            display={{ xs: "none", lg: "flex" }}
+            m={0}
+            p={0}
+          >
             <DefaultNavbarLink
               icon="account_circle"
-              name="register"
+              name="candidate register"
               route="/auth/register"
               light={light}
             />
             <DefaultNavbarLink
               icon="key"
-              name="login"
+              name="evaluator login"
               route="/auth/login"
               light={light}
             />
           </MDBox>
         )}
-        {action &&
+        {/* {action &&
           (action.type === "internal" ? (
             <MDBox display={{ xs: "none", lg: "inline-block" }}>
               <MDButton
@@ -182,7 +212,7 @@ function DefaultNavbar({ transparent, light, action }) {
                 {action.label}
               </MDButton>
             </MDBox>
-          ))}
+          ))} */}
         <MDBox
           display={{ xs: "inline-block", lg: "none" }}
           lineHeight={0}
@@ -195,7 +225,9 @@ function DefaultNavbar({ transparent, light, action }) {
           <Icon fontSize="default">{mobileNavbar ? "close" : "menu"}</Icon>
         </MDBox>
       </MDBox>
-      {mobileView && <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />}
+      {mobileView && (
+        <DefaultNavbarMobile open={mobileNavbar} close={closeMobileNavbar} />
+      )}
     </Container>
   );
 }
