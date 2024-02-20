@@ -55,7 +55,9 @@ import ResetPassword from "auth/reset-password";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import PendingApprovals from "app_components/PendingApprovals";
+import PendingApprovals from "app_components/PendingApprovals/PendingApprovals";
+import ViewQuestions from "app_components/QuestionBank/ViewQuestions";
+import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHomePage";
 
 const routes = [
   {
@@ -94,18 +96,26 @@ const routes = [
   {
     type: "collapse",
     name: "Add Questions",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
+    key: "add-questions",
+    icon: <Icon fontSize="small">receipt_short</Icon>,
+    route: "/add-questions",
     component: <Billing />,
   },
   {
     type: "collapse",
     name: "View Questions",
-    key: "billing",
+    key: "view-questions",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
+    route: "/view-questions",
+    component: <ViewQuestionsHomePage />,
+  },
+  {
+    type: "examples",
+    name: "View Questions By area",
+    key: "view-questions-area",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/view-questions/:area",
+    component: <ViewQuestions />,
   },
   // {
   //   type: "collapse",

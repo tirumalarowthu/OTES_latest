@@ -42,12 +42,15 @@ const Candidate = new mongoose.Schema({
     required : true,
     default:true
   },
+  
   atsId:{
     type:String,
     default:"",
     require:true
     //for applicant tracking system 
   }
+},{
+  timestamps:true
 });
 
 

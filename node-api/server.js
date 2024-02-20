@@ -16,7 +16,7 @@ const TestResults = require("./models/TestResults");
 const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const PORT = process.env.PORT || 8080;
-const path = require("path");
+const path = require("path"); 
 require("dotenv").config();
 const logger = require("./Loggers/logger");
 const EvalLogger = require("./Loggers/evallogger.js");
@@ -106,7 +106,7 @@ app.post("/register", async (req, res) => {
       isApproved,
       name,
       area,
-      mcqCount,
+      mcqCount, 
       codeCount,
       paragraphCount,
       atsId
@@ -270,9 +270,10 @@ app.post("/addParagraphQuestion", async (req, res) => {
 
 // a get api to fetch and send all questions and fields?
 
-app.get("/getMCQQuestions", async (req, res) => {
+app.get("/getMCQQuestions/:area", async (req, res) => {
   try {
     const { ids } = req.query;
+    const {area} =req.params
     const idArr = ids ? ids.split(",") : null;
     if (idArr) {
       const questions = await MCQQuestion.find({ _id: { $in: idArr } });
@@ -291,7 +292,7 @@ app.get("/getMCQQuestions", async (req, res) => {
         } : null
       })));
     } else {
-      const questions = await MCQQuestion.find({});
+      const questions = await MCQQuestion.find({area});
       ViewMcq.ViewMCQLogger.log(
         "info",
         "View questions module triggered, MCQuestions are fetched from the database and displayed to the user successfully"

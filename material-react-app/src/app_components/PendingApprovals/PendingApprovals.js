@@ -28,12 +28,17 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData from "layouts/tables/data/authorsTableData";
+import pendingApprovalsData from "./pendingApprovalsData";
+import MDInput from "components/MDInput";
+import { useState } from "react";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function PendingApprovals() {
-  const { columns, rows } = authorsTableData();
-//   const { columns: pColumns, rows: pRows } = projectsTableData();
+  // const [searchQuery, setSearchQuery] = useState('');
+  const { columns, rows } = pendingApprovalsData();
+  // console.log(rows,"rows data")
+  //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (
     <DashboardLayout>
@@ -51,19 +56,32 @@ function PendingApprovals() {
                 bgColor="warning"
                 borderRadius="lg"
                 coloredShadow="info"
+                style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <MDTypography variant="h6" color="white">
                   Pending Approvals Table
                 </MDTypography>
+                {/* <MDTypography style={{ background: "white", width: "50%", marginBottom: "10px", borderRadius: "10px" }}>
+                  <MDInput 
+                  onChange={(e)=>setSearchQuery(e.target.value)}
+                  style={{ width: "100%" }} autofil={false} label="Search user by name or email" />
+                </MDTypography> */}
+
               </MDBox>
+
               <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={true}
-                  entriesPerPage={true}
-                  showTotalEntries={true}
-                  noEndBorder
-                />
+                {
+                  rows.length > 0 ? <DataTable
+                    table={{ columns, rows }}
+                    isSorted={true}
+                    entriesPerPage={false}
+                    showTotalEntries={true}
+                    noEndBorder
+                  /> : <MDTypography align='center' variant="h6" mb={2} ml={4}>
+                    No pending approvals
+                  </MDTypography>
+                }
+
               </MDBox>
             </Card>
           </Grid>

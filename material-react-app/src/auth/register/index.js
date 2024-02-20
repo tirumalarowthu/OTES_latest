@@ -28,14 +28,14 @@ function Register() {
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
-    password: "",
-    agree: false,
+    area: "",
+    agree: true,
   });
 
   const [errors, setErrors] = useState({
     nameError: false,
     emailError: false,
-    passwordError: false,
+    areaError: false,
     agreeError: false,
     error: false,
     errorText: "",
@@ -63,15 +63,20 @@ function Register() {
       return;
     }
 
-    if (inputs.password.trim().length < 8) {
-      setErrors({ ...errors, passwordError: true });
+    if (inputs.area.trim().length < 4) {
+      setErrors({ ...errors, areaError: true });
       return;
     }
 
-    if (inputs.agree === false) {
-      setErrors({ ...errors, agreeError: true });
-      return;
-    }
+    // if (inputs.password.trim().length < 8) {
+    //   setErrors({ ...errors, passwordError: true });
+    //   return;
+    // }
+
+    // if (inputs.agree === false) {
+    //   setErrors({ ...errors, agreeError: true });
+    //   return;
+    // }
 
     // here will be the post action to add a user to the db
     const newUser = { name: inputs.name, email: inputs.email, password: inputs.password };
@@ -95,19 +100,19 @@ function Register() {
 
     try {
       const response = await AuthService.register(myData);
-      authContext.login(response.access_token, response.refresh_token);
+      // authContext.login(response.access_token, response.refresh_token);
 
       setInputs({
         name: "",
         email: "",
-        password: "",
+        area: "",
         agree: false,
       });
 
       setErrors({
         nameError: false,
         emailError: false,
-        passwordError: false,
+        areaError: false,
         agreeError: false,
         error: false,
         errorText: "",
@@ -133,10 +138,10 @@ function Register() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Join us today
+            Register today
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
+            Enter your name, email and domain to register
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
@@ -189,6 +194,23 @@ function Register() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput
+                type="select"
+                label="Area"
+                variant="standard"
+                fullWidth
+                name="area"
+                value={inputs.area}
+                onChange={changeHandler}
+                error={errors.areaError}
+              />
+              {errors.areaError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  Please select the area !
+                </MDTypography>
+              )}
+            </MDBox>
+            {/* <MDBox mb={2}>
+              <MDInput
                 type="password"
                 label="Password"
                 variant="standard"
@@ -203,8 +225,8 @@ function Register() {
                   The password must be of at least 8 characters
                 </MDTypography>
               )}
-            </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
+            </MDBox> */}
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
               <Checkbox name="agree" id="agree" onChange={changeHandler} />
               <InputLabel
                 variant="standard"
@@ -225,8 +247,8 @@ function Register() {
               >
                 Terms and Conditions
               </MDTypography>
-            </MDBox>
-            {errors.agreeError && (
+            </MDBox> */}
+            {/* {errors.agreeError && (
               <MDTypography variant="caption" color="error" fontWeight="light">
                 You must agree to the Terms and Conditions
               </MDTypography>
@@ -235,7 +257,7 @@ function Register() {
               <MDTypography variant="caption" color="error" fontWeight="light">
                 {errors.errorText}
               </MDTypography>
-            )}
+            )} */}
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth type="submit">
                 sign in
