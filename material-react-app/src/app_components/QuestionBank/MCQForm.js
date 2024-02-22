@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Card, Form, Button, Modal } from "react-bootstrap";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 // import "./McqForm.css";
 
