@@ -46,7 +46,7 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
 import UserProfile from "layouts/user-profile";
-import UserManagement from "layouts/user-management";
+// import UserManagement from "layouts/user-management";
 
 import Login from "auth/login";
 import Register from "auth/register";
@@ -58,6 +58,10 @@ import Icon from "@mui/material/Icon";
 import PendingApprovals from "app_components/PendingApprovals/PendingApprovals";
 import ViewQuestions from "app_components/QuestionBank/ViewQuestions";
 import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHomePage";
+import CandidateList from "app_components/CandidateManage/CandidateList";
+import EditCandidateForm from "app_components/CandidateManage/EditCandidateForm";
+import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
+
 
 const routes = [
   {
@@ -70,11 +74,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "User Management",
-    key: "user-management",
+    name: "CandidateList",
+    key: "Candidate-List",
     icon: <Icon fontSize="small">list</Icon>,
-    route: "/user-management",
-    component: <UserManagement />,
+    route: "/Candidate-List",
+    component: <CandidateList />,
   },
   
   {
@@ -116,6 +120,22 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/view-questions/:area",
     component: <ViewQuestions />,
+  },
+  {
+    type: "examples",
+    name: "Edit Candidate",
+    key: "Edit-Candidate",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/Candidate-List/Edit/:_id",
+    component: <EditCandidateForm />,
+  },
+  {
+    type: "examples",
+    name: "Eval Questions",
+    key: "Eval-Questions",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/Candidate-List/EvalQuestions",
+    component: <EvalQuestions />,
   },
   // {
   //   type: "collapse",

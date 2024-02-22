@@ -1,0 +1,30 @@
+.answer-wrapper {
+    display: flex;
+  }
+  
+  .correct-answer,
+  .given-answer {
+    margin-right: 20px;
+  }
+
+  .buttonE {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 13px;
+    border-radius: 0.5em;
+    background: #fdfcfc;
+    border: 2px solid #f8faf7;
+    transition: all .3s;
+    box-shadow: 6px 6px 12px #ace5e8,
+               -6px -6px 12px #ffffff;
+  }
+  
+  .buttonE:hover {
+    border: 1px solid white;
+  }
+  
+  .buttonE:active {
+    box-shadow: 4px 4px 12px #44ebcf,
+               -4px -4px 12px #ffffff;
+  }
+  

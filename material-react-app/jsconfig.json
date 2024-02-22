@@ -4,5 +4,6 @@
     "paths": {
       "*": ["public/src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules"]
 }
