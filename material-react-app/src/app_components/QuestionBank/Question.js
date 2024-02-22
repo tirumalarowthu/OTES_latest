@@ -29,7 +29,7 @@ import { useMaterialUIController } from "context";
 import { Divider } from "@mui/material";
 import axios from "axios";
 
-function Question({ name, company,area,qnum,c1,c2,c3,c4,questionId,correct_choice, email, vat, noGutter }) {
+function Question({ name, company,area,imageURL,qnum,c1,c2,c3,c4,questionId,correct_choice, email, vat, noGutter }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -37,6 +37,7 @@ function Question({ name, company,area,qnum,c1,c2,c3,c4,questionId,correct_choic
   const handleDeleteQuestion = (questionId) => {
     const confirmMessage = `Do you want to delele following question :  ${name} ?`
     if (window.confirm(confirmMessage)) {
+      console.log(confirmMessage)
       try {
         axios.delete(`${process.env.REACT_APP_API_URL}/deleteQuestion/${questionId}`)
         alert("Question deleted successfully")
@@ -45,18 +46,6 @@ function Question({ name, company,area,qnum,c1,c2,c3,c4,questionId,correct_choic
         console.log(error);
       }
     }
-
-    axios.delete(`${process.env.REACT_APP_API_URL}/deleteQuestion/${questionId}`)
-      .then((response) => {
-        console.log(response);
-        alert("Question deleted successfully")
-        window.location.reload()
-        // Handle successful deletion, such as updating the list of questions
-      })
-      .catch((error) => {
-        // Handle error
-        console.log(error);
-      });
   };
   // style={{color:c1.includes(correct_choice) ? 'red':''}}
   function checkAnswer (ans){
@@ -92,6 +81,11 @@ function Question({ name, company,area,qnum,c1,c2,c3,c4,questionId,correct_choic
               {qnum}) {name}
             </MDTypography>
             <br/>
+            {
+              imageURL && <MDTypography>
+                <img width="100%" alt="question pic" src ={imageURL} />
+              </MDTypography>
+            }
             <MDTypography  variant="button" fontWeight="light" textTransform="capitalize">
               a) {c1}
             </MDTypography>

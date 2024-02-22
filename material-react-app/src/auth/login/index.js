@@ -87,6 +87,10 @@ function Login() {
     try {
       // const response = await AuthService.login(myData);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/loginEvaluator`, inputs)
+      // console.log(response.data)
+
+      localStorage.setItem('eval_info',JSON.stringify(response.data))
+      console.log(localStorage.getItem("eval_info"))
       authContext.login(response.access_token, response.refresh_token);
     } catch (res) {
       if (res.hasOwnProperty("message")) {

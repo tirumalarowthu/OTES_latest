@@ -67,7 +67,7 @@ app.use(bodyParser.json());
 // API to add evaluator
 app.post("/addEvaluator", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password,name,role } = req.body;
 
     // Generate a salt
     const salt = await bcrypt.genSalt(10);
@@ -75,7 +75,7 @@ app.post("/addEvaluator", async (req, res) => {
     // Hash the password with the salt
     const hashedPassword = await bcrypt.hash(password, salt);
     // Save the hashed password and email to the database
-    await Evaluator.create({ email, password: hashedPassword });
+    await Evaluator.create({name,role, email, password: hashedPassword });
 
     return res.send("Evaluator added successfully");
   } catch (err) {
@@ -188,7 +188,7 @@ app.post("/loginEvaluator", async (req, res) => {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token,name:evaluator.name,email:evaluator.email,role:evaluator.role });
       }
     );
   } catch (err) {
@@ -269,7 +269,55 @@ app.post("/addParagraphQuestion", async (req, res) => {
 });
 
 // a get api to fetch and send all questions and fields?
+app.get("/getMCQQuestions", async (req, res) => {
+  try {
+    const { ids } = req.query;
+    const idArr = ids ? ids.split(",") : null;
+    if (idArr) {
+      const questions = await MCQQuestion.find({ _id: { $in: idArr } });
+      res.json(questions.map(question => ({
+        _id: question._id,
+        area: question.area,
+        question: question.question,
+        choice1: question.choice1,
+        choice2: question.choice2,
+        choice3: question.choice3,
+        choice4: question.choice4,
+        correct_choice: question.correct_choice,
+        image: question.image.data ? {
+          data: question.image.data.toString("base64"),
+          contentType: question.image.contentType
+        } : null
+      })));
+    } else {
+      const questions = await MCQQuestion.find({});
+      ViewMcq.ViewMCQLogger.log(
+        "info",
+        "View questions module triggered, MCQuestions are fetched from the database and displayed to the user successfully"
+      );
+      res.json(questions.map(question => ({
+        _id: question._id,
+        area: question.area,
+        question: question.question,
+        choice1: question.choice1,
+        choice2: question.choice2,
+        choice3: question.choice3,
+        choice4: question.choice4,
+        correct_choice: question.correct_choice,
+        image: question.image.data ? {
+          data: question.image.data.toString("base64"),
+          contentType: question.image.contentType
+        } : null
+      })));
+    }
+  } catch (error) {
+    console.error("Error getting questions from MongoDB:", error);
+    ViewMcq.ViewMCQLogger.log("error", "Error in displaying MCQuestions");
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
+//Get MCQ questions based on Area : 
 app.get("/getMCQQuestions/:area", async (req, res) => {
   try {
     const { ids } = req.query;

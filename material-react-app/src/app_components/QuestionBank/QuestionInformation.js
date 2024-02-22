@@ -75,6 +75,7 @@ function QuestionInformation() {
                             return (
                             <Question
                             key = {index}
+                            imageURL = {item.image && item.imageURL}
                             questionId={item._id}
                             correct_choice ={item.correct_choice}
                             c1 ={item.choice1}

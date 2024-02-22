@@ -27,10 +27,11 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/avatar.webp";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+ 
 export default function data() {
   const [pendingApprovals, setPendingApprovals] = useState([]);
-  
+
+  //for handling pending approvals : 
   const handleApprovals = async (id, decide, name) => {
     const confirmMessage = decide
       ? `Do you want to allow ${name} to write online test ?`
@@ -44,6 +45,7 @@ export default function data() {
       }
     }
   };
+
   useEffect(() => { 
     getPendingApprovals();
   }, []);
@@ -143,7 +145,7 @@ export default function data() {
       { Header: "Action", accessor: "action", align: "center" },
     ],
 
-    rows: pendingApprovals,
+    rows: pendingApprovals 
   };
 }
 

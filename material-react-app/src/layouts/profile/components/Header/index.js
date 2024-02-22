@@ -35,7 +35,7 @@ import MDAvatar from "components/MDAvatar";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import userImage from "assets/images/user.png";
 import backgroundImage from "assets/images/bg-profile.jpeg";
 
 function Header({ children }) {
@@ -63,7 +63,7 @@ function Header({ children }) {
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
-
+  const evaluator_info = JSON.parse(localStorage.getItem('eval_info')) || false
   return (
     <MDBox position="relative" mb={5}>
       <MDBox
@@ -94,15 +94,15 @@ function Header({ children }) {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={userImage} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
               <MDTypography variant="h5" fontWeight="medium">
-                Veera
+               {evaluator_info && evaluator_info.name || "Name"} 
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                HR / hr@gmail.com
+              {evaluator_info && evaluator_info.role || "Role" } / {evaluator_info && evaluator_info.email }
               </MDTypography>
             </MDBox>
           </Grid>

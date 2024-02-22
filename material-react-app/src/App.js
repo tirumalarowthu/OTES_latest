@@ -166,7 +166,8 @@ export default function App() {
       </Icon>
     </MDBox>
   );
-
+  const Condition = localStorage.getItem('eval_info') || false
+  // console.log(Condition)
   return (
     <>
       {isDemo && (
@@ -274,32 +275,41 @@ export default function App() {
           )}
           {layout === "vr" && <Configurator />}
           <Routes>
-            <Route path="/auth/login" element={<Login />} />
-            <Route path="/auth/register" element={<Register />} />
-            <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-            <Route path="/auth/reset-password" element={<ResetPassword />} />
-            <Route
-              exact
-              path="user-profile"
-              element={
-                <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
-                  <UserProfile />
-                </ProtectedRoute>
-              }
-              key="user-profile"
-            />
-            <Route
-              exact
-              path="user-management"
-              element={
-                <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
-                  <UserManagement />
-                </ProtectedRoute>
-              }
-              key="user-management"
-            />
-            {getRoutes(routes)}
-            <Route path="*" element={<Navigate to="/dashboard" />} />
+            {
+              Condition ? <>
+
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/register" element={<Register />} />
+                <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+                <Route path="/auth/reset-password" element={<ResetPassword />} />
+                <Route
+                  exact
+                  path="user-profile"
+                  element={
+                    <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
+                      <UserProfile />
+                    </ProtectedRoute>
+                  }
+                  key="user-profile"
+                />
+                <Route
+                  exact
+                  path="user-management"
+                  element={
+                    <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
+                      <UserManagement />
+                    </ProtectedRoute>
+                  }
+                  key="user-management"
+                />
+                {getRoutes(routes)}
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+              </> : <>
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/register" element={<Register />} />
+                <Route path="*" element={<Navigate to="/auth/login" />} />
+              </>
+            }
           </Routes>
         </ThemeProvider>
       )}
