@@ -39,7 +39,6 @@ function PendingApprovals() {
   const { columns, rows } = pendingApprovalsData();
   // console.log(rows,"rows data")
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -68,7 +67,6 @@ function PendingApprovals() {
                 </MDTypography> */}
 
               </MDBox>
-
               <MDBox pt={3}>
                 {
                   rows.length > 0 ? <DataTable
@@ -83,6 +81,7 @@ function PendingApprovals() {
                 }
 
               </MDBox>
+
             </Card>
           </Grid>
           {/* <Grid item xs={12}>

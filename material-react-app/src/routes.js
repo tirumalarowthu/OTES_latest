@@ -58,6 +58,8 @@ import Icon from "@mui/material/Icon";
 import PendingApprovals from "app_components/PendingApprovals/PendingApprovals";
 import ViewQuestions from "app_components/QuestionBank/ViewQuestions";
 import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHomePage";
+import AddQuestions from "app_components/QuestionBank/AddQuestions";
+import AddQuestionsHomepage from "app_components/QuestionBank/AddQuestionsHomepage";
 
 const routes = [
   {
@@ -85,21 +87,14 @@ const routes = [
     route: "/pending-approvals",
     component: <PendingApprovals />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   icon: <Icon fontSize="small">table_view</Icon>,
-  //   route: "/tables",
-  //   component: <Tables />,
-  // },
+  
   {
     type: "collapse",
     name: "Add Questions",
     key: "add-questions",
     icon: <Icon fontSize="small">receipt_short</Icon>,
     route: "/add-questions",
-    component: <Billing />,
+    component: <AddQuestionsHomepage />,
   },
   {
     type: "collapse",
@@ -117,14 +112,14 @@ const routes = [
     route: "/view-questions/:area",
     component: <ViewQuestions />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
+  {
+    type: "examples",
+    name: "add Questions By area",
+    key: "add-questions-area",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/add-questions/:area",
+    component: <AddQuestions />,
+  },
  
   {
     type: "collapse",
@@ -134,6 +129,47 @@ const routes = [
     route: "/profile",
     component: <Profile />,
   },
+  
+  {
+    type: "auth",
+    name: "Login",
+    key: "login",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/auth/login",
+    component: <Login />,
+  },
+  {
+    type: "auth",
+    name: "Register",
+    key: "register",
+    icon: <Icon fontSize="small">reigster</Icon>,
+    route: "/auth/register",
+    component: <Register />,
+  },
+  {
+    type: "auth",
+    name: "Forgot Password",
+    key: "forgot-password",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/auth/forgot-password",
+    component: <ForgotPassword />,
+  },
+  {
+    type: "auth",
+    name: "Reset Password",
+    key: "reset-password",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/auth/reset-password",
+    component: <ResetPassword />,
+  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/tables",
+  //   component: <Tables />,
+  // },
   // {
   //   type: "collapse",
   //   name: "Sign In",
@@ -167,38 +203,14 @@ const routes = [
   //   route: "/authentication/sign-up",
   //   component: <SignUp />,
   // },
-  {
-    type: "auth",
-    name: "Login",
-    key: "login",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/auth/login",
-    component: <Login />,
-  },
-  {
-    type: "auth",
-    name: "Register",
-    key: "register",
-    icon: <Icon fontSize="small">reigster</Icon>,
-    route: "/auth/register",
-    component: <Register />,
-  },
-  {
-    type: "auth",
-    name: "Forgot Password",
-    key: "forgot-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/forgot-password",
-    component: <ForgotPassword />,
-  },
-  {
-    type: "auth",
-    name: "Reset Password",
-    key: "reset-password",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/auth/reset-password",
-    component: <ResetPassword />,
-  },
+   // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
+  // },
 ];
 
 export default routes;
