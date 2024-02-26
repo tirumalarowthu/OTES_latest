@@ -52,6 +52,7 @@ import Login from "auth/login";
 import Register from "auth/register";
 import ForgotPassword from "auth/forgot-password";
 import ResetPassword from "auth/reset-password";
+import CandidateLogin from "auth/candidateLogin";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -61,6 +62,8 @@ import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHome
 import CandidateList from "app_components/CandidateManage/CandidateList";
 import EditCandidateForm from "app_components/CandidateManage/EditCandidateForm";
 import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
+import Instructions from "./app_components/CandidateTest/Instructions";
+
 
 import AddQuestions from "app_components/QuestionBank/AddQuestions";
 import AddQuestionsHomepage from "app_components/QuestionBank/AddQuestionsHomepage";
@@ -166,6 +169,22 @@ const routes = [
     component: <Login />,
   },
   {
+    type: "examples",
+    name: "CandidateLogin",
+    key: "candidate-login",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/auth/candidate-login",
+    component: <CandidateLogin />,
+  },
+  {
+    type: "examples",
+    name: "Instructions",
+    key: "instructions",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/instructions",
+    component: <Instructions />,
+  },
+  {
     type: "auth",
     name: "Register",
     key: "register",
@@ -187,7 +206,7 @@ const routes = [
     key: "reset-password",
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/auth/reset-password",
-    component: <ResetPassword />,
+    component: <ResetPassword/>,
   },
   // {
   //   type: "collapse",

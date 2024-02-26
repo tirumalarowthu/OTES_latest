@@ -39,8 +39,8 @@ export default function data() {
   const [candidateList, setCandidateList] = useState([]);
   const eval_email = location.state?.email;
   const navigate = useNavigate();
-  
-
+  const [loading,setLoading] = useState(true)
+  console.log(loading)
   
 //   const handleApprovals = async (id, decide, name) => {
 //     const confirmMessage = decide
@@ -60,7 +60,13 @@ export default function data() {
   }
   const handleEvaluateCandidate = (item) => {
     if (item.testStatus === "Test Not Taken" || item.testStatus === "Test Cancelled") {
-      alert("Test is not taken or test has been cancelled. Evaluation cannot be performed.")
+      toast.warn(`${item.testStatus}. Evaluation cannot be performed.`, 
+      {
+        style: {
+          fontSize: '16px', 
+        },
+      }
+    )
       navigate('/Candidate-List')
       return;
     }
@@ -80,14 +86,13 @@ export default function data() {
         const emailList = list.map(list1 => list1.email).join(",");
         const res = await axios.get(`http://localhost:8080/getTestResults?emails=${emailList}`);
         const testResultsMap = new Map(res.data.map(result => [result.email, result]));
-        console.log(testResultsMap)
         const updatedCandidates = list.map(list1 => {
             const testResult = testResultsMap.get(list1.email);
             if (testResult && testResult.totalScore !== undefined) {
                 const selectedAnswers = testResult.selectedAnswers;
-                // console.log(selectedAnswers)
+                console.log(selectedAnswers)
                 const totalQuestions = Object.keys(selectedAnswers).length;
-                // console.log(totalQuestions)
+                console.log(totalQuestions)
                 return {
                     ...list1,
                     totalScore: testResult.totalScore,
@@ -97,13 +102,13 @@ export default function data() {
                 return list1;
             }
         });
+        setLoading(false)
         setCandidateList(updatedCandidates);
-        console.log(updatedCandidates[1].totalScore)
+        // console.log(updatedCandidates[1].totalScore)
 
         const formatedTableData = response.data.map((item,index) => 
         { 
             return  {
-                
                 s_no : <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
                         {index+1}
                       </MDTypography>,
@@ -193,6 +198,7 @@ export default function data() {
     ],
 
     rows: candidateList,
+    loading,
   };
 }
 

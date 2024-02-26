@@ -170,6 +170,13 @@ function DefaultNavbar({ transparent, light, action }) {
             m={0}
             p={0}
           >
+            
+            <DefaultNavbarLink
+              icon="key"
+              name="evaluator login"
+              route="/auth/login"
+              light={light}
+            />
             <DefaultNavbarLink
               icon="account_circle"
               name="candidate register"
@@ -177,9 +184,9 @@ function DefaultNavbar({ transparent, light, action }) {
               light={light}
             />
             <DefaultNavbarLink
-              icon="key"
-              name="evaluator login"
-              route="/auth/login"
+              icon="account_circle"
+              name="candidate login"
+              route="/auth/candidate-login"
               light={light}
             />
           </MDBox>

@@ -32,20 +32,23 @@ import DataTable from "examples/Tables/DataTable";
 import CandidateListData from "./CandidateListData";
 import MDInput from "components/MDInput";
 import { useState } from "react";
+import CircularProgress from '@mui/material/CircularProgress';
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function CandidateList() {
   // const [searchQuery, setSearchQuery] = useState('');
-  const { columns, rows } = CandidateListData();
+  const { columns, rows, loading } = CandidateListData();
+  console.log(loading)
   // console.log(rows,"rows data")
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
-
+  
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
+            
             <Card>
               <MDBox
                 mx={2}
@@ -70,18 +73,26 @@ function CandidateList() {
               </MDBox>
 
               <MDBox pt={3}>
-                {
-                  rows.length > 0 ? <DataTable
-                    table={{ columns, rows }}
-                    isSorted={true}
-                    entriesPerPage={false}
-                    showTotalEntries={true}
-                    noEndBorder
-                  /> : <MDTypography align='center' variant="h6" mb={2} ml={4}>
-                    No Candidates
-                  </MDTypography>
-                }
-
+                {loading ? (
+                  <div align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></div>
+                ) : (
+                  <>
+                    {rows.length > 0 ? (
+                      <DataTable
+                        table={{ columns, rows }}
+                        isSorted={true}
+                        entriesPerPage={false}
+                        showTotalEntries={true}
+                        noEndBorder
+                      />
+                    ) : (
+                      <MDTypography align="center" variant="h6" mb={2} ml={4}>
+                        No Candidates
+                      </MDTypography>
+                    )}
+                  </>
+                )}
               </MDBox>
             </Card>
           </Grid>

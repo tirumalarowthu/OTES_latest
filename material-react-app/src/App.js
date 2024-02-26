@@ -44,13 +44,17 @@ import ForgotPassword from "auth/forgot-password";
 import ResetPassword from "auth/reset-password";
 import Login from "auth/login";
 import Register from "auth/register";
+import CandidateLogin from "auth/candidateLogin";
 import { AuthContext } from "context";
 import UserProfile from "layouts/user-profile";
 import UserManagement from "layouts/user-management";
 import { Helmet } from "react-helmet";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
+import Instructions from "app_components/CandidateTest/Instructions";
 
 export default function App() {
-  console.log("checking git")
+
   const authContext = useContext(AuthContext);
 
   const [controller, dispatch] = useMaterialUIController();
@@ -238,7 +242,7 @@ export default function App() {
                 <Sidenav
                   color={sidenavColor}
                   brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                  brandName="Material Dashboard 2"
+                  brandName="Test Master"
                   routes={routes}
                   onMouseEnter={handleOnMouseEnter}
                   onMouseLeave={handleOnMouseLeave}
@@ -265,7 +269,7 @@ export default function App() {
               <Sidenav
                 color={sidenavColor}
                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                brandName="Material Dashboard 2"
+                brandName="Test Master"
                 routes={routes}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}
@@ -283,6 +287,8 @@ export default function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
+                <Route path="/auth/candidate-login" element={<CandidateLogin />} />
+                <Route path='/candidate/instructions' element={<Instructions/>}/>
                 <Route
                   exact
                   path="user-profile"
@@ -308,10 +314,13 @@ export default function App() {
               </> : <>
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
+                <Route path="/auth/candidate-login" element={<CandidateLogin />} />
+                <Route path='/candidate/instructions' element={<Instructions/>}/>
                 <Route path="*" element={<Navigate to="/auth/login" />} />
               </>
             }
           </Routes>
+          <ToastContainer/>
         </ThemeProvider>
       )}
     </>
