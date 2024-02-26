@@ -135,14 +135,7 @@ const routes = [
     route: "/Candidate-List/EvalQuestions",
     component: <EvalQuestions />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
+  
   {
     name: "add Questions By area",
     key: "add-questions-area",
@@ -176,14 +169,14 @@ const routes = [
     route: "/auth/candidate-login",
     component: <CandidateLogin />,
   },
-  {
-    type: "examples",
-    name: "Instructions",
-    key: "instructions",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/instructions",
-    component: <Instructions />,
-  },
+  // {
+  //   type: "auth",
+  //   name: "Instructions",
+  //   key: "instructions",
+  //   icon: <Icon fontSize="small">login</Icon>,
+  //   route: "/instructions",
+  //   component: <Instructions />,
+  // },
   {
     type: "auth",
     name: "Register",
@@ -215,6 +208,14 @@ const routes = [
   //   icon: <Icon fontSize="small">table_view</Icon>,
   //   route: "/tables",
   //   component: <Tables />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
   // },
   // {
   //   type: "collapse",

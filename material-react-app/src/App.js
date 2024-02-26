@@ -288,7 +288,7 @@ export default function App() {
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/auth/candidate-login" element={<CandidateLogin />} />
-                <Route path='/candidate/instructions' element={<Instructions/>}/>
+                {/* <Route path='/candidate/instructions' element={<Instructions/>}/> */}
                 <Route
                   exact
                   path="user-profile"

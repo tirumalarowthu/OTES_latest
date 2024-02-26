@@ -40,7 +40,7 @@ function CandidateLogin() {
   // const [rememberMe, setRememberMe] = useState(false);
 
   const [inputs, setInputs] = useState({
-    email: "tes@gmail.com",
+    email: "te23@gmail.com",
     // password: "tes@123",
   });
 

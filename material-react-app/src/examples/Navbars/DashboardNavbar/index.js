@@ -131,7 +131,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   const handleLogOut = async () => {
     // const response = await AuthService.logout();
+    // console.log(localStorage.getItem('eval_info'))
+    localStorage.removeItem("eval_info")
+  
     authContext.logout();
+    window.location.reload()
   };
 
   return (

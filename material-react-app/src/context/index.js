@@ -41,8 +41,8 @@ const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const token = "Hello world" ;
-  // const token = localStorage.getItem("token") ;
+  // const token = "Hello world" ;
+  const token = localStorage.getItem("eval_info") ;
 
   useEffect(() => {
     if (!token) return;
@@ -66,6 +66,7 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("eval_info")
     setIsAuthenticated(false);
     navigate("/auth/login");
   };

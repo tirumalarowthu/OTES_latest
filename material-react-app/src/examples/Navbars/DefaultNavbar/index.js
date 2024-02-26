@@ -130,7 +130,7 @@ function DefaultNavbar({ transparent, light, action }) {
             testmaster
           </MDTypography>
         </MDBox>
-        {authContext.isAuthenticated && (
+        {/* {authContext.isAuthenticated && (
           <MDBox
             color="inherit"
             display={{ xs: "none", lg: "flex" }}
@@ -162,8 +162,8 @@ function DefaultNavbar({ transparent, light, action }) {
               light={light}
             />
           </MDBox>
-        )}
-        {!authContext.isAuthenticated && (
+        )} */}
+        {authContext.isAuthenticated && (
           <MDBox
             color="inherit"
             display={{ xs: "none", lg: "flex" }}
