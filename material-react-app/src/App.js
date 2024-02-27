@@ -44,6 +44,7 @@ import ForgotPassword from "auth/forgot-password";
 import ResetPassword from "auth/reset-password";
 import Login from "auth/login";
 import Register from "auth/register";
+import VerifyOTP from "auth/verfiy-OTP";
 import CandidateLogin from "auth/candidateLogin";
 import { AuthContext } from "context";
 import UserProfile from "layouts/user-profile";
@@ -292,6 +293,7 @@ export default function App() {
                 <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                 <Route path="/auth/reset-password" element={<ResetPassword />} />
                 <Route path="/auth/candidate-login" element={<CandidateLogin />} />
+              
                 {/* <Route path='/candidate/instructions' element={<Instructions/>}/> */}
                 <Route
                   exact
@@ -320,6 +322,9 @@ export default function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/candidate-login" element={<CandidateLogin />} />
                 <Route path='/candidate/instructions' element={<Instructions/>}/>
+                <Route path ="/auth/forgot-password" element={<ForgotPassword />}/>
+                <Route path ="/auth/reset-password" element ={<ResetPassword/>}/>
+                <Route path ="/auth/verify-OTP" element ={<VerifyOTP/>}/>
                 <Route path="/getMCQQuestionsForTest" element={<MCQQuestions/>}/>
                 <Route path="/Results" element={<Results />} />
                 <Route path="*" element={<Navigate to="/auth/login" />} />

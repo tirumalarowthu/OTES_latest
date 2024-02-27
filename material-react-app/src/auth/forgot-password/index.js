@@ -14,10 +14,14 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import bgImage from "assets/images/bg-reset-cover.jpeg";
 import authService from "services/auth-service";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const [isDemo, setIsDemo] = useState(false);
+  const [loading,setLoading]= useState(false)
   const [notification, setNotification] = useState(false);
+  const navigate = useNavigate()
   const [input, setEmail] = useState({
     email: "",
   });
@@ -26,9 +30,6 @@ function ForgotPassword() {
     textError: "",
   });
 
-  useEffect(() => {
-    setIsDemo(process.env.REACT_APP_IS_DEMO === "true");
-  }, []);
 
   const changeHandler = (e) => {
     setEmail({
@@ -38,7 +39,7 @@ function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (input.email.trim().length === 0 || !input.email.trim().match(mailFormat)) {
@@ -46,25 +47,20 @@ function ForgotPassword() {
       return;
     }
 
-    // somthing not right with the data
-    const myData = {
-      data: {
-        type: "password-forgot",
-        attributes: {
-          redirect_url: `${process.env.REACT_APP_URL}/auth/reset-password`,
-          ...input,
-        },
-      },
-    };
-
     try {
-      if (isDemo == false) {
-        const response = await authService.forgotPassword(myData);
-        setError({ err: false, textError: "" });
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/otp/send/${input.email}`)
+      if (response.status === 200 && response.data.gen_otp.length===6) {
+        console.log(response)
+        localStorage.setItem('otp', response.data.gen_otp)
+        localStorage.setItem('userEmail',input.email)
+        setNotification(true);
+        navigate("/auth/verify-OTP")
       }
-      setNotification(true);
+
+      setError({ err: false, textError: "" });
     } catch (err) {
       console.error(err);
+     
       if (err.hasOwnProperty("errors")) {
         if (err.errors.hasOwnProperty("email")) {
           setError({ err: true, textError: err.errors.email[0] });
@@ -72,12 +68,22 @@ function ForgotPassword() {
           setError({ err: true, textError: "An error occured" });
         }
       }
+      setLoading(false)
       return null;
     }
   };
 
   return (
     <CoverLayout coverHeight="50vh" image={bgImage}>
+      {notification && (
+        <MDAlert color="info" mt="20px" dismissible>
+          <MDTypography variant="body2" color="white">
+            {isDemo
+              ? "You can't update the password in the demo version"
+              : "Please check your email to reset your password."}
+          </MDTypography>
+        </MDAlert>
+      )}
       <Card>
         <MDBox
           variant="gradient"
@@ -91,7 +97,7 @@ function ForgotPassword() {
           textAlign="center"
         >
           <MDTypography variant="h3" fontWeight="medium" color="white" mt={1}>
-            Reset Password
+            Forgot Password
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
             You will receive an e-mail in maximum 60 seconds
@@ -117,24 +123,33 @@ function ForgotPassword() {
               </MDTypography>
             )}
             <MDBox mt={6} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth type="submit">
-                reset
+              {
+                loading ? <MDButton variant="gradient" disabled color="warning" fullWidth type="submit">
+                Sending OTP...
+              </MDButton>:  <MDButton variant="gradient" color="info" fullWidth type="submit">
+                Send OTP
               </MDButton>
+              }
+             
             </MDBox>
           </MDBox>
         </MDBox>
       </Card>
-      {notification && (
-        <MDAlert color="info" mt="20px" dismissible>
-          <MDTypography variant="body2" color="white">
-          {isDemo
-              ? "You can't update the password in the demo version"
-              : "Please check your email to reset your password."}
-          </MDTypography>
-        </MDAlert>
-      )}
+
     </CoverLayout>
   );
 }
 
 export default ForgotPassword;
+
+
+ // somthing not right with the data
+    // const myData = {
+    //   data: {
+    //     type: "password-forgot",
+    //     attributes: {
+    //       redirect_url: `${process.env.REACT_APP_URL}/auth/reset-password`,
+    //       ...input,
+    //     },
+    //   },
+    // };
