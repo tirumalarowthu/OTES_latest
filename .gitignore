@@ -4,4 +4,4 @@ node-api/node_modules
 
 package-lock.json
 
-node-api/Loggers/logs/*
+node-api/Loggers/logs/*.log
