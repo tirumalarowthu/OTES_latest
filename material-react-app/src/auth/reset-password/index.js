@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -19,13 +19,13 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 import AuthService from "services/auth-service";
+import axios from "axios";
 
 // for the reset I should take from the url the token sent and the email
 const PasswordReset = () => {
-  const [token, setToken] = useState(null);
-  const [email, setEmail] = useState(null);
+  const navigate = useNavigate()
   const [notification, setNotification] = useState(false);
-
+  const [loading,setLoading] = useState(false)
   const [inputs, setInputs] = useState({
     password: "",
     password_confirmation: "",
@@ -46,11 +46,11 @@ const PasswordReset = () => {
   };
 
   useEffect(() => {
-    // get the token and email sent in the url
-    const queryParams = new URLSearchParams(window.location.search);
-    setToken(queryParams.get("token"));
-    setEmail(queryParams.get("email"));
-  }, []);
+    const condition = localStorage.getItem('userEmail') || false
+    if (condition === false) {
+      navigate("/forgot-password")
+    }
+  }, [])
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -65,23 +65,25 @@ const PasswordReset = () => {
       return;
     }
 
-    const formData = {
-      password: inputs.password,
-      password_confirmation: inputs.password_confirmation,
-      email: email,
-      token: token,
-    };
-
-    const myData = {
-      data: {
-        type: "password-reset",
-        attributes: { ...formData },
-      },
-    };
 
     try {
-      const response = await AuthService.resetPassword(myData);
+      const email = localStorage.getItem('userEmail') || false
+      if (email) {
+        try {
+          // console.log(email,inputs.password)
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/updatePassword/user/${email} `, { newPassword: inputs.password })
+          // console.log(response)
+          localStorage.removeItem('userEmail')
+          alert("Password has been reset successfully.")
+          navigate("/auth/login")
 
+          // navigate("/login")
+        }
+        catch (err) {
+          alert("Failed to update password.Please try after some time!")
+          setLoading(false)
+        }
+      }
       setInputs({
         password: "",
         password_confirmation: "",
@@ -94,9 +96,10 @@ const PasswordReset = () => {
         textError: "",
       });
 
-      if (errors.passwordError === false && errors.confirmationError === false) {
-        setNotification(true);
-      }
+      // if (errors.passwordError === false && errors.confirmationError === false) {
+      //   setNotification(true);
+      //   navigate("/auth/login")
+      // }
     } catch (err) {
       if (err.hasOwnProperty("errors")) {
         setErrors({ ...errors, error: true, textError: err.errors.password[0] });
@@ -120,7 +123,7 @@ const PasswordReset = () => {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Join us today
+            Reset Password
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your new password and its confirmation for update
@@ -164,21 +167,7 @@ const PasswordReset = () => {
                 change
               </MDButton>
             </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/auth/login"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign In
-                </MDTypography>
-              </MDTypography>
-            </MDBox>
+
           </MDBox>
         </MDBox>
       </Card>
@@ -204,3 +193,39 @@ const PasswordReset = () => {
 };
 
 export default PasswordReset;
+
+{/* <MDBox mt={3} mb={1} textAlign="center">
+              
+</MDBox> */}
+{/* <MDTypography variant="button" color="text">
+                Already have an account?{" "}
+                <MDTypography
+                  component={Link}
+                  to="/auth/login"
+                  variant="button"
+                  color="info"
+                  fontWeight="medium"
+                  textGradient
+                >
+                  Sign In
+                </MDTypography>
+              </MDTypography> */}
+// const formData = {
+//   password: inputs.password,
+//   password_confirmation: inputs.password_confirmation,
+//   email: email,
+//   token: token,
+// };
+
+// const myData = {
+//   data: {
+//     type: "password-reset",
+//     attributes: { ...formData },
+//   },
+// };
+// useEffect(() => {
+//   // get the token and email sent in the url
+//   const queryParams = new URLSearchParams(window.location.search);
+//   setToken(queryParams.get("token"));
+//   setEmail(queryParams.get("email"));
+// }, []);
