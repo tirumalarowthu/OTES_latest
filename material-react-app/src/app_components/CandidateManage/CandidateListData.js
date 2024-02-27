@@ -84,7 +84,7 @@ export default function data() {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/all`);
         const list = response.data
         const emailList = list.map(list1 => list1.email).join(",");
-        const res = await axios.get(`http://localhost:8080/getTestResults?emails=${emailList}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/getTestResults?emails=${emailList}`);
         const testResultsMap = new Map(res.data.map(result => [result.email, result]));
         const updatedCandidates = list.map(list1 => {
             const testResult = testResultsMap.get(list1.email);
@@ -156,7 +156,7 @@ export default function data() {
                   </>
                 ),
                 Result: (
-                    <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
                     {item.result}
                   </MDTypography>
                 )
@@ -168,6 +168,7 @@ export default function data() {
         setCandidateList(formatedTableData);
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
   const Author = ({ image, name, email }) => (

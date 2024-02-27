@@ -14,8 +14,9 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -26,6 +27,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
+import CircularProgress from '@mui/material/CircularProgress';
 
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -36,7 +38,7 @@ import { useState } from "react";
 
 function PendingApprovals() {
   // const [searchQuery, setSearchQuery] = useState('');
-  const { columns, rows } = pendingApprovalsData();
+  const { columns, rows, loading } = pendingApprovalsData();
   // console.log(rows,"rows data")
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
   return (
@@ -68,17 +70,26 @@ function PendingApprovals() {
 
               </MDBox>
               <MDBox pt={3}>
-                {
-                  rows.length > 0 ? <DataTable
-                    table={{ columns, rows }}
-                    isSorted={true}
-                    entriesPerPage={false}
-                    showTotalEntries={true}
-                    noEndBorder
-                  /> : <MDTypography align='center' variant="h6" mb={2} ml={4}>
-                    No pending approvals
-                  </MDTypography>
-                }
+              {loading ? (
+                  <div align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></div>
+                ) : (
+                  <>
+                    {rows.length > 0 ? (
+                      <DataTable
+                        table={{ columns, rows }}
+                        isSorted={true}
+                        entriesPerPage={false}
+                        showTotalEntries={true}
+                        noEndBorder
+                      />
+                    ) : (
+                      <MDTypography align="center" variant="h6" mb={2} ml={4}>
+                        No Candidates
+                      </MDTypography>
+                    )}
+                  </>
+                )}
 
               </MDBox>
 

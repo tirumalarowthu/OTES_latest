@@ -3,3 +3,5 @@ material-react-app/node_modules
 node-api/node_modules
 
 package-lock.json
+
+node-api/Loggers/logs/*

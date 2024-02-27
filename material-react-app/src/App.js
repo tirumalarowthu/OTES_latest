@@ -52,6 +52,10 @@ import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import Instructions from "app_components/CandidateTest/Instructions";
+import MCQQuestions from "app_components/CandidateTest/getMCQQuestionsForTest";
+import Results from "app_components/CandidateTest/Results";
+
+
 
 export default function App() {
 
@@ -316,6 +320,8 @@ export default function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/candidate-login" element={<CandidateLogin />} />
                 <Route path='/candidate/instructions' element={<Instructions/>}/>
+                <Route path="/getMCQQuestionsForTest" element={<MCQQuestions/>}/>
+                <Route path="/Results" element={<Results />} />
                 <Route path="*" element={<Navigate to="/auth/login" />} />
               </>
             }

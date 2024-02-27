@@ -9,7 +9,7 @@ node_modules
 /coverage
 
 # production
-
+Loggers/logs/*
 
 # misc
 .DS_Store

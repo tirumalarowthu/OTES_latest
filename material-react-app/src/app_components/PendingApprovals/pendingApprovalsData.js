@@ -27,9 +27,12 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/avatar.webp";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
  
 export default function data() {
   const [pendingApprovals, setPendingApprovals] = useState([]);
+  const [loading,setLoading] = useState(true)
 
   //for handling pending approvals : 
   const handleApprovals = async (id, decide, name) => {
@@ -52,7 +55,7 @@ export default function data() {
   const getPendingApprovals = async () => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/pending/approvals`);
-        
+        setLoading(false)
         const formatedTableData = response.data.map((item,index) =>
         {
             return  {
@@ -116,9 +119,10 @@ export default function data() {
   
   )
 
-        setPendingApprovals(formatedTableData);
+    setPendingApprovals(formatedTableData);
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
   const Author = ({ image, name, email }) => (
@@ -145,7 +149,8 @@ export default function data() {
       { Header: "Action", accessor: "action", align: "center" },
     ],
 
-    rows: pendingApprovals 
+    rows: pendingApprovals,
+    loading,
   };
 }
 

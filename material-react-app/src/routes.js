@@ -62,7 +62,6 @@ import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHome
 import CandidateList from "app_components/CandidateManage/CandidateList";
 import EditCandidateForm from "app_components/CandidateManage/EditCandidateForm";
 import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
-import Instructions from "./app_components/CandidateTest/Instructions";
 
 
 import AddQuestions from "app_components/QuestionBank/AddQuestions";
@@ -169,6 +168,7 @@ const routes = [
     route: "/auth/candidate-login",
     component: <CandidateLogin />,
   },
+
   // {
   //   type: "auth",
   //   name: "Instructions",

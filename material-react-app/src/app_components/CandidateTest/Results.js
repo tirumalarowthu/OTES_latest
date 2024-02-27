@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import BasicLayoutLanding from "layouts/authentication/components/CandidateTestLayout";
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -16,7 +20,12 @@ const Results = () => {
   const buttonHandler = () => {
     navigate("/");
     toast.info(
-      "Your test is submitted! Shortly, you will receive a mail regarding your results and further process."
+      "Your test is submitted! Shortly, you will receive a mail regarding your results and further process.", 
+      {
+        style: {
+          fontSize: '16px', 
+        },
+      }
     );
 
     setTimeout(() => {
@@ -26,21 +35,20 @@ const Results = () => {
   };
 
   return (
-    <center>
-      <div style={{ marginTop: "90px" }}>
-        <p className="display-6">
-          "Thank you for taking the test! Click the button to send your answers for grading. Good luck!"
-        </p>
+    <BasicLayoutLanding >
+      <MDBox style={{ marginTop: "90px" }}>
+        <MDTypography variant="h5" fontWeight="medium" textTransform="capitalize" mt={2} mb={1}>
+          "Thank you for taking the test. Good luck!"
+        </MDTypography>
         <br />
-        <button
-          className="btn"
+        <MDButton
           onClick={buttonHandler}
-          style={{ width: "170px", backgroundColor: "#6BD8BA" }}
+          variant="gradient" color="info"
         >
           Click here to finish
-        </button>
-      </div>
-    </center>
+        </MDButton>
+      </MDBox>
+    </BasicLayoutLanding >
   );
 };
 
