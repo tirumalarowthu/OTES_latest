@@ -172,7 +172,7 @@ function Login() {
                 error={errors.passwordError}
               />
             </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
               <MDTypography
                 variant="button"
@@ -183,7 +183,7 @@ function Login() {
               >
                 &nbsp;&nbsp;Remember me
               </MDTypography>
-            </MDBox>
+            </MDBox> */}
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth type="submit">
                 sign in

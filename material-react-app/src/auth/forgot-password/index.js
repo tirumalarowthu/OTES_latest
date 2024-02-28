@@ -49,12 +49,16 @@ function ForgotPassword() {
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/user/otp/send/${input.email}`)
-      if (response.status === 200 && response.data.gen_otp.length===6) {
+      console.log(response)
+      if (response.status === 200 &&response.data&&response.data.gen_otp && response.data.gen_otp.length===6) {
         console.log(response)
         localStorage.setItem('otp', response.data.gen_otp)
         localStorage.setItem('userEmail',input.email)
         setNotification(true);
         navigate("/auth/verify-OTP")
+      }else{
+        setLoading(false)
+        setError({ err: true, textError: "Something went wrong!" });
       }
 
       setError({ err: false, textError: "" });

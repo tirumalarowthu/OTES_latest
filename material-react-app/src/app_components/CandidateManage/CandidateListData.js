@@ -123,9 +123,20 @@ export default function data() {
                     </MDBox>
                 ),
                 Marks: (
-                    <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-                    {updatedCandidates[index].totalScore}/{updatedCandidates[index].total}
-                  </MDTypography>
+                  <MDTypography
+                  component="a"
+                  href="#"
+                  variant="caption"
+                  color="text"
+                  fontWeight="medium"
+                >
+                  {item.testStatus === "Test Taken" || item.testStatus === "Evaluated" ? (
+                    `${updatedCandidates[index].totalScore}/${updatedCandidates[index].total}`
+                  ) : (
+                    ""
+                  )}
+                </MDTypography>
+                
                 ),
                 action: (
                   <>

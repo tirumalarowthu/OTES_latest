@@ -5,12 +5,18 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
+import axios from 'axios';
+import { Form } from "react-bootstrap";
+
+
 
 // Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
@@ -23,20 +29,19 @@ import { AuthContext } from "context";
 import { InputLabel } from "@mui/material";
 
 function Register() {
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
 
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
-    area: "",
-    agree: true,
+    area: "Select Area",
+    isApproved: false,
   });
 
   const [errors, setErrors] = useState({
     nameError: false,
     emailError: false,
     areaError: false,
-    agreeError: false,
     error: false,
     errorText: "",
   });
@@ -48,10 +53,15 @@ function Register() {
     });
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  // const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("");
+  // const navigate = useNavigate();
 
-    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  const submitHandler = async (e) => {
+      e.preventDefault();
+      // setIsLoading(true)
+      const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (inputs.name.trim().length === 0) {
       setErrors({ ...errors, nameError: true });
@@ -66,63 +76,39 @@ function Register() {
     if (inputs.area.trim().length < 4) {
       setErrors({ ...errors, areaError: true });
       return;
-    }
-
-    // if (inputs.password.trim().length < 8) {
-    //   setErrors({ ...errors, passwordError: true });
-    //   return;
-    // }
-
-    // if (inputs.agree === false) {
-    //   setErrors({ ...errors, agreeError: true });
-    //   return;
-    // }
-
-    // here will be the post action to add a user to the db
-    const newUser = { name: inputs.name, email: inputs.email, password: inputs.password };
-
-    const myData = {
-      data: {
-        type: "users",
-        attributes: { ...newUser, password_confirmation: newUser.password },
-        relationships: {
-          roles: {
-            data: [
-              {
-                type: "roles",
-                id: "1",
-              },
-            ],
-          },
-        },
-      },
-    };
-
+    } 
     try {
-      const response = await AuthService.register(myData);
-      // authContext.login(response.access_token, response.refresh_token);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
+      if (response) {
+        console.log(response.data)
+        toast.info(response.data)
+      } 
 
       setInputs({
         name: "",
         email: "",
         area: "",
-        agree: false,
       });
 
       setErrors({
         nameError: false,
         emailError: false,
         areaError: false,
-        agreeError: false,
         error: false,
         errorText: "",
       });
     } catch (err) {
       setErrors({ ...errors, error: true, errorText: err.message });
       console.error(err);
-    }
+    } 
+      
+    
   };
 
+
+
+
+ 
   return (
     <CoverLayout image={bgImage}>
       <Card>
@@ -140,13 +126,13 @@ function Register() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Register today
           </MDTypography>
-          <MDTypography display="block" variant="button" color="white" my={1}>
+          <MDTypography display="block" variant="button" color="white" mt={1}>
             Enter your name, email and domain to register
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
-            <MDBox mb={2}>
+            {/* <MDBox mb={2}>
               <MDInput
                 type="text"
                 label="Name"
@@ -191,9 +177,77 @@ function Register() {
                   The email must be valid
                 </MDTypography>
               )}
+            </MDBox> */}
+            <MDBox mb={2} >
+              <MDInput
+                type="text"
+                label="Name"
+                fullWidth
+                name="name"
+                value={inputs.name}
+                onChange={changeHandler}
+                error={errors.nameError}
+              />
+            </MDBox>
+            <MDBox mb={2} >
+              <MDInput
+                type="email"
+                label="Email"
+                fullWidth
+                value={inputs.email}
+                name="email"
+                onChange={changeHandler}
+                error={errors.emailError}
+                inputProps={{
+                  autoComplete: "email",
+                  form: {
+                    autoComplete: "off",
+                  },
+                }}
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput
+            <Form.Group controlId="questionTypeSelect">
+              {/* <Form.Label style={{ fontFamily: "revert-layer", fontWeight: "bold" }}>
+                Please Select Your Question Type
+              </Form.Label> */}
+              <Form.Control
+                as="select"
+                fullWidth
+                name="area"
+                value={inputs.area}
+                error = {errors.areaError}
+                onChange={changeHandler}
+                // onChange={(event) => {
+                //   setInputs({
+                //       ...inputs,
+                //       testStatus: event.target.value,
+                //   });
+                //   }}
+                style={{ width: "100%", height: '45px', marginBottom: "0px", border: "1px solid #ced4da", borderRadius: "6px", padding: '10px', color: '#495057' }}
+              >
+                <option value="">Select Area</option>
+                <option value="VLSI">VLSI</option>
+                <option value="SOFTWARE">Software</option>
+                <option value="EMBEDDED">Embedded</option>
+                {/* <option value="TEXT">Paragraph</option> */}
+              </Form.Control>
+            </Form.Group>
+            {/* <FormSelect
+                    style={{ width: '100%', height: '40px', textAlign:"start"}}
+                    // label = "Select Area"
+                    label="test-status-label"
+                    // id="test-status-select"
+                    value={inputs.area}
+                    name="area"
+                >
+                    <MenuItem value="">Select Area</MenuItem>
+                    <MenuItem value="VLSI">VLSI</MenuItem>
+                    <MenuItem value="SOFTWARE">Software</MenuItem>
+                    <MenuItem value="EMBEDDED">Embedded</MenuItem>
+
+              </FormSelect> */}
+              {/* <MDInput
                 type="select"
                 label="Area"
                 variant="standard"
@@ -207,7 +261,7 @@ function Register() {
                 <MDTypography variant="caption" color="error" fontWeight="light">
                   Please select the area !
                 </MDTypography>
-              )}
+              )} */}
             </MDBox>
             {/* <MDBox mb={2}>
               <MDInput
@@ -258,12 +312,12 @@ function Register() {
                 {errors.errorText}
               </MDTypography>
             )} */}
-            <MDBox mt={4} mb={1}>
+            <MDBox mt={2} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth type="submit">
-                sign in
+                Register
               </MDButton>
             </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
+            {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Already have an account?{" "}
                 <MDTypography
@@ -274,10 +328,10 @@ function Register() {
                   fontWeight="medium"
                   textGradient
                 >
-                  Sign In
+                  Register
                 </MDTypography>
               </MDTypography>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>
@@ -286,3 +340,78 @@ function Register() {
 }
 
 export default Register;
+
+
+
+// const submitHandlerDummy = async (e) => {
+//   e.preventDefault();
+
+//   const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+//   if (inputs.name.trim().length === 0) {
+//     setErrors({ ...errors, nameError: true });
+//     return;
+//   }
+
+//   if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
+//     setErrors({ ...errors, emailError: true });
+//     return;
+//   }
+
+//   if (inputs.area.trim().length < 4) {
+//     setErrors({ ...errors, areaError: true });
+//     return;
+//   }
+
+//   // if (inputs.password.trim().length < 8) {
+//   //   setErrors({ ...errors, passwordError: true });
+//   //   return;
+//   // }
+
+//   // if (inputs.agree === false) {
+//   //   setErrors({ ...errors, agreeError: true });
+//   //   return;
+//   // }
+
+//   // here will be the post action to add a user to the db
+//   const newUser = { name: inputs.name, email: inputs.email, password: inputs.password };
+
+//   const myData = {
+//     data: {
+//       type: "users",
+//       attributes: { ...newUser, password_confirmation: newUser.password },
+//       relationships: {
+//         roles: {
+//           data: [
+//             {
+//               type: "roles",
+//               id: "1",
+//             },
+//           ],
+//         },
+//       },
+//     },
+//   };
+
+//   try {
+//     const response = await AuthService.register(myData);
+//     // authContext.login(response.access_token, response.refresh_token);
+
+//     setInputs({
+//       name: "",
+//       email: "",
+//       area: "",
+//     });
+
+//     setErrors({
+//       nameError: false,
+//       emailError: false,
+//       areaError: false,
+//       error: false,
+//       errorText: "",
+//     });
+//   } catch (err) {
+//     setErrors({ ...errors, error: true, errorText: err.message });
+//     console.error(err);
+//   }
+// };
