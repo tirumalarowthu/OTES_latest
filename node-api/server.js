@@ -910,6 +910,148 @@ app.post("/updatePassword/user/:email", async (req, res) => {
   }
 });
 
+//for Dashboard : 
+// app.get("/candidate/info", async (req, res) => {
+//   const data = await Candidate.aggregate([
+//     {
+//       $group: {
+//         _id: "$testStatus",
+//         count: { $sum: 1 }
+//       }
+//     },
+//     {
+//       $group: {
+//         _id: null,
+//         data: {
+//           $push: {
+//             k: "$_id",
+//             v: "$count"
+//           }
+//         }
+//       }
+//     },
+//     {
+//       $replaceRoot: {
+//         newRoot: { $arrayToObject: "$data" }
+//       }
+//     }
+//   ]);
+
+//   // Send the response
+//   res.json(data.length > 0 ? data[0] : {});
+// });
+// app.get("/candidate/info", async (req, res) => {
+//   const data = await Candidate.aggregate([
+//     {
+//       $facet: {
+//         testStatusCounts: [
+//           { $group: { _id: "$testStatus", count: { $sum: 1 } } },
+//           { $group: { _id: null, data: { $push: { k: "$_id", v: "$count" } } } },
+//           { $replaceRoot: { newRoot: { $arrayToObject: "$data" } } }
+//         ],
+//         isApprovedCounts: [
+//           { $group: { _id: "$isApproved", count: { $sum: 1 } } },
+//           {
+//             $group: {
+//               _id: null,
+//               data: {
+//                 $push: {
+//                   k: { $cond: { if: "$_id", then: "isApproved", else: "isNotApproved" } },
+//                   v: "$count"
+//                 }
+//               }
+//             }
+//           },
+//           { $replaceRoot: { newRoot: { $arrayToObject: "$data" } } }
+//         ],
+//         totalCount: [{ $count: "total" }]
+//       }
+//     },
+//     {
+//       $project: {
+//         testStatusCounts: { $arrayToObject: "$testStatusCounts" },
+//         isApprovedCounts: { $arrayToObject: "$isApprovedCounts" },
+//         totalCount: { $arrayElemAt: ["$totalCount.total", 0] }
+//       }
+//     },
+//     {
+//       $addFields: {
+//         "testStatusCounts.Test Taken": { $sum: ["$testStatusCounts.Evaluated", "$testStatusCounts.Test Cancelled"] }
+//       }
+//     },
+//     {
+//       $project: {
+//         testStatusCounts: 1,
+//         isApprovedCounts: 1,
+//         totalCount: 1
+//       }
+//     }
+//   ]);
+
+//   // Extract the counts and format the response
+//   const formattedData = {
+//     ...data[0].testStatusCounts,
+//     ...data[0].isApprovedCounts,
+//     totalCount: data[0].totalCount
+//   };
+
+//   // Send the response
+//   res.json(formattedData);
+// });
+app.get("/candidate/info", async (req, res) => {
+  const data = await Candidate.aggregate([
+    {
+      $facet: {
+        testStatusCounts: [
+          { $group: { _id: "$testStatus", count: { $sum: 1 } } },
+          {
+            $group: {
+              _id: null,
+              data: { $push: { k: "$_id", v: "$count" } }
+            }
+          }
+        ],
+        isApprovedCounts: [
+          { $group: { _id: "$isApproved", count: { $sum: 1 } } },
+          {
+            $group: {
+              _id: null,
+              data: {
+                $push: {
+                  k: { $cond: { if: { $eq: ["$_id", true] }, then: "isApproved", else: "isNotApproved" } },
+                  v: "$count"
+                }
+              }
+            }
+          }
+        ],
+        totalCount: [{ $count: "total" }]
+      }
+    },
+    {
+      $project: {
+        testStatusCounts: { $arrayToObject: { $ifNull: [{ $arrayElemAt: ["$testStatusCounts.data", 0] }, []] } },
+        isApprovedCounts: { $arrayToObject: { $ifNull: [{ $arrayElemAt: ["$isApprovedCounts.data", 0] }, []] } },
+        totalCount: { $arrayElemAt: ["$totalCount.total", 0] }
+      }
+    }
+  ]);
+
+  // Extract the counts and format the response
+  const formattedData = {
+    ...data[0].testStatusCounts,
+    ...data[0].isApprovedCounts,
+    totalCount: data[0].totalCount
+  };
+
+  // Send the response
+  res.json(formattedData);
+});
+
+
+
+
+
 
 
 ///Frontend Integration:
@@ -935,3 +1077,4 @@ app.get("/*", function (req, res) {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+

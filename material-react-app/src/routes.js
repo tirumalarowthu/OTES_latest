@@ -66,6 +66,7 @@ import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
 
 import AddQuestions from "app_components/QuestionBank/AddQuestions";
 import AddQuestionsHomepage from "app_components/QuestionBank/AddQuestionsHomepage";
+import AddCandidate from "app_components/CandidateManage/AddCandidate";
 
 const routes = [
   {
@@ -84,6 +85,7 @@ const routes = [
     route: "/Candidate-List",
     component: <CandidateList />,
   },
+ 
   
   {
     type: "collapse",
@@ -93,6 +95,15 @@ const routes = [
     route: "/pending-approvals",
     component: <PendingApprovals />,
   },
+  {
+    type: "collapse",
+    name: "Add Candidate",
+    key: "add-candidate",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/add-candidate",
+    component: <AddCandidate />,
+  },
+ 
   
   {
     type: "collapse",
@@ -142,6 +153,7 @@ const routes = [
     route: "/add-questions/:area",
     component: <AddQuestions />,
   },
+
  
   {
     type: "collapse",

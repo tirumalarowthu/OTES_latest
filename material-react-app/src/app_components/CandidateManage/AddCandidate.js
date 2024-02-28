@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -27,15 +27,17 @@ import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 import AuthService from "services/auth-service";
 import { AuthContext } from "context";
 import { InputLabel } from "@mui/material";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-function Register() {
+function AddCandidate() {
   // const authContext = useContext(AuthContext);
-  const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState(false)
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
     area: "Select Area",
-    isApproved: false,
+    isApproved: true,
   });
 
   const [errors, setErrors] = useState({
@@ -82,8 +84,8 @@ function Register() {
     } 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
-      if (response) {
-        console.log(response.data)
+      if (response && response.data) {
+        // console.log(response.data)
         toast.info(response.data)
       } 
 
@@ -100,11 +102,11 @@ function Register() {
         error: false,
         errorText: "",
       });
-      setLoading(true)
+      setLoading(false)
     } catch (err) {
       setErrors({ ...errors, error: true, errorText: err.message });
       console.error(err);
-      setLoading(true)
+      setLoading(false)
     } 
       
     
@@ -115,8 +117,16 @@ function Register() {
 
  
   return (
-    <CoverLayout image={bgImage}>
-      <Card>
+    <DashboardLayout>
+    <DashboardNavbar />
+      <Card
+      sx={
+        {
+            margin:"70px auto",
+            width:"80%"
+        }
+      }
+      >
         <MDBox
           variant="gradient"
           bgColor="info"
@@ -124,16 +134,16 @@ function Register() {
           coloredShadow="success"
           mx={2}
           mt={-3}
-          p={3}
+          p={1}
           mb={1}
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Register today
+            Add New Candidate
           </MDTypography>
-          <MDTypography display="block" variant="button" color="white" mt={1}>
+          {/* <MDTypography display="block" variant="button" color="white" mt={1}>
             Enter your name, email and domain to register
-          </MDTypography>
+          </MDTypography> */}
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
@@ -318,13 +328,13 @@ function Register() {
               </MDTypography>
             )} */}
             <MDBox mt={2} mb={1}>
-              {loading ? <MDButton variant="gradient" color="info" fullWidth type="submit">
-                Please wait...
-              </MDButton>:
-              <MDButton variant="gradient" color="info" fullWidth type="submit">
-              Register
-            </MDButton>
-              }
+                {
+                    loading ? <MDButton variant="gradient" disabled color="warning" fullWidth type="submit">
+                    Adding...
+                  </MDButton>: <MDButton variant="gradient" color="info" fullWidth type="submit">
+                + Add
+              </MDButton>
+                }
               
             </MDBox>
             {/* <MDBox mt={3} mb={1} textAlign="center">
@@ -345,11 +355,11 @@ function Register() {
           </MDBox>
         </MDBox>
       </Card>
-    </CoverLayout>
+      </DashboardLayout>
   );
 }
 
-export default Register;
+export default AddCandidate;
 
 
 

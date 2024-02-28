@@ -34,10 +34,33 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [testStatusInfo,setTestStatusInfo] = useState({})
+  const getData =async ()=>{
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/candidate/info`)
+      setTestStatusInfo(response.data)
+      console.log(testStatusInfo["Test Taken"])
+      console.log(testStatusInfo["Test Not Taken"])
+      console.log(testStatusInfo["totalCount"])
+      console.log(testStatusInfo["Test Cancelled"])
+      // testStatusInfo.map(item => console.log(item))
+    }
+    catch(err){
+      console.log(err.message)
+    }
 
+  }
+  //for getting data of various test status : 
+  useEffect(()=>{
+    getData()
+
+  },[])
+  console.log(testStatusInfo)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -46,10 +69,10 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
+                color="secondary"
+                icon="person_add"
                 title="Registered"
-                count={100}
+                count={testStatusInfo["totalCount"]}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -61,9 +84,24 @@ function Dashboard() {
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
-                icon="leaderboard"
+                color="dark"
+                icon="assignment_late"
+                title="Test Not Taken"
+                count={testStatusInfo["Test Not Taken"]}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label: "Just updated",
+                }}
+              />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                icon="assignment_turned_in"
                 title="Test Taken"
-                count="80"
+                count={testStatusInfo["Test Taken"]}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -76,9 +114,9 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="success"
-                icon="store"
+                icon="check_circle"
                 title="Evaluated"
-                count="70"
+                count={testStatusInfo["Evaluated"]}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -91,9 +129,9 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon="person_add"
-                title="Pending"
-                count="10"
+                icon="cancel"
+                title="Cancelled"
+                count={testStatusInfo["Test Cancelled"]}
                 percentage={{
                   color: "",
                   amount: "",
@@ -102,6 +140,36 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
+          {/* <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="success"
+                icon="check"
+                title="Approved"
+                count={testStatusInfo["isApproved"]}
+                percentage={{
+                  color: "success",
+                  amount: "",
+                  label: "Just updated",
+                }}
+              />
+            </MDBox>
+          </Grid>
+          <Grid item xs={12} md={6} lg={3}>
+            <MDBox mb={1.5}>
+              <ComplexStatisticsCard
+                color="primary"
+                icon="hourglass_top"
+                title="Pending Approvals"
+                count={testStatusInfo["isNotApproved"]}
+                percentage={{
+                  color: "",
+                  amount: "",
+                  label: "Just updated",
+                }}
+              />
+            </MDBox>
+          </Grid> */}
         </Grid>
         {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
