@@ -86,7 +86,7 @@ function AddCandidate() {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
       if (response && response.data) {
         // console.log(response.data)
-        toast.info(response.data)
+        toast.success(`${inputs.name} added successfully` )
       } 
 
       setInputs({

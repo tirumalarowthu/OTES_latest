@@ -1056,13 +1056,13 @@ app.get("/candidate/info", async (req, res) => {
 
 ///Frontend Integration:
 const _dirname = path.dirname("");
-const builPath = path.join(_dirname, "../Client/build");
+const builPath = path.join(_dirname, "../material-react-app/build");
 // app.use(express.static(builPath))
 app.use(express.static(path.join(builPath)));
 app.get("/*", function (req, res) {
   res.sendFile(
     "index.html",
-    { root: path.join(_dirname, "../Client/build") },
+    { root: path.join(_dirname, "../material-react-app/build") },
     function (err) {
       if (err) {
         res.status(500).send(err);

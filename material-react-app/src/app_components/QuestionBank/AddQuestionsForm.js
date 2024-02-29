@@ -121,7 +121,7 @@ const AddQuestionsForm = () => {
         <Card id="delete-account">
             <MDBox pt={3} px={2}>
                 <MDTypography variant="h6" textAlign="center" fontWeight="medium">
-                    Adding {area} MCQ Questions
+                    Add {area} MCQ Questions
                 </MDTypography>
                 <Divider />
             </MDBox>
@@ -138,7 +138,7 @@ const AddQuestionsForm = () => {
                                 <MDTypography variant='button' fontWeight="light">Question </MDTypography>
                                 <MDInput
                                     type="text"
-                                    label=" Add New Question "
+                                    label="Add New Question "
                                     fullWidth
                                     value={inputs.question}
                                     name="question"
