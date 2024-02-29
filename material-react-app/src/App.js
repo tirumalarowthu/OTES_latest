@@ -1,14 +1,21 @@
 import { useState, useEffect, useMemo, useContext } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
+import logoImage from "./assets/images/logos/testIcon.png"; // Replace with the actual path to your logo image
 
-// Material Dashboard 2 React components   
+// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
@@ -32,7 +39,11 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import {
+  useMaterialUIController,
+  setMiniSidenav,
+  setOpenConfigurator,
+} from "context";
 
 // Images
 import brandWhite from "assets/images/logo-ct.png";
@@ -51,15 +62,12 @@ import UserProfile from "layouts/user-profile";
 import UserManagement from "layouts/user-management";
 import { Helmet } from "react-helmet";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 import Instructions from "app_components/CandidateTest/Instructions";
 import MCQQuestions from "app_components/CandidateTest/getMCQQuestionsForTest";
 import Results from "app_components/CandidateTest/Results";
 
-
-
 export default function App() {
-
   const authContext = useContext(AuthContext);
 
   const [controller, dispatch] = useMaterialUIController();
@@ -110,7 +118,8 @@ export default function App() {
   };
 
   // Change the openConfigurator state
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  const handleConfiguratorOpen = () =>
+    setOpenConfigurator(dispatch, !openConfigurator);
 
   // if the token expired or other errors it logs out and goes to the login page
   const navigate = useNavigate();
@@ -176,7 +185,7 @@ export default function App() {
       </Icon>
     </MDBox>
   );
-  const Condition = localStorage.getItem('eval_info') || false
+  const Condition = localStorage.getItem("eval_info") || false;
   // console.log(Condition)
   return (
     <>
@@ -246,7 +255,11 @@ export default function App() {
               <>
                 <Sidenav
                   color={sidenavColor}
-                  brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                  brand={
+                    (transparentSidenav && !darkMode) || whiteSidenav
+                      ? brandDark
+                      : brandWhite
+                  }
                   brandName="Test Master"
                   routes={routes}
                   onMouseEnter={handleOnMouseEnter}
@@ -259,8 +272,14 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               <Route path="login" element={<Navigate to="/auth/login" />} />
-              <Route path="register" element={<Navigate to="/auth/register" />} />
-              <Route path="forgot-password" element={<Navigate to="/auth/forgot-password" />} />
+              <Route
+                path="register"
+                element={<Navigate to="/auth/register" />}
+              />
+              <Route
+                path="forgot-password"
+                element={<Navigate to="/auth/forgot-password" />}
+              />
               {getRoutes(routes)}
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
@@ -273,8 +292,28 @@ export default function App() {
             <>
               <Sidenav
                 color={sidenavColor}
-                brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                brandName="Test Master"
+                brand={
+                  (transparentSidenav && !darkMode) || whiteSidenav
+                    ? brandDark
+                    : brandWhite
+                }
+                brandName={
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <img
+                      src={logoImage}
+                      alt="Logo"
+                      style={{ height: "40px", marginRight: "5px" }}
+                    />
+                    <span
+                      style={{
+                        fontSize: "20px",
+                        fontWeight:"bold"
+                      }}
+                    >
+                      testmaster
+                    </span>
+                  </div>
+                }
                 routes={routes}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}
@@ -285,21 +324,31 @@ export default function App() {
           )}
           {layout === "vr" && <Configurator />}
           <Routes>
-            {
-              Condition ? <>
-
+            {Condition ? (
+              <>
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
-                <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-                <Route path="/auth/reset-password" element={<ResetPassword />} />
-                <Route path="/auth/candidate-login" element={<CandidateLogin />} />
-              
+                <Route
+                  path="/auth/forgot-password"
+                  element={<ForgotPassword />}
+                />
+                <Route
+                  path="/auth/reset-password"
+                  element={<ResetPassword />}
+                />
+                <Route
+                  path="/auth/candidate-login"
+                  element={<CandidateLogin />}
+                />
+
                 {/* <Route path='/candidate/instructions' element={<Instructions/>}/> */}
                 <Route
                   exact
                   path="user-profile"
                   element={
-                    <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
+                    <ProtectedRoute
+                      isAuthenticated={authContext.isAuthenticated}
+                    >
                       <UserProfile />
                     </ProtectedRoute>
                   }
@@ -309,7 +358,9 @@ export default function App() {
                   exact
                   path="user-management"
                   element={
-                    <ProtectedRoute isAuthenticated={authContext.isAuthenticated}>
+                    <ProtectedRoute
+                      isAuthenticated={authContext.isAuthenticated}
+                    >
                       <UserManagement />
                     </ProtectedRoute>
                   }
@@ -317,21 +368,38 @@ export default function App() {
                 />
                 {getRoutes(routes)}
                 <Route path="*" element={<Navigate to="/dashboard" />} />
-              </> : <>
+              </>
+            ) : (
+              <>
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
-                <Route path="/auth/candidate-login" element={<CandidateLogin />} />
-                <Route path='/candidate/instructions' element={<Instructions/>}/>
-                <Route path ="/auth/forgot-password" element={<ForgotPassword />}/>
-                <Route path ="/auth/reset-password" element ={<ResetPassword/>}/>
-                <Route path ="/auth/verify-OTP" element ={<VerifyOTP/>}/>
-                <Route path="/getMCQQuestionsForTest" element={<MCQQuestions/>}/>
+                <Route
+                  path="/auth/candidate-login"
+                  element={<CandidateLogin />}
+                />
+                <Route
+                  path="/candidate/instructions"
+                  element={<Instructions />}
+                />
+                <Route
+                  path="/auth/forgot-password"
+                  element={<ForgotPassword />}
+                />
+                <Route
+                  path="/auth/reset-password"
+                  element={<ResetPassword />}
+                />
+                <Route path="/auth/verify-OTP" element={<VerifyOTP />} />
+                <Route
+                  path="/getMCQQuestionsForTest"
+                  element={<MCQQuestions />}
+                />
                 <Route path="/Results" element={<Results />} />
                 <Route path="*" element={<Navigate to="/auth/login" />} />
               </>
-            }
+            )}
           </Routes>
-          <ToastContainer/>
+          <ToastContainer />
         </ThemeProvider>
       )}
     </>
