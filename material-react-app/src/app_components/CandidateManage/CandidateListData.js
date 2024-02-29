@@ -76,7 +76,7 @@ export default function data() {
   };
 
 
-  useEffect(() => { 
+  useEffect(() => {   
     getCandidateList();
   }, []);
   const getCandidateList = async () => {
@@ -130,7 +130,7 @@ export default function data() {
                   color="text"
                   fontWeight="medium"
                 >
-                  {item.testStatus === "Test Taken" || item.testStatus === "Evaluated" ? (
+                  { item.testStatus === "Evaluated" ? (
                     `${updatedCandidates[index].totalScore}/${updatedCandidates[index].total}`
                   ) : (
                     ""

@@ -548,7 +548,7 @@ app.put("/edit/:id", async (req, res) => {
 
 app.get("/all", async (req, res) => {
   try {
-    const candidates = await Candidate.find({isApproved:true});
+    const candidates = await Candidate.find({isApproved:true}).sort({ _id: -1 });
     viewcandidate.ViewCandidate.log(
       "info",
       "(all)API is triggered on selecting Manage candidate module and all the candidate data is fetched from the MongoDB Database and displayed to the user"

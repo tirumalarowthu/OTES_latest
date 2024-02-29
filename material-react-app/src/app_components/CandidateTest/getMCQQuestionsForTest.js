@@ -16,13 +16,14 @@ import BasicLayoutLanding from "layouts/authentication/components/CandidateTestL
 
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [mcqquestions, setMCQQuestions] = useState(
     JSON.parse(localStorage.getItem('mcqquestions')) || []
   );
   const [selectedAnswers, setSelectedAnswers] = useState(
     JSON.parse(localStorage.getItem('selectedAnswers')) || {}
-  ); 
+  );
   const [hasFetched, setHasFetched] = useState(
     localStorage.getItem('hasFetched') || false
   );
@@ -64,7 +65,7 @@ const getMCQQuestionsForTest = () => {
           localStorage.setItem('mcqquestions', JSON.stringify(randomizedQuestions));
           setMCQQuestions(randomizedQuestions);
           setHasFetched(true);
-          localStorage.setItem('hasFetched', true);    
+          localStorage.setItem('hasFetched', true);
         })
         .catch((error) => {
           console.log(error);
@@ -103,10 +104,12 @@ const getMCQQuestionsForTest = () => {
     event.returnValue = '';
   }
   async function handleNextClick() {
+    setLoading(true)
     const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
 
     if (missingAnswers) {
       alert('Please answer all questions before continuing.');
+      setLoading(false)
     } else {
       const selectedAnswers = JSON.parse(localStorage.getItem('selectedAnswers'));
       const requestBody = {
@@ -136,10 +139,10 @@ const getMCQQuestionsForTest = () => {
         .catch((error) => {
           console.log(error);
         });
-
+        setLoading(false)
       ///Post the data to the Applicant Tracking System when applicant completed the test
       try {
-        await axios.put(`http://13.233.161.128/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
           .then(res => console.log(res))
       } catch (err) {
         console.log(err.message)
@@ -167,8 +170,8 @@ const getMCQQuestionsForTest = () => {
 
   return (
     <BasicLayoutLanding >
-    <Card style={{ backgroundColor: 'white', width:'100%', textAlign:'start'}}>
-      <MDBox
+      <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
+        <MDBox
           variant="gradient"
           bgColor="info"
           borderRadius="lg"
@@ -181,7 +184,7 @@ const getMCQQuestionsForTest = () => {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={0}>
-          Online Assessment
+            Online Assessment
           </MDTypography>
         </MDBox>
         <MDBox ml={5} >
@@ -190,7 +193,7 @@ const getMCQQuestionsForTest = () => {
           </MDTypography>
           <MDBox>
             {mcqquestions.map((question, index) => (
-              
+
               <MDBox key={question._id} style={{ width: '100%', marginTop: '10px' }}>
                 <MDBox>
                   <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize" mt={1} mb={1}>
@@ -198,7 +201,7 @@ const getMCQQuestionsForTest = () => {
                   </MDTypography>
                 </MDBox>
                 <MDBox>
-                {/* <MDTypography variant="h5" fontWeight="medium" textTransform="capitalize" mt={2}
+                  {/* <MDTypography variant="h5" fontWeight="medium" textTransform="capitalize" mt={2}
                   dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }}>
                 </MDTypography> */}
                   {/* <h3 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }} /> */}
@@ -209,24 +212,24 @@ const getMCQQuestionsForTest = () => {
                   </MDBox>
                 )}
                 <MDBox>
-                <FormControl component="fieldset" sx={{
-                  marginTop: '0px', 
-                  color: 'text', 
-                  '& .MuiSvgIcon-root': {
-                    fontSize: '6px',
-                  },
-                }}>
-                  <RadioGroup
-                    name={question._id}
-                    value={selectedAnswers[question._id]}
-                    onChange={(e) => handleRadioChange(e, question._id)}
-                  >
-                  <FormControlLabel value={1} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice1}</MDTypography>} />
-                  <FormControlLabel value={2} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice2}</MDTypography>} />
-                  <FormControlLabel value={3} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice3}</MDTypography>} />
-                  <FormControlLabel value={4} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice4}</MDTypography>} />
-                  </RadioGroup>
-                </FormControl>
+                  <FormControl component="fieldset" sx={{
+                    marginTop: '0px',
+                    color: 'text',
+                    '& .MuiSvgIcon-root': {
+                      fontSize: '6px',
+                    },
+                  }}>
+                    <RadioGroup
+                      name={question._id}
+                      value={selectedAnswers[question._id]}
+                      onChange={(e) => handleRadioChange(e, question._id)}
+                    >
+                      <FormControlLabel value={1} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice1}</MDTypography>} />
+                      <FormControlLabel value={2} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice2}</MDTypography>} />
+                      <FormControlLabel value={3} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice3}</MDTypography>} />
+                      <FormControlLabel value={4} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice4}</MDTypography>} />
+                    </RadioGroup>
+                  </FormControl>
 
                   {/* <label>
                     <input
@@ -277,16 +280,21 @@ const getMCQQuestionsForTest = () => {
           </MDBox>
           <center>
             <MDBox mb={5}>
-              <MDButton  variant="gradient" color="info"  type="submit" onClick={handleNextClick}>
+              {
+                loading ? <MDButton variant="gradient" disabled color="warning" >
+                Please wait ...
+              </MDButton> :<MDButton variant="gradient" color="info" type="submit" onClick={handleNextClick}>
                 Submit Test
               </MDButton>
+              }
+             
               {/* <button className="btn" style={{ marginTop: '3px', backgroundColor: '#FFFFFF' }} onClick={handleNextClick}>
                 Submit Your Answers
               </button> */}
             </MDBox>
           </center>
-      </MDBox>
-    </Card>
+        </MDBox>
+      </Card>
     </BasicLayoutLanding>
   );
 };
