@@ -164,11 +164,7 @@ function AddCandidate() {
                   },
                 }}
               />
-              {errors.nameError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  The name can not be empty
-                </MDTypography>
-              )}
+             
             </MDBox>
             <MDBox mb={2}>
               <MDInput
@@ -187,12 +183,9 @@ function AddCandidate() {
                   },
                 }}
               />
-              {errors.emailError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  The email must be valid
-                </MDTypography>
-              )}
+              
             </MDBox> */}
+            
             <MDBox mb={2} >
               <MDInput
                 type="text"
@@ -203,6 +196,11 @@ function AddCandidate() {
                 onChange={changeHandler}
                 error={errors.nameError}
               />
+               {errors.nameError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  The name can not be empty
+                </MDTypography>
+              )}
             </MDBox>
             <MDBox mb={2} >
               <MDInput
@@ -220,6 +218,11 @@ function AddCandidate() {
                   },
                 }}
               />
+              {errors.emailError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  The email must be valid
+                </MDTypography>
+              )}
             </MDBox>
             <MDBox mb={2}>
             <Form.Group controlId="questionTypeSelect">
@@ -247,6 +250,11 @@ function AddCandidate() {
                 <option value="EMBEDDED">Embedded</option>
                 {/* <option value="TEXT">Paragraph</option> */}
               </Form.Control>
+              {errors.areaError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  Please Select Area.
+                </MDTypography>
+              )}
             </Form.Group>
             {/* <FormSelect
                     style={{ width: '100%', height: '40px', textAlign:"start"}}

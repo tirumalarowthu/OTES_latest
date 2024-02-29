@@ -84,6 +84,7 @@ function Register() {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
       if (response) {
         console.log(response.data)
+        setLoading(false)
         toast.info(response.data)
       } 
 
@@ -100,11 +101,11 @@ function Register() {
         error: false,
         errorText: "",
       });
-      setLoading(true)
+      setLoading(false)
     } catch (err) {
       setErrors({ ...errors, error: true, errorText: err.message });
       console.error(err);
-      setLoading(true)
+      setLoading(false)
     } 
       
     
