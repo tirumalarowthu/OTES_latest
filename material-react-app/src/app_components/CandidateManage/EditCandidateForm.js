@@ -108,7 +108,7 @@ useEffect(() => {
   };
   const submitHandler = async (event) => {
     console.log(inputs)
-    event.preventDefault();
+    // event.preventDefault();
     if (inputs.result === "On Hold") {
       try {
         await axios.post(`http://localhost:8080/updateTestResult/${inputs.email}`, { result: result })
@@ -125,6 +125,7 @@ useEffect(() => {
         email: inputs.email,
         testStatus: inputs.testStatus,
         area: inputs.area,
+        result: inputs.result,
         mcqCount: inputs.mcqCount,
         codeCount: inputs.codeCount,
         paragraphCount: inputs.paragraphCount,
@@ -315,7 +316,22 @@ useEffect(() => {
                     onChange={changeHandler}
                     error={errors.areaError}
                 />
-                </MDBox>
+            </MDBox>
+            <MDBox>
+              {inputs.result === "On Hold" && (
+              <FormControl>
+                <InputLabel>Result</InputLabel>
+                <Select
+                  value={inputs.result}
+                  onChange={(e) => setInputs(e.target.value)}
+                >
+                  <MenuItem value="On Hold">On Hold</MenuItem>
+                  <MenuItem value="Pass">Pass</MenuItem>
+                  <MenuItem value="Fail">Fail</MenuItem>
+                </Select>
+              </FormControl>
+            )}
+            </MDBox>
            {/* <MDBox mb={2}>
             <Select
                 value={inputs.testStatus}

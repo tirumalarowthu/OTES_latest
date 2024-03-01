@@ -8,6 +8,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
+import { FormControl, FormControlLabel, RadioGroup, Radio } from '@mui/material';
 
 
 // Material Dashboard 2 React example components
@@ -218,6 +219,7 @@ function EvalQuestions() {
                 <ol style={{ paddingLeft: "30px", marginTop: "30px", fontSize: '16px' }}>
                   {mcqQuestions.map((question, index) => {
                     const selectedAnswer = testResults[0].selectedAnswers[question._id];
+                    console.log(selectedAnswer)
                     const isCorrect = selectedAnswer === question.correct_choice;
                     if (isCorrect) {
                       mcqScore++;
@@ -238,10 +240,21 @@ function EvalQuestions() {
                                 <img src={question.imageURL} alt="Question Image" style={{ width: 'auto', height: 'auto' }} />
                               </MDBox>
                             )}
-                            <MDTypography style={{ marginBottom: "10px" }}>
+                            <MDTypography variant="h6" style={{ marginBottom: "10px", paddingLeft: '20pxx' }}>
                               Correct answer: {question.correct_choice}
                             </MDTypography>
-                            <MDBox style={{ marginBottom: "10px" }}>
+                            <RadioGroup
+                              name={question._id}
+                              value={selectedAnswer[question._id]}
+                              defaultValue={selectedAnswer} 
+                              // onChange={(e) => handleRadioChange(e, question._id)}
+                            >
+                              <FormControlLabel value={1} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice1}</MDTypography>} />
+                              <FormControlLabel value={2} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice2}</MDTypography>} />
+                              <FormControlLabel value={3} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice3}</MDTypography>} />
+                              <FormControlLabel value={4} control={<Radio />} label={<MDTypography variant="body2" sx={{ fontSize: '14px', color: 'text' }}>{question.choice4}</MDTypography>} />
+                            </RadioGroup>
+                            {/* <MDBox style={{ marginBottom: "10px", display: "inline-flex" }}>
                               <MDInput
                                 className="form-check-input"
                                 type="radio"
@@ -250,8 +263,8 @@ function EvalQuestions() {
                                 defaultChecked={selectedAnswer === "1"}
                               />
                               <MDTypography className="form-check-label">{question.choice1}</MDTypography>
-                            </MDBox>
-                            <MDBox style={{ marginBottom: "10px" }}>
+                            </MDBox> */}
+                            {/* <MDBox style={{ marginBottom: "10px" }}>
                               <MDInput
                                 className="form-check-input"
                                 type="radio"
@@ -260,8 +273,8 @@ function EvalQuestions() {
                                 defaultChecked={selectedAnswer === "2"}
                               />
                               <MDTypography className="form-check-label">{question.choice2}</MDTypography>
-                            </MDBox>
-                            <MDBox style={{ marginBottom: "10px" }}>
+                            </MDBox> */}
+                            {/* <MDBox style={{ marginBottom: "10px" }}>
                               <MDInput
                                 className="form-check-input"
                                 type="radio"
@@ -270,8 +283,8 @@ function EvalQuestions() {
                                 defaultChecked={selectedAnswer === "3"}
                               />
                               <MDTypography className="form-check-label">{question.choice3}</MDTypography>
-                            </MDBox>
-                            <MDBox style={{ marginBottom: "20px" }}>
+                            </MDBox> */}
+                            {/* <MDBox style={{ marginBottom: "20px" }}>
                               <MDInput
                                 className="form-check-input"
                                 type="radio"
@@ -280,13 +293,14 @@ function EvalQuestions() {
                                 defaultChecked={selectedAnswer === "4"}
                               />
                               <MDTypography className="form-check-label">{question.choice4}</MDTypography>
-                            </MDBox>
+                            </MDBox> */}
                             <MDBox id={`symbol-${question._id}`} className="symbol">
                               {isCorrect ? (
                                 <MDTypography style={{
                                   color: "#28a745",
                                   fontWeight: "bold",
                                   marginRight: "5px",
+                                  fontSize: '15px',
                                 }}>
                                   &#10004; Correct
                                 </MDTypography>
@@ -295,6 +309,7 @@ function EvalQuestions() {
                                   color: "#dc3545",
                                   fontWeight: "bold",
                                   marginRight: "5px",
+                                  fontSize: '15px',
                                 }}>
                                   &#10008; Wrong
                                 </MDTypography>
@@ -305,19 +320,19 @@ function EvalQuestions() {
                       // </li>
                     );
                   })}
-                  <MDBox style={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <MDBox style={{ display: 'flex', justifyContent: 'space-around', marginTop: '30px' }}>
                     <MDTypography>Correct Answers: {correctAnswers}</MDTypography>
                     <MDTypography>Wrong Answers: {wrongAnswers}</MDTypography>
                     <MDTypography>Score: {mcqScore} / {total}</MDTypography>
                   </MDBox>
-                </ol>
+                </ol> 
                 <center>
                   <MDBox>
                     <MDButton
                       id={`evaluate-pass`}
                       variant="contained"
                       color="success"
-                      style={{ marginRight: "10px" }}
+                      style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }}
                       onClick={() => {
                         updateCandidateResult("Pass", { email });
                         setIsButtonClicked(true);
@@ -338,7 +353,7 @@ function EvalQuestions() {
                         submitTestResultToAts(`<b> On Hold </b>`, mcqScore, total, `To determine whether the applicant passes or fails, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`)
                         navigate("/Candidate-List");
                       }}
-                      style={{ marginRight: "10px" }}
+                      style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }}
                       disabled={isButtonClicked}
                     >
                       On Hold
@@ -347,6 +362,7 @@ function EvalQuestions() {
                       id={`evaluate-fail`}
                       variant="contained"
                       color="error"
+                      style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }}
                       onClick={() => {
                         updateCandidateResult("Fail", { email });
                         setIsButtonClicked(true);
