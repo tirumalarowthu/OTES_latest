@@ -72,6 +72,7 @@ const AddQuestionsForm = () => {
             alert("All fields are required");
             setLoading(false);
         } else {
+            console.log(inputs)
             try {
                 const response = await axios.post(
                     `${process.env.REACT_APP_API_URL}/addQuestionMCQ`,

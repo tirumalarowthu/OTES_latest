@@ -46,6 +46,62 @@ function AddQuestionsHomepage() {
       <MDBox py={3}>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                
+                <QuestionsCard
+                  color="info"
+                  title="VLSI FRESHER_1"
+                  description="Fresher-1"
+                  date="just updated"
+                  area ='VLSI_FRESHER_1'
+                  image="https://upload.wikimedia.org/wikipedia/commons/9/94/VLSI_Chip.jpg"
+                  chart={reportsBarChartData}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                
+                <QuestionsCard
+                  color="info"
+                  title="VLSI FRESHER_2"
+                  description="Fresher-2"
+                  date="just updated"
+                  area ='VLSI_FRESHER_2'
+                  image="https://upload.wikimedia.org/wikipedia/commons/9/94/VLSI_Chip.jpg"
+                  chart={reportsBarChartData}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                
+                <QuestionsCard
+                  color="info"
+                  title="VLSI FRESHER_3"
+                  description="Fresher-3"
+                  date="just updated"
+                  area ='VLSI_FRESHER_3'
+                  image="https://upload.wikimedia.org/wikipedia/commons/9/94/VLSI_Chip.jpg"
+                  chart={reportsBarChartData}
+                />
+              </MDBox>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                
+                <QuestionsCard
+                  color="info"
+                  title="VLSI FRESHER_4"
+                  description="Fresher-4"
+                  date="just updated"
+                  area ='VLSI_FRESHER_4'
+                  image="https://upload.wikimedia.org/wikipedia/commons/9/94/VLSI_Chip.jpg"
+                  chart={reportsBarChartData}
+                />
+              </MDBox>
+            </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 
