@@ -105,51 +105,110 @@ const getMCQQuestionsForTest = () => {
   }
   async function handleNextClick() {
     setLoading(true)
-    const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
-
-    if (missingAnswers) {
-      alert('Please answer all questions before continuing.');
-      setLoading(false)
-    } else {
-      const selectedAnswers = JSON.parse(localStorage.getItem('selectedAnswers'));
-      const requestBody = {
-        email,
-        selectedAnswers,
-      };
-
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
+    const time = "60"
+    if (time =='60') {
+      const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
+        await mcqquestions.forEach(question => {
+          // Check if the question's _id exists in the answered object
+          if (!selectedAnswers.hasOwnProperty(question._id)) {
+            // If it doesn't exist, add it to the answered object with an empty string value
+            selectedAnswers[question._id] = "";
+          }
         });
+        console.log(selectedAnswers)
+        const requestBody = {
+          email,
+          selectedAnswers,
+        };
 
-      const requestBody2 = {
-        email,
-        testStatus: 'Test Taken',
-      };
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-      axios
-        .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        const requestBody2 = {
+          email,
+          testStatus: 'Test Taken',
+        };
+
+        axios
+          .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         setLoading(false)
-      ///Post the data to the Applicant Tracking System when applicant completed the test
-      try {
-        await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
-          .then(res => console.log(res))
-      } catch (err) {
-        console.log(err.message)
-      }
+        ///Post the data to the Applicant Tracking System when applicant completed the test
+        // try {
+        //   await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        //     .then(res => console.log(res))
+        // } catch (err) {
+        //   console.log(err.message)
+        // }
 
-      localStorage.clear();
-      navigate('/Results');
+        localStorage.clear();
+        navigate('/Results');
+
+    } else {
+      const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
+      if (missingAnswers) {
+        alert('Please answer all questions before continuing.');
+        setLoading(false)
+      } else {
+        const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
+        await mcqquestions.forEach(question => {
+          // Check if the question's _id exists in the answered object
+          if (!selectedAnswers.hasOwnProperty(question._id)) {
+            // If it doesn't exist, add it to the answered object with an empty string value
+            selectedAnswers[question._id] = "";
+          }
+        });
+        console.log(selectedAnswers)
+        const requestBody = {
+          email,
+          selectedAnswers,
+        };
+
+        axios
+          .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        const requestBody2 = {
+          email,
+          testStatus: 'Test Taken',
+        };
+
+        axios
+          .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        setLoading(false)
+        ///Post the data to the Applicant Tracking System when applicant completed the test
+        // try {
+        //   await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        //     .then(res => console.log(res))
+        // } catch (err) {
+        //   console.log(err.message)
+        // }
+
+        localStorage.clear();
+        navigate('/Results');
+      }
     }
   }
 
@@ -282,12 +341,12 @@ const getMCQQuestionsForTest = () => {
             <MDBox mb={5}>
               {
                 loading ? <MDButton variant="gradient" disabled color="warning" >
-                Please wait ...
-              </MDButton> :<MDButton variant="gradient" color="info" type="submit" onClick={handleNextClick}>
-                Submit Test
-              </MDButton>
+                  Please wait ...
+                </MDButton> : <MDButton variant="gradient" color="info" type="submit" onClick={handleNextClick}>
+                  Submit Test
+                </MDButton>
               }
-             
+
               {/* <button className="btn" style={{ marginTop: '3px', backgroundColor: '#FFFFFF' }} onClick={handleNextClick}>
                 Submit Your Answers
               </button> */}

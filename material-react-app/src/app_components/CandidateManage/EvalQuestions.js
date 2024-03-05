@@ -218,9 +218,12 @@ function EvalQuestions() {
                 </MDTypography>
                 <ol style={{ paddingLeft: "30px", marginTop: "30px", fontSize: '16px' }}>
                   {mcqQuestions.map((question, index) => {
+                    console.log(question,"question")
                     const selectedAnswer = testResults[0].selectedAnswers[question._id];
-                    console.log(selectedAnswer)
+                    // console.log(selectedAnswer)
                     const isCorrect = selectedAnswer === question.correct_choice;
+                    const notAnswered = testResults[0].selectedAnswers[question._id]
+                    console.log(notAnswered, 'from selected ans')
                     if (isCorrect) {
                       mcqScore++;
                       correctAnswers++;
@@ -295,7 +298,7 @@ function EvalQuestions() {
                               <MDTypography className="form-check-label">{question.choice4}</MDTypography>
                             </MDBox> */}
                             <MDBox id={`symbol-${question._id}`} className="symbol">
-                              {isCorrect ? (
+                              {notAnswered !==""? isCorrect ? (
                                 <MDTypography style={{
                                   color: "#28a745",
                                   fontWeight: "bold",
@@ -313,7 +316,18 @@ function EvalQuestions() {
                                 }}>
                                   &#10008; Wrong
                                 </MDTypography>
-                              )}
+                              ):
+                              (
+                                <MDTypography style={{
+                                  color: "#e08e36",
+                                  fontWeight: "bold",
+                                  marginRight: "5px",
+                                  fontSize: '15px',
+                                }}>
+                                  	&#8709; Not Answered
+                                </MDTypography>
+                              )
+                            }
                             </MDBox>
                           </MDBox>
                         </MDBox>
