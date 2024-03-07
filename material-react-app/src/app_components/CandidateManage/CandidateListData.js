@@ -150,19 +150,21 @@ export default function data() {
                             }} 
                             ml={-1}>
                             
-                            <Link to={{ pathname: `/Candidate-List/Edit/${item._id}`, state: { item }}} onClick={() => console.log(item._index)} >
+                            <Link to={{ pathname: `/Candidate-List/Edit/${item.email}`, state: { item }}}  >
                                 <MDBadge  badgeContent="Edit" color="info" variant="gradient" size="sm" />
                             </Link>
                         </MDBox>
-                        <MDBox key={item.id}
-                            onClick={() => 
-                                handleEvaluateCandidate(item)
-                            }
-                            style ={{cursor: "pointer"}} ml={0}>
-                            <Link to={{ pathname: `/Candidate-List/EvalQuestions`, state: { item }}} onClick={() => console.log(item._id)} >
-                                <MDBadge badgeContent="Evaluate" color="primary" variant="gradient" size="sm" />
-                            </Link>
-                        </MDBox>
+                       
+                          <MDBox key={item.id}
+                          onClick={() => 
+                              handleEvaluateCandidate(item)
+                          }
+                          style ={{cursor: "pointer"}} ml={0}>
+                          <Link to={{ pathname: `/Candidate-List/EvalQuestions`, state: { item }}} onClick={() => console.log(item._id)} >
+                              <MDBadge badgeContent="Evaluate" color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" />
+                          </Link>
+                      </MDBox>
+                        
                     </MDTypography>
                   </>
                 ),
@@ -202,7 +204,7 @@ export default function data() {
       { Header: "S.No", accessor: "s_no", align: "left", width: "10%" },
       { Header: "Name", accessor: "name", width: "30%", align: "left" },
     //   { Header: "Email", accessor: "email", align: "left" },
-      { Header: "Status", accessor: "status", align: "center" },
+      { Header: "Status", accessor: "status", align: "left" },
       // { Header: "Registered ", accessor: "registered_date", align: "center" },
       { Header: "Action", accessor: "action", align: "center" },
       { Header: "Marks", accessor: "Marks", align: "center" },

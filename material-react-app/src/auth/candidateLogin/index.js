@@ -74,7 +74,7 @@ function CandidateLogin() {
           console.log("Email is not valid");
           // setErrorMessage("Email not registered");
         }
-      })
+      }) 
       .catch((error) => {
         // setErrorMessage(error.response.data.status);
         toast.warning(error.response.data.status)

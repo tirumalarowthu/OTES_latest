@@ -134,7 +134,7 @@ const routes = [
     name: "Edit Candidate",
     key: "Edit-Candidate",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/Candidate-List/Edit/:_id",
+    route: "/Candidate-List/Edit/:email",
     component: <EditCandidateForm />,
   },
   {

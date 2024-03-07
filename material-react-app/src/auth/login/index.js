@@ -128,7 +128,7 @@ function Login() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Sign in
+            Evaluator Login
           </MDTypography>
           {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
             <Grid item xs={2}>
@@ -186,7 +186,7 @@ function Login() {
             </MDBox> */}
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth type="submit">
-                sign in
+                Log in
               </MDButton>
             </MDBox>
             {credentialsErros && (
@@ -209,7 +209,7 @@ function Login() {
                 </MDTypography>
               </MDTypography>
             </MDBox>
-            <MDBox mb={1} textAlign="center">
+            {/* <MDBox mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
                 <MDTypography
@@ -223,7 +223,7 @@ function Login() {
                   Sign up
                 </MDTypography>
               </MDTypography>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>

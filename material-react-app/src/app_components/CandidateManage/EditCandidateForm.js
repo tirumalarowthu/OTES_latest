@@ -26,7 +26,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import { Table, Button, Modal, Form} from "react-bootstrap";
-import { Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Select, MenuItem, InputLabel, FormControl, Divider } from '@mui/material';
 
 
 // import { MenuItem, Select } from '@material-ui/core';
@@ -45,9 +45,9 @@ import { Cabin } from "@mui/icons-material";
 
 function EditCandidateForm() {
   const authContext = useContext(AuthContext);
-  const { _id } = useParams();
+  const { email } = useParams();
   const [candidateList, setCandidateList] = useState([]);
-  const [candidateItem, setCandidateItem] = useState({})
+  // const [candidateItem, setCandidateItem] = useState({})
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
 
@@ -55,9 +55,10 @@ function EditCandidateForm() {
 useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/all');
+            const response = await axios.get(`http://localhost:8080/get/candidate/${email}`);
             // console.log('Response:', response.data);
-            setCandidateList(response.data);
+            setInputs(response.data)
+            // setCandidateList(response.data);
 
 
         } catch (error) {
@@ -68,20 +69,20 @@ useEffect(() => {
     fetchData();
 }, []);
 
-useEffect(() => {
-    const candidate = candidateList.find(candidate => candidate._id === _id);
-    if (candidate) {
-        setInputs(candidate);
-        // console.log(candidate);
-    }
-}, [candidateList, _id]);
+// useEffect(() => {
+//     const candidate = candidateList.find(candidate => candidate._id === _id);
+//     if (candidate) {
+//         setInputs(candidate);
+//         // console.log(candidate);
+//     }
+// }, [candidateList, _id]);
 
     const handleEditModalClose = () => {
         // Redirect to a new page
         navigate('/Candidate-List');
     };
 
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [credentialsErros, setCredentialsError] = useState(null);
 //   const [rememberMe, setRememberMe] = useState(false);
 
@@ -112,7 +113,7 @@ useEffect(() => {
     if (inputs.result === "On Hold") {
       try {
         await axios.post(`http://localhost:8080/updateTestResult/${inputs.email}`, { result: result })
-        await axios.put(`http://13.233.161.128/appicant/update/comments`, { email: inputs.email, comment: `The applicant's test result has been updated from On Hold to <b> ${result} </b>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        // await axios.put(`http://13.233.161.128/appicant/update/comments`, { email: inputs.email, comment: `The applicant's test result has been updated from On Hold to <b> ${result} </b>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
         window.location.reload()
       } catch (err) {
         console.log(err.message)
@@ -151,66 +152,12 @@ useEffect(() => {
       console.log(error);
     }
   };
-//   const submitHandler = async (e) => {
-//     // check rememeber me?
-//     e.preventDefault();
 
-//     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-//     if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
-//       setErrors({ ...errors, emailError: true });
-//       return;
-//     }
-
-//     if (inputs.password.trim().length < 6) {
-//       setErrors({ ...errors, passwordError: true });
-//       return;
-//     }
-
-//     // const newUser = { email: inputs.email, password: inputs.password };
-//     // addUserHandler(newUser);
-
-//     // const myData = {
-//     //   data: {
-//     //     type: "token",
-//     //     attributes: { ...newUser },
-//     //   },
-//     // };
-
-//     try {
-//       // const response = await AuthService.login(myData);
-//       const response = await axios.post(`${process.env.REACT_APP_API_URL}/loginEvaluator`, inputs)
-//       authContext.login(response.access_token, response.refresh_token);
-//     } catch (res) {
-//       if (res.hasOwnProperty("message")) {
-//         setCredentialsError(res.message);
-//       } else {
-//         setCredentialsError(res.errors[0].detail);
-//       }
-//     }
-
-//     return () => {
-//       setInputs({
-//         email: inputs.name,
-//         password: "",
-//       });
-
-//       setErrors({
-//         emailError: false,
-//         passwordError: false,
-//       });
-//     };
-//   };
-  
-
-  
-//   const handleEditModalClose = (item) => {
-//     // console.log(item)
-//   }
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <Divider/>
       <Card style={{width:'60%', margin: '0px auto'}}>
         <MDBox
           variant="gradient"
@@ -428,3 +375,60 @@ useEffect(() => {
 }
 
 export default EditCandidateForm;
+
+//   const submitHandler = async (e) => {
+//     // check rememeber me?
+//     e.preventDefault();
+
+//     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+//     if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
+//       setErrors({ ...errors, emailError: true });
+//       return;
+//     }
+
+//     if (inputs.password.trim().length < 6) {
+//       setErrors({ ...errors, passwordError: true });
+//       return;
+//     }
+
+//     // const newUser = { email: inputs.email, password: inputs.password };
+//     // addUserHandler(newUser);
+
+//     // const myData = {
+//     //   data: {
+//     //     type: "token",
+//     //     attributes: { ...newUser },
+//     //   },
+//     // };
+
+//     try {
+//       // const response = await AuthService.login(myData);
+//       const response = await axios.post(`${process.env.REACT_APP_API_URL}/loginEvaluator`, inputs)
+//       authContext.login(response.access_token, response.refresh_token);
+//     } catch (res) {
+//       if (res.hasOwnProperty("message")) {
+//         setCredentialsError(res.message);
+//       } else {
+//         setCredentialsError(res.errors[0].detail);
+//       }
+//     }
+
+//     return () => {
+//       setInputs({
+//         email: inputs.name,
+//         password: "",
+//       });
+
+//       setErrors({
+//         emailError: false,
+//         passwordError: false,
+//       });
+//     };
+//   };
+  
+
+  
+//   const handleEditModalClose = (item) => {
+//     // console.log(item)
+//   }

@@ -8,10 +8,11 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
-import { FormControl, FormControlLabel, RadioGroup, Radio } from '@mui/material';
+import { FormControl, FormControlLabel, RadioGroup, Radio, Icon } from '@mui/material';
 
 
 import BasicLayoutLanding from "layouts/authentication/components/CandidateTestLayout";
+import Timer from './Timer';
 
 
 const getMCQQuestionsForTest = () => {
@@ -105,111 +106,46 @@ const getMCQQuestionsForTest = () => {
   }
   async function handleNextClick() {
     setLoading(true)
-    const time = "60"
-    if (time =='60') {
-      const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
-        await mcqquestions.forEach(question => {
-          // Check if the question's _id exists in the answered object
-          if (!selectedAnswers.hasOwnProperty(question._id)) {
-            // If it doesn't exist, add it to the answered object with an empty string value
-            selectedAnswers[question._id] = "";
-          }
-        });
-        console.log(selectedAnswers)
-        const requestBody = {
-          email,
-          selectedAnswers,
-        };
 
-        axios
-          .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-        const requestBody2 = {
-          email,
-          testStatus: 'Test Taken',
-        };
-
-        axios
-          .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        setLoading(false)
-        ///Post the data to the Applicant Tracking System when applicant completed the test
-        // try {
-        //   await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
-        //     .then(res => console.log(res))
-        // } catch (err) {
-        //   console.log(err.message)
-        // }
-
-        localStorage.clear();
-        navigate('/Results');
-
-    } else {
-      const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
-      if (missingAnswers) {
-        alert('Please answer all questions before continuing.');
-        setLoading(false)
-      } else {
-        const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
-        await mcqquestions.forEach(question => {
-          // Check if the question's _id exists in the answered object
-          if (!selectedAnswers.hasOwnProperty(question._id)) {
-            // If it doesn't exist, add it to the answered object with an empty string value
-            selectedAnswers[question._id] = "";
-          }
-        });
-        console.log(selectedAnswers)
-        const requestBody = {
-          email,
-          selectedAnswers,
-        };
-
-        axios
-          .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-        const requestBody2 = {
-          email,
-          testStatus: 'Test Taken',
-        };
-
-        axios
-          .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        setLoading(false)
-        ///Post the data to the Applicant Tracking System when applicant completed the test
-        // try {
-        //   await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
-        //     .then(res => console.log(res))
-        // } catch (err) {
-        //   console.log(err.message)
-        // }
-
-        localStorage.clear();
-        navigate('/Results');
+    const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
+      await mcqquestions.forEach(question => {
+      // Check if the question's _id exists in the answered object
+      if (!selectedAnswers.hasOwnProperty(question._id)) {
+        // If it doesn't exist, add it to the answered object with an empty string value
+        selectedAnswers[question._id] = "";
       }
-    }
+    });
+    console.log(selectedAnswers)
+    const requestBody = {
+      email,
+      selectedAnswers,
+    };
+
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const requestBody2 = {
+      email,
+      testStatus: 'Test Taken',
+    };
+
+    await axios
+      .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setLoading(false)
+    navigate('/Results');
+    localStorage.clear();
   }
 
   function handleRadioChange(event, questionId) {
@@ -229,6 +165,30 @@ const getMCQQuestionsForTest = () => {
 
   return (
     <BasicLayoutLanding >
+      <MDBox
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        // width="10rem"
+        // height="10rem"
+        padding="10px"
+        borderRadius="10px"
+        bgColor="white"
+        shadow="sm"
+        // borderRadius="50%"
+        position="fixed"
+        top="2rem"
+        right="4rem"
+        // right="2rem"
+        // bottom="2rem"
+        zIndex={99}
+        color="dark"
+        sx={{ cursor: "pointer" }}
+      >
+        <Timer
+          handleNextClick={handleNextClick}
+        />
+      </MDBox>
       <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
         <MDBox
           variant="gradient"
@@ -342,7 +302,7 @@ const getMCQQuestionsForTest = () => {
               {
                 loading ? <MDButton variant="gradient" disabled color="warning" >
                   Please wait ...
-                </MDButton> : <MDButton variant="gradient" color="info" type="submit" onClick={handleNextClick}>
+                </MDButton> : <MDButton variant="gradient" id="submit_test_auto" color="info" type="submit" onClick={handleNextClick}>
                   Submit Test
                 </MDButton>
               }
@@ -359,3 +319,57 @@ const getMCQQuestionsForTest = () => {
 };
 
 export default getMCQQuestionsForTest;
+
+
+// const missingAnswers = mcqquestions.some((question) => !selectedAnswers[question._id]);
+//       if (missingAnswers) {
+//         alert('Please answer all questions before continuing.');
+//         setLoading(false)
+//       } else {
+//         const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
+//         await mcqquestions.forEach(question => {
+//           // Check if the question's _id exists in the answered object
+//           if (!selectedAnswers.hasOwnProperty(question._id)) {
+//             // If it doesn't exist, add it to the answered object with an empty string value
+//             selectedAnswers[question._id] = "";
+//           }
+//         });
+//         console.log(selectedAnswers)
+//         const requestBody = {
+//           email,
+//           selectedAnswers,
+//         };
+
+//         axios
+//           .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
+//           .then((response) => {
+//             console.log(response);
+//           })
+//           .catch((error) => {
+//             console.log(error);
+//           });
+
+//         const requestBody2 = {
+//           email,
+//           testStatus: 'Test Taken',
+//         };
+
+//         axios
+//           .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
+//           .then((response) => {
+//             console.log(response);
+//           })
+//           .catch((error) => {
+//             console.log(error);
+//           });
+//         setLoading(false)
+//         ///Post the data to the Applicant Tracking System when applicant completed the test
+//         // try {
+//         //   await axios.put(`${process.env.ATS_URL}/appicant/update/comments`, { email: email, comment: `The applicant has successfully completed the test. To proceed with the evaluation, please click the following link: <a href="${window.location.origin}" target="_blank">Click Here</a>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+//         //     .then(res => console.log(res))
+//         // } catch (err) {
+//         //   console.log(err.message)
+//         // }
+
+//         localStorage.clear();
+//         navigate('/Results');

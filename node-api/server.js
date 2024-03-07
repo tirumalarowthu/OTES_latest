@@ -563,6 +563,22 @@ app.get("/all", async (req, res) => {
     return res.status(500).send("Internal Server Error");
   }
 });
+///Get candidate by email : 
+app.get("/get/candidate/:email",async(req,res)=>{
+      const {email} = req.params
+      console.log(email)
+      const isUserExits = await Candidate.findOne({email});
+
+      if(isUserExits){
+        res.status(200).json(isUserExits)
+      }else{
+        res.status(404).json({msg:`No user exits with ${email}`})
+      }
+
+})
+
+
+
 
 app.patch("/updateCandidateTeststatus", async (req, res) => {
   try {
@@ -1023,11 +1039,11 @@ app.get("/candidate/info", async (req, res) => {
                 }
               }
             }
-          }
+          } 
         ],
         totalCount: [{ $count: "total" }]
       }
-    },
+    }, 
     {
       $project: {
         testStatusCounts: { $arrayToObject: { $ifNull: [{ $arrayElemAt: ["$testStatusCounts.data", 0] }, []] } },
@@ -1073,7 +1089,7 @@ app.get("/*", function (req, res) {
 
 
 
-
+ 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
