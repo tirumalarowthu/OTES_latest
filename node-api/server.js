@@ -64,6 +64,134 @@ app.use(cors({ origin: "*" }));
 
 app.use(bodyParser.json());
 
+///Filters data: 
+
+app.get("/get/candidates", async (req, res) => {
+  const { search, filter } = req.query;
+  // Create a dynamic filter object based on provided parameters
+  const filterObj = {};
+  if (search) {
+      filterObj.$or = [
+          { email: { $regex: search, $options: 'i' } },
+          { name: { $regex: search, $options: 'i' } }
+      ];
+  }
+
+  // Apply filters
+  if (filter) {
+    const filters = filter.split(",");
+    filters.forEach((f) => {
+      const [key, value] = f.split(":");
+      query[key] = value;
+    });
+  }
+
+  try {
+    const totalCount = await Candidate.countDocuments(filterObj);
+
+    // Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 15;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = {};
+
+    if (endIndex < totalCount) {
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+    }
+
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+
+    // Sorting
+    const sort = req.query.sort || "createdAt"; // Default sorting by createdAt
+    const sortOrder = req.query.sortOrder || "asc"; // Default ascending order
+    const sortQuery = {};
+    sortQuery[sort] = sortOrder === "asc" ? 1 : -1;
+
+    const candidates = await Candidate.find(filterObj)
+      .sort(sortQuery)
+      .limit(limit)
+      .skip(startIndex);
+
+    // Logging statement
+    testresult.TestResult.log(
+      "info",
+      "Candidate took and submit the test to save the email & selected answers into the MongoDB database by triggering testresults API"
+    );
+
+    res.status(200).json({
+      totalCount: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+      results: candidates,
+      pagination: results,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+///Automatic Evaluation 
+app.post("/automatic/testresults", async (req, res) => {
+  try {
+    const { selectedAnswers } = req.body;
+    // Create a new instance of the TestResults model
+    const questions = await MCQQuestion.find({});
+    // Initialize total score
+    let totalScore = 0;
+
+    // Iterate through each question and compare selected answer with correct choice
+    questions.forEach(question => {
+      const questionId = question._id.toString();
+      const selectedAnswer = selectedAnswers[questionId];
+      if (selectedAnswer && selectedAnswer === question.correct_choice) {
+        // Increase total score if selected answer is correct
+        totalScore++;
+      }
+    });
+    const testresults = new TestResults({...req.body,totalScore});
+    // Save the new instance to the database
+    await testresults.save();
+    console.log(testresults,"auto evaluate")
+    testresult.TestResult.log(
+      "info",
+      "Candidate took the test and it is autosumitted the test to save the email & selected answeres into the MongoDB database by triggering testresults API"
+    );
+    //Change test status as Evaluated
+    const candidate = await Candidate.findOne({ email: testresults.email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" });
+    }
+    candidate.testStatus = 'Test Taken';
+    await candidate.save();
+    TestStatus.TestStatus.log(
+      "info",
+      `${email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
+    );
+    // Return the new instance as a JSON response
+    res.json(testresults);
+  } catch (err) {
+    console.log(err); // log the error message
+    testresult.TestResult.log(
+      "error",
+      "issue in saving testresults in to the database"
+    );
+    return res.status(500).send("Server Error");
+  }
+});
+
+
 // API to add evaluator
 app.post("/addEvaluator", async (req, res) => {
   try {
@@ -492,27 +620,27 @@ app.get("/myprofile/:email", async (req, res) => {
   }
 });
 
-app.post("/testresults", async (req, res) => {
-  try {
-    // Create a new instance of the TestResults model
-    const testresults = new TestResults(req.body);
-    // Save the new instance to the database
-    await testresults.save();
-    testresult.TestResult.log(
-      "info",
-      "Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API"
-    );
-    // Return the new instance as a JSON response
-    res.json(testresults);
-  } catch (err) {
-    console.log(err); // log the error message
-    testresult.TestResult.log(
-      "error",
-      "issue in saving testresults in to the database"
-    );
-    return res.status(500).send("Server Error");
-  }
-});
+// app.post("/testresults", async (req, res) => {
+//   try {
+//     // Create a new instance of the TestResults model
+//     const testresults = new TestResults(req.body);
+//     // Save the new instance to the database
+//     await testresults.save();
+//     testresult.TestResult.log(
+//       "info",
+//       "Candidate took and submit the test to save the email & selected answeres into the MongoDB database by triggering testresults API"
+//     );
+//     // Return the new instance as a JSON response
+//     res.json(testresults);
+//   } catch (err) {
+//     console.log(err); // log the error message
+//     testresult.TestResult.log(
+//       "error",
+//       "issue in saving testresults in to the database"
+//     );
+//     return res.status(500).send("Server Error");
+//   }
+// });
 
 //update the candidate
 //10-05-23 API modified to fetch total candidate data
@@ -548,7 +676,7 @@ app.put("/edit/:id", async (req, res) => {
 
 app.get("/all", async (req, res) => {
   try {
-    const candidates = await Candidate.find({isApproved:true}).sort({ _id: -1 });
+    const candidates = await Candidate.find({isApproved:true}).sort({ updatedAt: -1 });
     viewcandidate.ViewCandidate.log(
       "info",
       "(all)API is triggered on selecting Manage candidate module and all the candidate data is fetched from the MongoDB Database and displayed to the user"
@@ -615,6 +743,38 @@ app.get("/getTestResults", async (req, res) => {
   }
 });
 
+//for re -evaluate : 
+app.post("/update/TestResult/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" });
+    }
+    const result = req.body.result;
+    const candidateresult = await Candidate.findOneAndUpdate(
+      { email },
+      { result },
+      { new: true }
+    );
+    if ( candidateresult) {
+      res.status(200).json(candidateresult);
+      evaluated.Evaluation.log(
+        "info",
+        "Evaluation is done - triggered updateTestResult/:email API - posted the result in MongoDB database"
+      );
+    } else {
+      res.status(400).json("Result storing failed");
+    }
+  } catch (err) {
+    console.log(err);
+    evaluated.Evaluation.log(
+      "error",
+      "error in evaluating and storing the result failed"
+    );
+    return res.status(500).send("Server Error");
+  }
+});
 // Create a put request to alter and update the candidate and add a field called result and give the value "Pass"
 app.post("/updateTestResult/:email", async (req, res) => {
   try {
@@ -1094,3 +1254,49 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+
+
+//API backup : 
+// Define the API endpoint
+// app.get("/get/candidates", async (req, res) => {
+//   try {
+//       // Extract search and filter parameters from query string
+//       const { search, filter, page = 1, limit = 15 } = req.query;
+//     console.log(filter)
+//       // Create a dynamic filter object based on provided parameters
+//       const filterObj = {};
+//       if (search) {
+//           filterObj.$or = [
+//               { email: { $regex: search, $options: 'i' } },
+//               { name: { $regex: search, $options: 'i' } }
+//           ];
+//       }
+//       if (filter) {
+//           const filterArr = filter.split(",");
+//           console.log(filterArr)
+//           filterArr.forEach(item => {
+//               const [key, value] = item.split(":");
+//               filterObj[key] = value;
+//           });
+//       }
+
+
+//       // Query candidates based on the filter
+//       const candidates = await Candidate.find(filterObj)
+//           .limit(limit * 1)
+//           .skip((page - 1) * limit);
+
+//       // Count total matching records
+//       const totalCount = await Candidate.countDocuments(filterObj);
+
+//       res.json({
+//           total: totalCount,
+//           currentPage: page,
+//           totalPages: Math.ceil(totalCount / limit),
+//           candidates
+//       });
+//   } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });

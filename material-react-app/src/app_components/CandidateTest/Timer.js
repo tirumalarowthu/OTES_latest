@@ -64,8 +64,8 @@ import React, { useState, useEffect } from 'react';
 import MDTypography from 'components/MDTypography';
 // import { Icon } from '@mui/material';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
-const Timer = ({handleNextClick}) => {
-    const initialTime = 90; // 300 seconds = 5 minutes
+const Timer = () => {
+    const initialTime = 900; // 300 seconds = 5 minutes
     const [time, setTime] = useState(initialTime);
 
     useEffect(() => {
@@ -78,7 +78,8 @@ const Timer = ({handleNextClick}) => {
             setTime(0);
             localStorage.removeItem('timer');
             localStorage.removeItem('startTime');
-            handleNextClick()
+            document.getElementById("submit_test_auto").click();
+            // handleNextClick()
         } else {
             setTime(remainingTime);
             localStorage.setItem('timer', remainingTime);
@@ -96,9 +97,9 @@ const Timer = ({handleNextClick}) => {
                          localStorage.removeItem('timer');
                          localStorage.removeItem('startTime');
                          alert('Time is up! So test will be auto submit.');
-                        //  document.getElementById("submit_test_auto").click();
+                         document.getElementById("submit_test_auto").click();
 
-                         handleNextClick()
+                        //  handleNextClick()
                     }
                     
                     return newTime;

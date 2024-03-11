@@ -46,7 +46,7 @@ import { Cabin } from "@mui/icons-material";
 function EditCandidateForm() {
   const authContext = useContext(AuthContext);
   const { email } = useParams();
-  const [candidateList, setCandidateList] = useState([]);
+  // const [candidateList, setCandidateList] = useState([]);
   // const [candidateItem, setCandidateItem] = useState({})
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
@@ -107,53 +107,31 @@ useEffect(() => {
     });
     // console.log(inputs)
   };
-  const submitHandler = async (event) => {
+  const handleEditForm = async (event) => {
     console.log(inputs)
-    // event.preventDefault();
+    event.preventDefault();
     if (inputs.result === "On Hold") {
       try {
-        await axios.post(`http://localhost:8080/updateTestResult/${inputs.email}`, { result: result })
-        // await axios.put(`http://13.233.161.128/appicant/update/comments`, { email: inputs.email, comment: `The applicant's test result has been updated from On Hold to <b> ${result} </b>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
-        window.location.reload()
+        await axios.post(`${process.env.REACT_APP_API_URL}/updateTestResult/${inputs.email}`, { result: result })
+        
       } catch (err) {
         console.log(err.message)
         alert('Failed to update the result. Please update the result again')
       }
     }
     try {
-      await axios.put(`http://localhost:8080/edit/${inputs._id}`, {
-        name: inputs.name,
-        email: inputs.email,
-        testStatus: inputs.testStatus,
-        area: inputs.area,
-        result: inputs.result,
-        mcqCount: inputs.mcqCount,
-        codeCount: inputs.codeCount,
-        paragraphCount: inputs.paragraphCount,
-      });
-      const index = candidateList.findIndex((candidateItem) => {
-        // console.log('candidateItem:', candidateItem);
-        return candidateItem._id === inputs._id;
-      });
-      const updatedCandidates = [...candidateList];
-    //   console.log(updatedCandidates)
-      updatedCandidates[index].name = inputs.name;
-      updatedCandidates[index].email = inputs.email;
-    //   updatedCandidates[index].testStatus = testStatus;
-      updatedCandidates[index].area = inputs.area;
-      updatedCandidates[index].mcqCount = inputs.mcqCount;
-      updatedCandidates[index].codeCount = inputs.codeCount;
-      updatedCandidates[index].paragraphCount = inputs.paragraphCount;
-      setInputs(updatedCandidates);
+      console.log(inputs._id,"input")
+      await axios.put(`${process.env.REACT_APP_API_URL}/edit/${inputs._id}`, inputs);
+    
       navigate('/Candidate-List');
-    //   setShowEditModal(false);
-      window.location.reload();
+    
     } catch (error) {
       console.log(error);
     }
   };
 
-
+  console.log(inputs.testStatus)
+  console.log(inputs,"inputs")
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -173,29 +151,13 @@ useEffect(() => {
           <MDTypography variant="h5" fontWeight="medium" color="white" mt={1}>
             Edit Candidate Data
           </MDTypography>
-          {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-          </Grid> */}
+         
         </MDBox>
         <MDBox pt={1} pb={3} px={3} >
-          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
+          <MDBox component="form" role="form" method="POST" onSubmit={handleEditForm}>
           <MDBox mb={1} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
             <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
-                Enter Name
+                Name
             </MDTypography>
             <MDInput
                 type="text"
@@ -231,6 +193,7 @@ useEffect(() => {
                     label = ""
                     labelId="test-status-label"
                     id="test-status-select"
+                    readOnly
                     value={inputs.testStatus || "SELECT STATUS"}
                     
                     onChange={(event) => {
@@ -241,15 +204,79 @@ useEffect(() => {
                     }}
                     disabled={
                         inputs.testStatus === "Test Taken" ||
-                        inputs.testStatus === "Evaluated"
+                        inputs.testStatus === "Evaluated" ||
+                        inputs.testStatus ==="Test Not Taken"
                     }
                 >
-                    <MenuItem value="">Select status</MenuItem>
+                    {/* <MenuItem value="">Select status</MenuItem> */}
                     <MenuItem value="Test Cancelled">Cancel Test</MenuItem>
                     <MenuItem value="Test Not Taken">Test Not Taken</MenuItem>
+                    <MenuItem value="Evaluated">Evaluated</MenuItem>
+                    <MenuItem value="Test Taken">Test Taken</MenuItem>
+
                 </Select>
-                </FormControl>
-            <MDBox mb={2} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
+            </FormControl>
+            
+            <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
+                <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+                    Area 
+                </MDTypography>
+                <Select
+                    style={{ width: '100%', height: '40px', textAlign:"start"}}
+                    label = ""
+                    labelId="test-status-label"
+                    readOnly
+                    id="test-status-select"
+                    value={inputs.area || "Select Area"}
+                    error={errors.areaError}
+                    onChange={(event) => {
+                    setInputs({
+                        ...inputs,
+                        area: event.target.value,
+                    });
+                    }}
+                    disabled
+                    
+                >
+                    <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
+                    <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
+                    <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
+                    <MenuItem value="VLSI">VLSI</MenuItem>
+                    <MenuItem value="EMBEDDED">EMBEDDED</MenuItem>
+                    <MenuItem value="Software">SOFTWARE</MenuItem>
+                </Select>
+            </FormControl>
+            
+            {/* <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
+                <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+                    Result
+                </MDTypography>
+                <Select
+                    style={{ width: '100%', height: '40px', textAlign:"start"}}
+                    label = ""
+                    labelId="test-status-label"
+                    // readOnly
+                    id="test-status-select"
+                    value={inputs.result || "Select Area"}
+                    error={errors.areaError}
+                    onChange={(event) => {
+                    setInputs({
+                        ...inputs,
+                        result: event.target.value,
+                    });
+                    }}
+                    disabled={
+                      inputs.result === "Pass" ||
+                      inputs.result === "Fail"
+                    }
+                    
+                >
+                    <MenuItem value="On Hold">ON HOlD</MenuItem>
+                    <MenuItem value="Pass">PASS</MenuItem>
+                    <MenuItem value="Fail">FAIL</MenuItem>
+                </Select>
+            </FormControl> */}
+            {/* <MDBox mb={2} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
             <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
                 Area
             </MDTypography>
@@ -263,8 +290,8 @@ useEffect(() => {
                     onChange={changeHandler}
                     error={errors.areaError}
                 />
-            </MDBox>
-            <MDBox>
+            </MDBox> */}
+            {/* <MDBox>
               {inputs.result === "On Hold" && (
               <FormControl>
                 <InputLabel>Result</InputLabel>
@@ -278,8 +305,74 @@ useEffect(() => {
                 </Select>
               </FormControl>
             )}
+            </MDBox> */}
+            
+            <MDBox mt={4} mb={1}>
+                <MDButton
+                    style={{ marginRight: '10px' }}
+                    variant="gradient"
+                    color="info"
+                    onClick={handleEditModalClose}
+                >
+                    Close
+                </MDButton>
+                <MDButton
+                    variant="gradient"
+                    color="success"
+                    type="submit"
+                    sx={{ backgroundColor: 'green' }}
+                >
+                    Save Changes
+                </MDButton>
             </MDBox>
-           {/* <MDBox mb={2}>
+
+          </MDBox>
+        </MDBox>
+      </Card>
+      <Footer />
+    </DashboardLayout>
+  );
+}
+
+export default EditCandidateForm;
+
+// await axios.put(`http://13.233.161.128/appicant/update/comments`, { email: inputs.email, comment: `The applicant's test result has been updated from On Hold to <b> ${result} </b>`, commentBy: "TES System", cRound: "Online Assessment Test", nextRound: "Veera", status: "Hiring Manager" })
+        // window.location.reload()
+//   const index = candidateList.findIndex((candidateItem) => {
+    //     // console.log('candidateItem:', candidateItem);
+    //     return candidateItem._id === inputs._id;
+    //   });
+    //   const updatedCandidates = [...candidateList];
+    // //   console.log(updatedCandidates)
+    //   updatedCandidates[index].name = inputs.name;
+    //   updatedCandidates[index].email = inputs.email;
+    // //   updatedCandidates[index].testStatus = testStatus;
+    //   updatedCandidates[index].area = inputs.area;
+    //   updatedCandidates[index].mcqCount = inputs.mcqCount;
+    //   updatedCandidates[index].codeCount = inputs.codeCount;
+    //   updatedCandidates[index].paragraphCount = inputs.paragraphCount;
+    //   setInputs(updatedCandidates);
+    //   setShowEditModal(false);
+      // window.location.reload();
+ {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <FacebookIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <GitHubIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <GoogleIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+          </Grid> */}
+
+ {/* <MDBox mb={2}>
             <Select
                 value={inputs.testStatus}
                 onChange={(event) => {
@@ -312,24 +405,6 @@ useEffect(() => {
                 &nbsp;&nbsp;Remember me
               </MDTypography>
             </MDBox> */}
-            <MDBox mt={4} mb={1}>
-                <MDButton
-                    style={{ marginRight: '10px' }}
-                    variant="gradient"
-                    color="info"
-                    onClick={handleEditModalClose}
-                >
-                    Close
-                </MDButton>
-                <MDButton
-                    variant="gradient"
-                    color="success"
-                    type="submit"
-                    sx={{ backgroundColor: 'green' }}
-                >
-                    Save Changes
-                </MDButton>
-            </MDBox>
 
             {/* {credentialsErros && (
               <MDTypography variant="caption" color="error" fontWeight="light">
@@ -366,16 +441,6 @@ useEffect(() => {
                 </MDTypography>
               </MDTypography>
             </MDBox> */}
-          </MDBox>
-        </MDBox>
-      </Card>
-      <Footer />
-    </DashboardLayout>
-  );
-}
-
-export default EditCandidateForm;
-
 //   const submitHandler = async (e) => {
 //     // check rememeber me?
 //     e.preventDefault();

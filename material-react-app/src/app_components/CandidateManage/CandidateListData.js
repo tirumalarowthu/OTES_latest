@@ -40,25 +40,11 @@ export default function data() {
   const eval_email = location.state?.email;
   const navigate = useNavigate();
   const [loading,setLoading] = useState(true)
-  console.log(loading)
-  
-//   const handleApprovals = async (id, decide, name) => {
-//     const confirmMessage = decide
-//       ? `Do you want to allow ${name} to write online test ?`
-//       : `Do you want to reject ${name}? And also permanently delete ${name}`;
-//     if (window.confirm(confirmMessage)) {
-//       try {
-//         await axios.patch(`${process.env.REACT_APP_API_URL}/confirm/approval/${id}/${decide}`);
-//         window.location.reload(false);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//   };
-  const handleEditCandidate = (item) => {
-    // console.log(item._id)
-  }
+
+
   const handleEvaluateCandidate = (item) => {
+    console.log(item.email,"email")
+
     if (item.testStatus === "Test Not Taken" || item.testStatus === "Test Cancelled") {
       toast.warn(`${item.testStatus}. Evaluation cannot be performed.`, 
       {
@@ -72,7 +58,7 @@ export default function data() {
     }
     const state = { email: item.email, testStatus: item.testStatus, result: item.result, area:item.area };
     // console.log(state)
-    navigate('/Candidate-List/EvalQuestions', { state });
+    navigate(`/Candidate-List/EvalQuestions/${item.email}`, { state });
   };
 
 
@@ -90,9 +76,8 @@ export default function data() {
             const testResult = testResultsMap.get(list1.email);
             if (testResult && testResult.totalScore !== undefined) {
                 const selectedAnswers = testResult.selectedAnswers;
-                console.log(selectedAnswers)
+                // console.log(selectedAnswers)
                 const totalQuestions = Object.keys(selectedAnswers).length;
-                console.log(totalQuestions)
                 return {
                     ...list1,
                     totalScore: testResult.totalScore,
@@ -142,9 +127,6 @@ export default function data() {
                   <>
                     <MDTypography style={{ display:"flex"}}>
                         <MDBox key={item.id}
-                            onClick={() => 
-                                    handleEditCandidate(item)
-                                }
                             style ={{
                             cursor: "pointer"
                             }} 
@@ -156,13 +138,14 @@ export default function data() {
                         </MDBox>
                        
                           <MDBox key={item.id}
-                          onClick={() => 
+                          onClick={(e) => 
                               handleEvaluateCandidate(item)
                           }
                           style ={{cursor: "pointer"}} ml={0}>
-                          <Link to={{ pathname: `/Candidate-List/EvalQuestions`, state: { item }}} onClick={() => console.log(item._id)} >
                               <MDBadge badgeContent="Evaluate" color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" />
-                          </Link>
+                          {/* <Link to={{ pathname: `/Candidate-List/EvalQuestions/${item.email}`, state: { item }}} onClick={() => console.log(item.email)} >
+                              <MDBadge badgeContent="Evaluate" color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" />
+                          </Link> */}
                       </MDBox>
                         
                     </MDTypography>

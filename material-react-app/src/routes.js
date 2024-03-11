@@ -137,12 +137,13 @@ const routes = [
     route: "/Candidate-List/Edit/:email",
     component: <EditCandidateForm />,
   },
+  
   {
     type: "examples",
     name: "Eval Questions",
     key: "Eval-Questions",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/Candidate-List/EvalQuestions",
+    route: "/Candidate-List/EvalQuestions/:email",
     component: <EvalQuestions />,
   },
   

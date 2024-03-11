@@ -14,6 +14,7 @@ const Candidate = new mongoose.Schema({
     default: 'Test Not Taken'
   },
   result : {
+    default:"",
     type : String, 
   },
   name : {

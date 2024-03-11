@@ -18,6 +18,7 @@ import Timer from './Timer';
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
+  const [isQuestionsLoading,setIsQuestionsLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(false);
   const [mcqquestions, setMCQQuestions] = useState(
     JSON.parse(localStorage.getItem('mcqquestions')) || []
@@ -107,7 +108,7 @@ const getMCQQuestionsForTest = () => {
   async function handleNextClick() {
     setLoading(true)
 
-    const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers'));
+    const selectedAnswers = await JSON.parse(localStorage.getItem('selectedAnswers')) || {};
       await mcqquestions.forEach(question => {
       // Check if the question's _id exists in the answered object
       if (!selectedAnswers.hasOwnProperty(question._id)) {
@@ -122,7 +123,7 @@ const getMCQQuestionsForTest = () => {
     };
 
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/testresults`, requestBody)
+      .post(`${process.env.REACT_APP_API_URL}/automatic/testresults`, requestBody)
       .then((response) => {
         console.log(response);
       })
@@ -130,19 +131,19 @@ const getMCQQuestionsForTest = () => {
         console.log(error);
       });
 
-    const requestBody2 = {
-      email,
-      testStatus: 'Test Taken',
-    };
+    // const requestBody2 = {
+    //   email,
+    //   testStatus: 'Test Taken',
+    // };
 
-    await axios
-      .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // await axios
+    //   .patch(`${process.env.REACT_APP_API_URL}/updateCandidateTeststatus`, requestBody2)
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     setLoading(false)
     navigate('/Results');
     localStorage.clear();
@@ -165,7 +166,9 @@ const getMCQQuestionsForTest = () => {
 
   return (
     <BasicLayoutLanding >
-      <MDBox
+      
+      <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
+        <MDBox
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -185,11 +188,8 @@ const getMCQQuestionsForTest = () => {
         color="dark"
         sx={{ cursor: "pointer" }}
       >
-        <Timer
-          handleNextClick={handleNextClick}
-        />
+        <Timer/>
       </MDBox>
-      <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
         <MDBox
           variant="gradient"
           bgColor="info"
