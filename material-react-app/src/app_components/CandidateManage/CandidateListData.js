@@ -32,6 +32,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
 import { object } from "prop-types";
+import { LocalConvenienceStoreOutlined } from "@mui/icons-material";
 
 
 
@@ -76,8 +77,9 @@ export default function data() {
             const testResult = testResultsMap.get(list1.email);
             if (testResult && testResult.totalScore !== undefined) {
                 const selectedAnswers = testResult.selectedAnswers;
-                // console.log(selectedAnswers)
+                // // console.log(selectedAnswers)
                 const totalQuestions = Object.keys(selectedAnswers).length;
+                console.log(totalQuestions)
                 return {
                     ...list1,
                     totalScore: testResult.totalScore,
@@ -158,6 +160,7 @@ export default function data() {
                 )
               }
         }
+      
   
   )
 
@@ -167,6 +170,7 @@ export default function data() {
       setLoading(false)
     }
   };
+  
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       {/* <MDAvatar src={image} name={name} size="sm" /> */}
