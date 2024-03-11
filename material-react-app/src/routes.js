@@ -60,7 +60,6 @@ import PendingApprovals from "app_components/PendingApprovals/PendingApprovals";
 import ViewQuestions from "app_components/QuestionBank/ViewQuestions";
 import ViewQuestionsHomePage from "app_components/QuestionBank/ViewQuestionsHomePage";
 import CandidateList from "app_components/CandidateManage/CandidateList";
-import FilterCandidateList from "app_components/FilterTables/FilterTable";
 import EditCandidateForm from "app_components/CandidateManage/EditCandidateForm";
 import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
 
@@ -68,6 +67,7 @@ import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
 import AddQuestions from "app_components/QuestionBank/AddQuestions";
 import AddQuestionsHomepage from "app_components/QuestionBank/AddQuestionsHomepage";
 import AddCandidate from "app_components/CandidateManage/AddCandidate";
+import FilterTable from "app_components/FilterTables/FilterTable";
 
 const routes = [
   {
@@ -130,14 +130,14 @@ const routes = [
     route: "/view-questions/:area",
     component: <ViewQuestions />,
   },
-  //for test taken/not taken/ evaluated requests: 
+  // for test taken/not taken/ evaluated requests: 
   {
     type: "examples",
     name: "View Questions By area",
     key: "view-questions-area",
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/Candidate-List/Filter/:f_option_key/:f_option_value",
-    component: <FilterCandidateList />,
+    component: <FilterTable />,
   },
   {
     type: "examples",
