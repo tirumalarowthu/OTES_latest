@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.get("/get/candidates", async (req, res) => {
   const { search, filter } = req.query;
   // Create a dynamic filter object based on provided parameters
-  const filterObj = {};
+  const filterObj = {}; 
   if (search) {
       filterObj.$or = [
           { email: { $regex: search, $options: 'i' } },
@@ -82,7 +82,7 @@ app.get("/get/candidates", async (req, res) => {
     const filters = filter.split(",");
     filters.forEach((f) => {
       const [key, value] = f.split(":");
-      query[key] = value;
+      filterObj[key] = value;
     });
   }
 
@@ -91,7 +91,7 @@ app.get("/get/candidates", async (req, res) => {
 
     // Pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
+    const limit = parseInt(req.query.limit) || 1000;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 

@@ -86,7 +86,7 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <Link to="/test-not-taken">
+              <Link to="/Candidate-List/Filter/testStatus/Test_Not_Taken">
                 <ComplexStatisticsCard
                   color="dark"
                   icon="assignment_late"
@@ -103,7 +103,7 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <Link to="/test-taken">
+              <Link to="/Candidate-List/Filter/testStatus/Test_Taken">
                 <ComplexStatisticsCard
                   icon="assignment_turned_in"
                   title="Test Taken"
@@ -119,7 +119,7 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <Link to="/evaluated">
+              <Link to="/Candidate-List/Filter/testStatus/Evaluated">
                 <ComplexStatisticsCard
                   color="success"
                   icon="check_circle"
@@ -136,7 +136,7 @@ function Dashboard() {
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <Link to="/cancel">
+              <Link to="/Candidate-List/Filter/testStatus/Test_Cancelled">
                 <ComplexStatisticsCard
                   color="primary"
                   icon="cancel"
