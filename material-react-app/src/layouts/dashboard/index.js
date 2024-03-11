@@ -36,11 +36,12 @@ import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom"
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
-  const [testStatusInfo,setTestStatusInfo] = useState({})
-  const getData =async ()=>{
+  const [testStatusInfo, setTestStatusInfo] = useState({})
+  const getData = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/candidate/info`)
       setTestStatusInfo(response.data)
@@ -50,16 +51,16 @@ function Dashboard() {
       console.log(testStatusInfo["Test Cancelled"])
       // testStatusInfo.map(item => console.log(item))
     }
-    catch(err){
+    catch (err) {
       console.log(err.message)
     }
 
   }
   //for getting data of various test status : 
-  useEffect(()=>{
+  useEffect(() => {
     getData()
 
-  },[])
+  }, [])
   console.log(testStatusInfo)
   return (
     <DashboardLayout>
@@ -68,76 +69,86 @@ function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="secondary"
-                icon="person_add"
-                title="Registered"
-                count={testStatusInfo["totalCount"]}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              <Link to="/Candidate-List">
+                <ComplexStatisticsCard
+                  color="secondary"
+                  icon="person_add"
+                  title="Registered"
+                  count={testStatusInfo["totalCount"] ||0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="assignment_late"
-                title="Test Not Taken"
-                count={testStatusInfo["Test Not Taken"]}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              <Link to="/test-not-taken">
+                <ComplexStatisticsCard
+                  color="dark"
+                  icon="assignment_late"
+                  title="Test Not Taken"
+                  count={testStatusInfo["Test Not Taken"] || 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="assignment_turned_in"
-                title="Test Taken"
-                count={testStatusInfo["Test Taken"]}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              <Link to="/test-taken">
+                <ComplexStatisticsCard
+                  icon="assignment_turned_in"
+                  title="Test Taken"
+                  count={testStatusInfo["Test Taken"] || 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="check_circle"
-                title="Evaluated"
-                count={testStatusInfo["Evaluated"]}
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              <Link to="/evaluated">
+                <ComplexStatisticsCard
+                  color="success"
+                  icon="check_circle"
+                  title="Evaluated"
+                  count={testStatusInfo["Evaluated"] || 0}
+                  percentage={{
+                    color: "success",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="cancel"
-                title="Cancelled"
-                count={testStatusInfo["Test Cancelled"]}
-                percentage={{
-                  color: "",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
+              <Link to="/cancel">
+                <ComplexStatisticsCard
+                  color="primary"
+                  icon="cancel"
+                  title="Cancelled"
+                  count={testStatusInfo["Test Cancelled"] || 0}
+                  percentage={{
+                    color: "",
+                    amount: "",
+                    label: "Just updated",
+                  }}
+                />
+              </Link>
             </MDBox>
           </Grid>
           {/* <Grid item xs={12} md={6} lg={3}>
@@ -224,7 +235,7 @@ function Dashboard() {
         </MDBox> */}
       </MDBox>
       <MDBox>
-        
+
       </MDBox>
       <Footer />
     </DashboardLayout>

@@ -65,7 +65,7 @@ import MDTypography from 'components/MDTypography';
 // import { Icon } from '@mui/material';
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 const Timer = () => {
-    const initialTime = 900; // 300 seconds = 5 minutes
+    const initialTime = 90; // 300 seconds = 5 minutes
     const [time, setTime] = useState(initialTime);
 
     useEffect(() => {
@@ -123,7 +123,7 @@ const Timer = () => {
     };
 
     return (
-        <MDTypography>
+        <MDTypography variant="h6">
              <AccessAlarmsIcon
                 color="primary"
              />

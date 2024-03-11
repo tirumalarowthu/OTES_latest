@@ -189,7 +189,7 @@ function AddCandidate() {
             <MDBox mb={2} >
               <MDInput
                 type="text"
-                label="Name"
+                label="Name of the candidate"
                 fullWidth
                 name="name"
                 value={inputs.name}
@@ -205,7 +205,7 @@ function AddCandidate() {
             <MDBox mb={2} >
               <MDInput
                 type="email"
-                label="Email"
+                label="Email of the candidate"
                 fullWidth
                 value={inputs.email}
                 name="email"

@@ -130,10 +130,10 @@ function Register() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Register today
+            Candidate Register 
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" mt={1}>
-            Enter your name, email and domain to register
+            Enter your name, email and area to register
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>

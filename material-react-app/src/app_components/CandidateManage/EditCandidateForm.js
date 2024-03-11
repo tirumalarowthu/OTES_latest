@@ -156,7 +156,7 @@ useEffect(() => {
         <MDBox pt={1} pb={3} px={3} >
           <MDBox component="form" role="form" method="POST" onSubmit={handleEditForm}>
           <MDBox mb={1} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-            <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+            <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                 Name
             </MDTypography>
             <MDInput
@@ -171,7 +171,7 @@ useEffect(() => {
             </MDBox>
 
             <MDBox mb={2} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-            <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+            <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                 Email
             </MDTypography>
               <MDInput
@@ -182,10 +182,12 @@ useEffect(() => {
                 name="email"
                 onChange={changeHandler}
                 error={errors.emailError}
+                disabled={
+                  inputs.testStatus === "Evaluated" }
               />
             </MDBox>
             <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-            <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+            <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                 Test Status
             </MDTypography>
                 <Select
@@ -218,7 +220,7 @@ useEffect(() => {
             </FormControl>
             
             <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-                <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+                <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                     Area 
                 </MDTypography>
                 <Select

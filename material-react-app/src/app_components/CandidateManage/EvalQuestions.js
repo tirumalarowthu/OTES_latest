@@ -246,7 +246,7 @@ function EvalQuestions() {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3} pl={4}>
-                  <MDTypography variant="h5" textTransform="capitalize" textAlign='start'>
+                  <MDTypography variant="h5" textAlign='start'>
                     Candidate: {email}
                   </MDTypography>
                   <ol style={{ paddingLeft: "30px", marginTop: "30px", fontSize: '16px' }}>
@@ -267,7 +267,7 @@ function EvalQuestions() {
                         // <li key={question._id} style={{ marginBottom: "30px" }}>
                         <MDBox className="card">
                           <MDBox className="card-body">
-                            <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize" mt={1} mb={1}>
+                            <MDTypography variant="h6" fontWeight="medium"  mt={1} mb={1}>
                               {index + 1}.  {question.question}
                             </MDTypography>
                             {/* <MDTypography variant="h5" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(question.question) }} /> */}
@@ -341,24 +341,24 @@ function EvalQuestions() {
                     {/* working */}
                     <MDBox >
                       {candidate.result === "" ? <MDBox>
-                        <MDTypography variant="h4">
+                        <MDTypography variant="h5">
                           Evaluate the candidate :
                         </MDTypography>
-                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }} color="success"
+                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px', marginTop:'10px' }} color="success"
                           onClick={() => {
                             updateCandidateResult("Pass", { email });
                           }}
                         >
                           Pass
                         </MDButton>
-                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }} color="warning"
+                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px', marginTop:'10px' }} color="warning"
                           onClick={() => {
                             updateCandidateResult("On Hold", { email });
                           }}
                         >
                           On Hold
                         </MDButton>
-                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px' }} color="error"
+                        <MDButton variant="contained" style={{ marginRight: "10px", marginTop: '30px', marginBottom: '30px', marginTop:'10px' }} color="error"
                           onClick={() => {
                             updateCandidateResult("Fail", { email });
                           }}
@@ -367,7 +367,7 @@ function EvalQuestions() {
                         </MDButton>
                       </MDBox> :
                         <MDBox style={{ marginBottom: "20px" }}>
-                          <MDTypography variant="h4">Result of the Candidate : </MDTypography>
+                          <MDTypography variant="h5" sx={{ marginBottom:'10px'}}>Result of the Candidate : </MDTypography>
                           {/* <MDButton variant="contained"  color={generateResultColor(candidate.result)} >
                             {candidate.result}
                           </MDButton> */}

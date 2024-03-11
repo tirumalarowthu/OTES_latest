@@ -77,7 +77,7 @@ function Question({ name, company,area,imageURL,qnum,c1,c2,c3,c4,questionId,corr
       <MDBox width="100%" display="flex" flexDirection="column">
         
       <MDBox mb={1} lineHeight={1}>
-            <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+            <MDTypography variant="button" fontWeight="medium" >
               {qnum}) {name}
             </MDTypography>
             <br/>
@@ -86,19 +86,19 @@ function Question({ name, company,area,imageURL,qnum,c1,c2,c3,c4,questionId,corr
                 <img width="100%" alt="question pic" src ={imageURL} />
               </MDTypography>
             }
-            <MDTypography  variant="button" fontWeight="light" textTransform="capitalize">
+            <MDTypography  variant="button" fontWeight="light" >
               a) {c1}
             </MDTypography>
             <br/>
-            <MDTypography variant="button" fontWeight="light" textTransform="capitalize">
+            <MDTypography variant="button" fontWeight="light" >
               b) {c2}
             </MDTypography>
             <br/>
-            <MDTypography variant="button" fontWeight="light" textTransform="capitalize">
+            <MDTypography variant="button" fontWeight="light" >
               c) {c3}
             </MDTypography>
             <br/>
-            <MDTypography variant="button" fontWeight="light" textTransform="capitalize">
+            <MDTypography variant="button" fontWeight="light" >
               d) {c4}
             </MDTypography>
         </MDBox>
@@ -121,7 +121,7 @@ function Question({ name, company,area,imageURL,qnum,c1,c2,c3,c4,questionId,corr
           flexDirection={{ xs: "column", sm: "row" }}
           mt={0}
         >
-          <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+          <MDTypography variant="button" fontWeight="medium">
             {/* Area : {area} &nbsp; */}
             Correct choice : {checkAnswer(correct_choice)}
           </MDTypography>
