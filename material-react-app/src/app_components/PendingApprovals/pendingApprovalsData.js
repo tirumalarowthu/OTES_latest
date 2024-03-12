@@ -37,7 +37,7 @@ export default function data() {
   //for handling pending approvals : 
   const handleApprovals = async (id, decide, name) => {
     const confirmMessage = decide
-      ? `Do you want to allow ${name} to write online test ?`
+      ? `Do you want to allow "${name}" to write online test ?`
       : `Do you want to reject ${name}? And also permanently delete ${name}`;
     if (window.confirm(confirmMessage)) {
       try {
@@ -141,8 +141,8 @@ export default function data() {
   console.log(pendingApprovals)
   return {
     columns: [
-      { Header: "S.No", accessor: "s_no", align: "left" },
-      { Header: "Name", accessor: "name", width: "35%", align: "left" },
+      { Header: "S.No", accessor: "s_no", align: "left", width: '30px' },
+      { Header: "Name", accessor: "name", width: "23%", align: "left" },
       { Header: "Email", accessor: "email", align: "left" },
       { Header: "Area", accessor: "area", align: "center" },
       // { Header: "Registered ", accessor: "registered_date", align: "center" },

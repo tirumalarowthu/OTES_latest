@@ -367,10 +367,10 @@ function EvalQuestions() {
                         </MDButton>
                       </MDBox> :
                         <MDBox style={{ marginBottom: "20px" }}>
-                          <MDTypography variant="h5" sx={{ marginBottom:'10px'}}>Result of the Candidate : </MDTypography>
-                          {/* <MDButton variant="contained"  color={generateResultColor(candidate.result)} >
-                            {candidate.result}
-                          </MDButton> */}
+                          {/* <MDTypography variant="h5" sx={{ marginBottom:'10px'}}>Result of the Candidate : </MDTypography> */}
+                          <MDButton variant="contained"  color={generateResultColor(candidate.result)} >
+                           Result of the Candidate :{candidate.result}
+                          </MDButton>
                           <ChangeResultModel result={candidate.result } />
 
                         </MDBox>
