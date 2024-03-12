@@ -68,8 +68,9 @@ function ChangeResultModel({ result }) {
 
     return (
         <MDBox>
-            <MDButton onClick={openModal} sx={{textDecoration :"underline"}} variant="contained" color={generateResultColor(result)} >
-                {result}
+            <MDButton onClick={openModal} sx={{textDecoration :"underline", marginTop: '10px'}} variant="contained" color="primary" >
+                {/* {result} */}
+                Re-Evaluate
             </MDButton>
             <CandidateResultChangeModal open={showModal} onClose={closeModal} onChangeResult={handleChangeResult} />
         </MDBox>

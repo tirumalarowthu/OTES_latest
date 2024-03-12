@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 // Material Dashboard 2 React components
@@ -82,8 +82,9 @@ function Register() {
     } 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
+      console.log(response)
       if (response) {
-        console.log(response.data)
+        console.log(response)
         setLoading(false)
         toast.info(response.data)
       } 
@@ -112,9 +113,6 @@ function Register() {
   };
 
 
-
-
- 
   return (
     <CoverLayout image={bgImage}>
       <Card>
@@ -138,52 +136,7 @@ function Register() {
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
-            {/* <MDBox mb={2}>
-              <MDInput
-                type="text"
-                label="Name"
-                variant="standard"
-                fullWidth
-                name="name"
-                value={inputs.name}
-                onChange={changeHandler}
-                error={errors.nameError}
-                inputProps={{
-                  autoComplete: "name",
-                  form: {
-                    autoComplete: "off",
-                  },
-                }}
-              />
-              {errors.nameError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  The name can not be empty
-                </MDTypography>
-              )}
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput
-                type="email"
-                label="Email"
-                variant="standard"
-                fullWidth
-                value={inputs.email}
-                name="email"
-                onChange={changeHandler}
-                error={errors.emailError}
-                inputProps={{
-                  autoComplete: "email",
-                  form: {
-                    autoComplete: "off",
-                  },
-                }}
-              />
-              {errors.emailError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  The email must be valid
-                </MDTypography>
-              )}
-            </MDBox> */}
+            
             <MDBox mb={2} >
               <MDInput
                 type="text"
@@ -242,85 +195,9 @@ function Register() {
                 {/* <option value="TEXT">Paragraph</option> */}
               </Form.Control>
             </Form.Group>
-            {/* <FormSelect
-                    style={{ width: '100%', height: '40px', textAlign:"start"}}
-                    // label = "Select Area"
-                    label="test-status-label"
-                    // id="test-status-select"
-                    value={inputs.area}
-                    name="area"
-                >
-                    <MenuItem value="">Select Area</MenuItem>
-                    <MenuItem value="VLSI">VLSI</MenuItem>
-                    <MenuItem value="SOFTWARE">Software</MenuItem>
-                    <MenuItem value="EMBEDDED">Embedded</MenuItem>
-
-              </FormSelect> */}
-              {/* <MDInput
-                type="select"
-                label="Area"
-                variant="standard"
-                fullWidth
-                name="area"
-                value={inputs.area}
-                onChange={changeHandler}
-                error={errors.areaError}
-              />
-              {errors.areaError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  Please select the area !
-                </MDTypography>
-              )} */}
+           
             </MDBox>
-            {/* <MDBox mb={2}>
-              <MDInput
-                type="password"
-                label="Password"
-                variant="standard"
-                fullWidth
-                name="password"
-                value={inputs.password}
-                onChange={changeHandler}
-                error={errors.passwordError}
-              />
-              {errors.passwordError && (
-                <MDTypography variant="caption" color="error" fontWeight="light">
-                  The password must be of at least 8 characters
-                </MDTypography>
-              )}
-            </MDBox> */}
-            {/* <MDBox display="flex" alignItems="center" ml={-1}>
-              <Checkbox name="agree" id="agree" onChange={changeHandler} />
-              <InputLabel
-                variant="standard"
-                fontWeight="regular"
-                color="text"
-                sx={{ lineHeight: "1.5", cursor: "pointer" }}
-                htmlFor="agree"
-              >
-                &nbsp;&nbsp;I agree to the&nbsp;
-              </InputLabel>
-              <MDTypography
-                component={Link}
-                to="/auth/login"
-                variant="button"
-                fontWeight="bold"
-                color="info"
-                textGradient
-              >
-                Terms and Conditions
-              </MDTypography>
-            </MDBox> */}
-            {/* {errors.agreeError && (
-              <MDTypography variant="caption" color="error" fontWeight="light">
-                You must agree to the Terms and Conditions
-              </MDTypography>
-            )}
-            {errors.error && (
-              <MDTypography variant="caption" color="error" fontWeight="light">
-                {errors.errorText}
-              </MDTypography>
-            )} */}
+            
             <MDBox mt={2} mb={1}>
               {loading ? <MDButton variant="gradient" color="info" fullWidth type="submit">
                 Please wait...
@@ -331,21 +208,7 @@ function Register() {
               }
               
             </MDBox>
-            {/* <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/auth/login"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Register
-                </MDTypography>
-              </MDTypography>
-            </MDBox> */}
+            
           </MDBox>
         </MDBox>
       </Card>
@@ -429,3 +292,129 @@ export default Register;
 //     console.error(err);
 //   }
 // };
+{/* <MDBox mb={2}>
+              <MDInput
+                type="text"
+                label="Name"
+                variant="standard"
+                fullWidth
+                name="name"
+                value={inputs.name}
+                onChange={changeHandler}
+                error={errors.nameError}
+                inputProps={{
+                  autoComplete: "name",
+                  form: {
+                    autoComplete: "off",
+                  },
+                }}
+              />
+              {errors.nameError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  The name can not be empty
+                </MDTypography>
+              )}
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput
+                type="email"
+                label="Email"
+                variant="standard"
+                fullWidth
+                value={inputs.email}
+                name="email"
+                onChange={changeHandler}
+                error={errors.emailError}
+                inputProps={{
+                  autoComplete: "email",
+                  form: {
+                    autoComplete: "off",
+                  },
+                }}
+              />
+              {errors.emailError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  The email must be valid
+                </MDTypography>
+              )}
+            </MDBox> */}
+
+             {/* <FormSelect
+                    style={{ width: '100%', height: '40px', textAlign:"start"}}
+                    // label = "Select Area"
+                    label="test-status-label"
+                    // id="test-status-select"
+                    value={inputs.area}
+                    name="area"
+                >
+                    <MenuItem value="">Select Area</MenuItem>
+                    <MenuItem value="VLSI">VLSI</MenuItem>
+                    <MenuItem value="SOFTWARE">Software</MenuItem>
+                    <MenuItem value="EMBEDDED">Embedded</MenuItem>
+
+              </FormSelect> */}
+              {/* <MDInput
+                type="select"
+                label="Area"
+                variant="standard"
+                fullWidth
+                name="area"
+                value={inputs.area}
+                onChange={changeHandler}
+                error={errors.areaError}
+              />
+              {errors.areaError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  Please select the area !
+                </MDTypography>
+              )} */}
+
+              {/* <MDBox mb={2}>
+              <MDInput
+                type="password"
+                label="Password"
+                variant="standard"
+                fullWidth
+                name="password"
+                value={inputs.password}
+                onChange={changeHandler}
+                error={errors.passwordError}
+              />
+              {errors.passwordError && (
+                <MDTypography variant="caption" color="error" fontWeight="light">
+                  The password must be of at least 8 characters
+                </MDTypography>
+              )}
+            </MDBox> */}
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
+              <Checkbox name="agree" id="agree" onChange={changeHandler} />
+              <InputLabel
+                variant="standard"
+                fontWeight="regular"
+                color="text"
+                sx={{ lineHeight: "1.5", cursor: "pointer" }}
+                htmlFor="agree"
+              >
+                &nbsp;&nbsp;I agree to the&nbsp;
+              </InputLabel>
+              <MDTypography
+                component={Link}
+                to="/auth/login"
+                variant="button"
+                fontWeight="bold"
+                color="info"
+                textGradient
+              >
+                Terms and Conditions
+              </MDTypography>
+            </MDBox> */}
+            {/* {errors.agreeError && (
+              <MDTypography variant="caption" color="error" fontWeight="light">
+                You must agree to the Terms and Conditions
+              </MDTypography>
+            )}
+            {errors.error && (
+              <MDTypography variant="caption" color="error" fontWeight="light">
+                {errors.errorText}
+              </MDTypography>
+            )} */}
