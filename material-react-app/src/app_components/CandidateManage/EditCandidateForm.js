@@ -27,6 +27,7 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import { Table, Button, Modal, Form} from "react-bootstrap";
 import { Select, MenuItem, InputLabel, FormControl, Divider } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
 // import { MenuItem, Select } from '@material-ui/core';
@@ -183,70 +184,89 @@ useEffect(() => {
                 onChange={changeHandler}
                 error={errors.emailError}
                 disabled={
-                  inputs.testStatus === "Evaluated" }
+                  inputs.testStatus === "Evaluated" || inputs.testStatus === "Test Taken"}
               />
             </MDBox>
             <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
             <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                 Test Status
             </MDTypography>
-                <Select
-                    style={{ width: '100%', height: '40px', textAlign:"start"}}
-                    label = ""
-                    labelId="test-status-label"
-                    id="test-status-select"
-                    readOnly
-                    value={inputs.testStatus || "SELECT STATUS"}
-                    
-                    onChange={(event) => {
-                    setInputs({
-                        ...inputs,
-                        testStatus: event.target.value,
-                    });
-                    }}
-                    disabled={
-                        inputs.testStatus === "Test Taken" ||
-                        inputs.testStatus === "Evaluated" ||
-                        inputs.testStatus ==="Test Not Taken"
-                    }
-                >
-                    {/* <MenuItem value="">Select status</MenuItem> */}
-                    <MenuItem value="Test Cancelled">Cancel Test</MenuItem>
-                    <MenuItem value="Test Not Taken">Test Not Taken</MenuItem>
-                    <MenuItem value="Evaluated">Evaluated</MenuItem>
-                    <MenuItem value="Test Taken">Test Taken</MenuItem>
-
-                </Select>
+            <Select
+              style={{ width: '100%', height: '40px', textAlign: "start" }}
+              label=""
+              labelId="test-status-label"
+              id="test-status-select"
+              value={inputs.testStatus || "Select Status"}
+              onChange={(event) => {
+                  setInputs({
+                      ...inputs,
+                      testStatus: event.target.value,
+                  });
+              }}
+              disabled={inputs.testStatus === "Test Taken" || inputs.testStatus === "Evaluated"}
+              IconComponent={() => <ArrowDropDownIcon style={{ marginRight: '10px' }}/>}
+          >
+              {/* <MenuItem value="">Select Status</MenuItem> */}
+              {inputs.testStatus === "Test Not Taken" ? (
+                  <MenuItem value="Test Cancelled">Cancel Test</MenuItem>
+              ) : null}
+              {inputs.testStatus === "Test Cancelled" ? (
+                  <MenuItem value="Test Not Taken">Test Not Taken</MenuItem>
+              ) : null}
+              {inputs.testStatus === "Evaluated" ? (
+                <MenuItem value = "Evaluated"> Evaluated</MenuItem>
+              ): null}
+              {inputs.testStatus === "Test Taken" ? (
+                <MenuItem value = "Test Taken"> Test Taken</MenuItem>
+              ): null}
+              {inputs.testStatus && inputs.testStatus !== "Test Taken" && inputs.testStatus !== "Evaluated" ? (
+                  <MenuItem value={inputs.testStatus}>{inputs.testStatus}</MenuItem>
+              ) : null}
+          </Select>
             </FormControl>
-            
             <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-                <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
-                    Area 
-                </MDTypography>
-                <Select
-                    style={{ width: '100%', height: '40px', textAlign:"start"}}
-                    label = ""
-                    labelId="test-status-label"
-                    readOnly
-                    id="test-status-select"
-                    value={inputs.area || "Select Area"}
-                    error={errors.areaError}
-                    onChange={(event) => {
+            <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
+                Area
+            </MDTypography>
+            <Select
+                style={{ width: '100%', height: '40px', textAlign: "start" }}
+                label=""
+                labelId="test-status-label"
+                id="test-status-select"
+                value={inputs.area || "Select Area"}
+                error={errors.areaError}
+                onChange={(event) => {
                     setInputs({
                         ...inputs,
                         area: event.target.value,
                     });
-                    }}
-                    disabled
-                    
-                >
-                    <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
-                    <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
-                    <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
-                    <MenuItem value="VLSI">VLSI</MenuItem>
-                    <MenuItem value="EMBEDDED">EMBEDDED</MenuItem>
-                    <MenuItem value="Software">SOFTWARE</MenuItem>
-                </Select>
+                }}
+                disabled
+            >
+                {/* {inputs.testStatus === "Test Not Taken" && (
+                    <>
+                        <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
+                        <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
+                        <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
+                        <MenuItem value="VLSI">VLSI</MenuItem>
+                        <MenuItem value="EMBEDDED">EMBEDDED</MenuItem>
+                        <MenuItem value="Software">SOFTWARE</MenuItem>
+                    </>
+                )} */}
+                {inputs.testStatus === "Test Not Taken" && (
+                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
+                )}
+                {inputs.testStatus === "Evaluated" && (
+                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
+                )}
+                {inputs.testStatus === "Test Taken" && (
+                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
+                )}
+                {inputs.testStatus === "Test Cancelled" && (
+                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
+                )}
+            </Select>
+
             </FormControl>
             
             {/* <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>

@@ -218,7 +218,7 @@ export default function data() {
           ...columns,
           // { Header: "Marks", accessor: "Marks", align: "center" },
           // { Header: "Result", accessor: "Result", align: "center" },
-        ];
+        ]; 
       case "Test Taken":
         return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
       case "Test Cancelled":

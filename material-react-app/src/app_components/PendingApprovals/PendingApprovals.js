@@ -133,8 +133,8 @@ function PendingApprovals() {
                       />
                     ) : (
                       <MDTypography align="center" variant="h6" mb={2} ml={4}>
-                        {rows.length > 0 ? "No Matching Candidates Found" : "No Candidates"}
-                      </MDTypography>
+                        {rows.length > 0 && searchQuery != "" ? "No Matching Candidates Found" : ""}
+                        {rows.length === 0 && searchQuery === "" ? "No Candidates" : ""}                      </MDTypography>
                     )}
                   </>
                 )}
