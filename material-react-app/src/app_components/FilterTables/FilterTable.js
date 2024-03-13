@@ -41,7 +41,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Select, MenuItem, InputLabel, FormControl, Divider } from '@mui/material';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
-import { Form } from "react-router-dom";
+import { Form, useParams } from "react-router-dom";
 // import SearchIcon from '@mui/icons-material/Search';
 // import ClearIcon from '@mui/icons-material/Clear';
 
@@ -50,6 +50,7 @@ import { Form } from "react-router-dom";
 function CandidateList() {
   const [searchQuery, setSearchQuery] = useState('');
   const { columns, rows, loading } = CandidateListData();
+  const {f_option_value} = useParams()
   // console.log(rows)
   const [data, setData] = useState([]);
   // console.log(loading)
@@ -134,7 +135,7 @@ function CandidateList() {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <MDTypography variant="h6" color="white" sx={{paddingTop:'10px'}}>
-                  Candidate List Table
+                  {f_option_value.replace(/_/g," ")} Candidate List Table
                 </MDTypography>
                 <MDBox>
                 {!loading && (
@@ -176,8 +177,8 @@ function CandidateList() {
               </MDBox>
               <MDBox pt={3}>
                 {loading ? (
-                  <div align="center" variant="h6" mb={2} ml={4}>
-                    <CircularProgress color='black' size={30} /></div>
+                  <MDBox align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></MDBox>
                 ) : (
                   <>
                     {filteredCandidates.length > 0 ? (
@@ -190,7 +191,8 @@ function CandidateList() {
                       />
                     ) : (
                       <MDTypography align="center" variant="h6" mb={2} ml={4}>
-                        {rows.length > 0 ? "No Matching Candidates Found" : "No Candidates"}
+                        {rows.length > 0 && searchQuery != "" ? "No Matching Candidates Found" : ""}
+                        {rows.length === 0 && searchQuery === "" ? "No Candidates" : ""}   
                       </MDTypography>
                     )}
                   </>
@@ -198,7 +200,18 @@ function CandidateList() {
               </MDBox>
             </Card>
           </Grid>
-          {/* <Grid item xs={12}>
+         
+        </Grid>
+      </MDBox>
+      <Footer />
+    </DashboardLayout>
+  );
+}
+
+export default CandidateList
+
+
+ {/* <Grid item xs={12}>
             <Card>
               <MDBox
                 mx={2}
@@ -225,15 +238,6 @@ function CandidateList() {
               </MDBox>
             </Card>
           </Grid> */}
-        </Grid>
-      </MDBox>
-      <Footer />
-    </DashboardLayout>
-  );
-}
-
-export default CandidateList
-
 // /**
 // =========================================================
 // * Material Dashboard 2 React - v2.1.0

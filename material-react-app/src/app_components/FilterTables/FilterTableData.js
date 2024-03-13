@@ -167,6 +167,22 @@ export default function data() {
                   </MDTypography>
                 </>
               ),
+              Edit_Action: (
+                <>
+                  <MDTypography style={{ display:"flex"}}>
+                      <MDBox key={item.id}
+                          style ={{
+                          cursor: "pointer"
+                          }} 
+                          ml={-1}>
+                          
+                          <Link to={{ pathname: `/Candidate-List/Edit/${item.email}`, state: { item }}}  >
+                              <MDBadge sx={{textDecoration: 'underline', color:'#FFFFFF'}}  badgeContent="Edit" color="info" variant="gradient" size="sm" />
+                          </Link>
+                      </MDBox>
+                  </MDTypography>
+                </>
+              ),
               Result: (
                 <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
                   {item.result}
@@ -206,23 +222,26 @@ export default function data() {
       { Header: "Status", accessor: "status", align: "left" },
       // { Header: "Registered ", accessor: "registered_date", align: "center" },
       { Header: "Action", accessor: "action", align: "center" },
+      { Header: "Action", accessor: "Edit_Action", align: "center" },
       { Header: "Marks", accessor: "Marks", align: "center" },
       { Header: "Result", accessor: "Result", align: "center" },
     ]
     switch (role) {
       case "Test Not Taken":
         // Remove the "Marks" and "Result" columns
-        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
-      case "Evaluated":
-        return [
-          ...columns,
-          // { Header: "Marks", accessor: "Marks", align: "center" },
-          // { Header: "Result", accessor: "Result", align: "center" },
-        ]; 
+        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result" && col.accessor !== "action");
+        case "Evaluated":
+          return columns.filter((col) => col.accessor !== "Edit_Action");
+        // case "Evaluated":
+      //   return [
+      //     ...columns,
+      //     // { Header: "Marks", accessor: "Marks", align: "center" },
+      //     // { Header: "Result", accessor: "Result", align: "center" },
+      //   ]; 
       case "Test Taken":
-        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
+        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result"&& col.accessor !== "Edit_Action");
       case "Test Cancelled":
-        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
+        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result"&& col.accessor !== "action");
       default:
         return columns;
     }
