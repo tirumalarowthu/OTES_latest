@@ -133,7 +133,7 @@ function CandidateList() {
                 coloredShadow="info"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <MDTypography variant="h6" color="white" sx={{paddingTop:'10px'}}>
+                <MDTypography variant="h6" color="white" sx={{paddingTop:'7px'}}>
                   Candidate List Table
                 </MDTypography>
                 <MDBox>

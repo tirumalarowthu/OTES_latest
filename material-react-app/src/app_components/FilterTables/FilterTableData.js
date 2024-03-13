@@ -220,9 +220,9 @@ export default function data() {
           // { Header: "Result", accessor: "Result", align: "center" },
         ];
       case "Test Taken":
-        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");;
-      case "Cancelled":
-        return columns;
+        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
+      case "Test Cancelled":
+        return columns.filter((col) => col.accessor !== "Marks" && col.accessor !== "Result");
       default:
         return columns;
     }
