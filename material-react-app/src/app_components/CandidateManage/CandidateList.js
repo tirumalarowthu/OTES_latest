@@ -81,14 +81,20 @@ function CandidateList() {
   const handleExportExcel = () => {
     // Map the rows data to the format required by the Excel export
     const formattedData = rows.map((candidate, index) => ({
+      
       S_No: index + 1,
       Name: candidate.name.props.name,
       Email: candidate.name.props.email,
       Area: candidate.action.props.children.props.children[0].props.children.props.to.state.item.area,
-      TestStatus: candidate.status.props.children.props.badgeContent,
+      TestStatus: candidate.status.props.children.props.children,
       Marks: candidate.Marks.props.children,
       Result: candidate.Result.props.children,
     }));
+
+    // formattedData.forEach(candidate => {
+    //   console.log("Candidate:", candidate);
+    // });
+    
   
     // Convert the data to an array of objects suitable for xlsx library
     const worksheet = XLSX.utils.json_to_sheet(formattedData);

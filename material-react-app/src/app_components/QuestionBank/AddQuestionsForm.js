@@ -231,7 +231,37 @@ const AddQuestionsForm = () => {
                                     error={errors.passwordError}
                                 />
                             </MDBox>
-                            {/* <Select
+                            <MDBox mt={4} mb={1}>
+                                {
+                                    loading ? <MDButton disabled variant="gradient" color="warning" fullWidth>
+                                        Adding Question...
+                                    </MDButton> :
+                                        <MDButton variant="gradient" color="info" fullWidth type="submit">
+                                            Add Question
+                                        </MDButton>
+                                }
+                            </MDBox>
+                            {credentialsErros && (
+                                <MDTypography variant="caption" color="error" fontWeight="light">
+                                    {credentialsErros}
+                                </MDTypography>
+                            )}
+                        </MDBox>
+                    </MDBox>
+                </Card>
+
+             
+            </MDBox>
+
+        </Card>
+
+
+    );
+};
+
+export default AddQuestionsForm;
+
+ {/* <Select
                                 style={{ width: '100%', height: '40px', textAlign: "start" }}
                                 label=""
                                 labelId="test-status-label"
@@ -263,31 +293,7 @@ const AddQuestionsForm = () => {
                                 ) : null}
                             </Select> */}
 
-                            <MDBox mt={4} mb={1}>
-                                {
-                                    loading ? <MDButton disabled variant="gradient" color="warning" fullWidth>
-                                        Adding Question...
-                                    </MDButton> :
-                                        <MDButton variant="gradient" color="info" fullWidth type="submit">
-                                            Add Question
-                                        </MDButton>
-                                }
-
-
-
-                            </MDBox>
-                            {credentialsErros && (
-                                <MDTypography variant="caption" color="error" fontWeight="light">
-                                    {credentialsErros}
-                                </MDTypography>
-                            )}
-
-
-                        </MDBox>
-                    </MDBox>
-                </Card>
-
-                {/* <Row className="" >
+                               {/* <Row className="" >
           <div style={{display: 'flex', justifyContent: 'start',marginTop: '50px'}}>
             <button
               className="btn"
@@ -321,12 +327,3 @@ const AddQuestionsForm = () => {
         </Col>
         
       </Row> */}
-            </MDBox>
-
-        </Card>
-
-
-    );
-};
-
-export default AddQuestionsForm;
