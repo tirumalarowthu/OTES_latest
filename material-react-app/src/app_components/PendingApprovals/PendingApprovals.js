@@ -119,8 +119,8 @@ function PendingApprovals() {
               </MDBox>
               <MDBox pt={3}>
               {loading ? (
-                  <div align="center" variant="h6" mb={2} ml={4}>
-                    <CircularProgress color='black' size={30} /></div>
+                  <MDBox align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></MDBox>
                 ) : (
                   <>
                     {filteredCandidates.length > 0 ? (

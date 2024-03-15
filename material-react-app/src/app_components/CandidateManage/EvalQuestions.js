@@ -24,6 +24,8 @@ import DOMPurify from "dompurify";
 import { useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import ChangeResultModel from "./ChangeResultModel";
+import CircularProgress from '@mui/material/CircularProgress';
+
 // import { store } from "./App";
 
 
@@ -227,7 +229,8 @@ function EvalQuestions() {
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         {
-          loading ? <MDTypography>loading...</MDTypography> : <Grid container spacing={6}>
+          loading ? <MDBox align="center" variant="h6" mb={2} ml={4} mt={3}>
+          <CircularProgress color='black' size={30} mt={3} /></MDBox> : <Grid container spacing={6}>
             <Grid item xs={12}>
               <Card>
                 <MDBox

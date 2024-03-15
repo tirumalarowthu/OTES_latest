@@ -42,6 +42,8 @@ import AuthService from "services/auth-service";
 import { AuthContext } from "context";
 import axios from "axios";
 import { Cabin } from "@mui/icons-material";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 
 function EditCandidateForm() {
@@ -51,6 +53,7 @@ function EditCandidateForm() {
   // const [candidateItem, setCandidateItem] = useState({})
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
 
 useEffect(() => {
@@ -59,6 +62,7 @@ useEffect(() => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/get/candidate/${email}`);
             // console.log('Response:', response.data);
             setInputs(response.data)
+            setLoading(false)
             // setCandidateList(response.data);
 
         } catch (error) {
@@ -135,7 +139,11 @@ useEffect(() => {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <Divider/>
+      {/* <Divider/> */}
+      {
+          loading ? <MDBox align="center" variant="h6" mb={2} ml={4} mt={3}>
+          <CircularProgress color='black' size={30} mt={3} /></MDBox> : <Grid container spacing={6}>
+      <Grid item xs={12} sx={{marginTop: '30px'}}>
       <Card style={{width:'60%', margin: '0px auto'}}>
         <MDBox
           variant="gradient"
@@ -268,65 +276,7 @@ useEffect(() => {
 
             </FormControl>
             
-            {/* <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-                <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
-                    Result
-                </MDTypography>
-                <Select
-                    style={{ width: '100%', height: '40px', textAlign:"start"}}
-                    label = ""
-                    labelId="test-status-label"
-                    // readOnly
-                    id="test-status-select"
-                    value={inputs.result || "Select Area"}
-                    error={errors.areaError}
-                    onChange={(event) => {
-                    setInputs({
-                        ...inputs,
-                        result: event.target.value,
-                    });
-                    }}
-                    disabled={
-                      inputs.result === "Pass" ||
-                      inputs.result === "Fail"
-                    }
-                    
-                >
-                    <MenuItem value="On Hold">ON HOlD</MenuItem>
-                    <MenuItem value="Pass">PASS</MenuItem>
-                    <MenuItem value="Fail">FAIL</MenuItem>
-                </Select>
-            </FormControl> */}
-            {/* <MDBox mb={2} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
-            <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
-                Area
-            </MDTypography>
-                <MDInput
-                    type="text"
-                    label=""
-                    fullWidth
-                    // defaultValue=""
-                    value={inputs.area}
-                    name="area"
-                    onChange={changeHandler}
-                    error={errors.areaError}
-                />
-            </MDBox> */}
-            {/* <MDBox>
-              {inputs.result === "On Hold" && (
-              <FormControl>
-                <InputLabel>Result</InputLabel>
-                <Select
-                  value={inputs.result}
-                  onChange={(e) => setInputs(e.target.value)}
-                >
-                  <MenuItem value="On Hold">On Hold</MenuItem>
-                  <MenuItem value="Pass">Pass</MenuItem>
-                  <MenuItem value="Fail">Fail</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-            </MDBox> */}
+            
             
             <MDBox mt={4} mb={1}>
                 <MDButton
@@ -350,6 +300,8 @@ useEffect(() => {
           </MDBox>
         </MDBox>
       </Card>
+      </Grid>
+      </Grid>}
       <Footer />
     </DashboardLayout>
   );
@@ -518,3 +470,64 @@ export default EditCandidateForm;
 //   const handleEditModalClose = (item) => {
 //     // console.log(item)
 //   }
+
+
+{/* <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
+                <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+                    Result
+                </MDTypography>
+                <Select
+                    style={{ width: '100%', height: '40px', textAlign:"start"}}
+                    label = ""
+                    labelId="test-status-label"
+                    // readOnly
+                    id="test-status-select"
+                    value={inputs.result || "Select Area"}
+                    error={errors.areaError}
+                    onChange={(event) => {
+                    setInputs({
+                        ...inputs,
+                        result: event.target.value,
+                    });
+                    }}
+                    disabled={
+                      inputs.result === "Pass" ||
+                      inputs.result === "Fail"
+                    }
+                    
+                >
+                    <MenuItem value="On Hold">ON HOlD</MenuItem>
+                    <MenuItem value="Pass">PASS</MenuItem>
+                    <MenuItem value="Fail">FAIL</MenuItem>
+                </Select>
+            </FormControl> */}
+            {/* <MDBox mb={2} sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
+            <MDTypography component="label" variant="body2" color="text" htmlFor="nameInput">
+                Area
+            </MDTypography>
+                <MDInput
+                    type="text"
+                    label=""
+                    fullWidth
+                    // defaultValue=""
+                    value={inputs.area}
+                    name="area"
+                    onChange={changeHandler}
+                    error={errors.areaError}
+                />
+            </MDBox> */}
+            {/* <MDBox>
+              {inputs.result === "On Hold" && (
+              <FormControl>
+                <InputLabel>Result</InputLabel>
+                <Select
+                  value={inputs.result}
+                  onChange={(e) => setInputs(e.target.value)}
+                >
+                  <MenuItem value="On Hold">On Hold</MenuItem>
+                  <MenuItem value="Pass">Pass</MenuItem>
+                  <MenuItem value="Fail">Fail</MenuItem>
+                </Select>
+              </FormControl>
+            )}
+            </MDBox> */}
