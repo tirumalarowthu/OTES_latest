@@ -189,7 +189,7 @@ function CandidateList() {
                     {filteredCandidates.length > 0 ? (
                       <DataTable
                         table={{ columns, rows:filteredCandidates }}
-                        isSorted={true}
+                        // isSorted={true}
                         entriesPerPage={false}
                         showTotalEntries={true}
                         noEndBorder

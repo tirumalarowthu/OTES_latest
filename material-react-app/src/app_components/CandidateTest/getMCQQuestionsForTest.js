@@ -168,7 +168,7 @@ const getMCQQuestionsForTest = () => {
     <BasicLayoutLanding >
       
       <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
-        <MDBox
+        {/* <MDBox
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -189,7 +189,7 @@ const getMCQQuestionsForTest = () => {
         sx={{ cursor: "pointer" }}
       >
         <Timer/>
-      </MDBox>
+        </MDBox> */}
         <MDBox
           variant="gradient"
           bgColor="info"
@@ -215,7 +215,7 @@ const getMCQQuestionsForTest = () => {
 
               <MDBox key={question._id} style={{ width: '100%', marginTop: '10px' }}>
                 <MDBox>
-                  <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize" mt={1} mb={1}>
+                  <MDTypography variant="h6" fontWeight="medium" mt={1} mb={1}>
                     {index + 1}.  {question.question}
                   </MDTypography>
                 </MDBox>
