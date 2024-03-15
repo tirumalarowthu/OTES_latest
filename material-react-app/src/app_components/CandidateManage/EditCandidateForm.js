@@ -56,11 +56,10 @@ function EditCandidateForm() {
 useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/get/candidate/${email}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/get/candidate/${email}`);
             // console.log('Response:', response.data);
             setInputs(response.data)
             // setCandidateList(response.data);
-
 
         } catch (error) {
             console.error('Error fetching candidates:', error);

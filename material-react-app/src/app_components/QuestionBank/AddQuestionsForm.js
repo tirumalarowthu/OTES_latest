@@ -8,7 +8,7 @@ import MDTypography from "components/MDTypography";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import { Divider } from "@mui/material";
+import { Divider, Select } from "@mui/material";
 import axios from "axios";
 const AddQuestionsForm = () => {
     const location = useLocation();
@@ -56,7 +56,7 @@ const AddQuestionsForm = () => {
     const handleAddQuestions = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
+
         // Validation
         const condition = (
             inputs.question.trim() === "" ||
@@ -67,7 +67,7 @@ const AddQuestionsForm = () => {
             inputs.choice4.trim() === "" ||
             inputs.correct_choice.trim() === ""
         );
-    
+
         if (condition) {
             alert("All fields are required");
             setLoading(false);
@@ -83,7 +83,7 @@ const AddQuestionsForm = () => {
                         },
                     }
                 );
-    
+
                 if (response.data) {
                     setLoading(false);
                     // Reset inputs and errors
@@ -116,15 +116,15 @@ const AddQuestionsForm = () => {
             }
         }
     };
-    
+
 
     return (
         <Card id="delete-account">
-            <MDBox pt={3} px={2}>
-                <MDTypography variant="h6" textAlign="center" fontWeight="medium">
+            <MDBox pt={5} px={2}>
+                {/* <MDTypography variant="h6" textAlign="center" fontWeight="medium">
                     Add {area} MCQ Questions
                 </MDTypography>
-                <Divider />
+                <Divider /> */}
             </MDBox>
             <MDBox pt={0} pb={2} px={2}>
                 <Card
@@ -133,6 +133,23 @@ const AddQuestionsForm = () => {
                         margin: "0px auto"
                     }}
                 >
+                    <MDBox
+                        variant="gradient"
+                        bgColor="info"
+                        borderRadius="lg"
+                        coloredShadow="info"
+                        mx={2}
+                        mt={-3}
+                        p={2}
+                        mb={1}
+                        textAlign="center"
+                    >
+                        <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+                            Add {area} MCQ Questions
+                        </MDTypography>
+                    </MDBox>
+
+
                     <MDBox pt={4} pb={3} px={3}>
                         <MDBox component="form" role="form" method="POST" onSubmit={handleAddQuestions}>
                             <MDBox mb={2}>
@@ -214,6 +231,37 @@ const AddQuestionsForm = () => {
                                     error={errors.passwordError}
                                 />
                             </MDBox>
+                            {/* <Select
+                                style={{ width: '100%', height: '40px', textAlign: "start" }}
+                                label=""
+                                labelId="test-status-label"
+                                id="test-status-select"
+                                value={inputs.testStatus || "Select Status"}
+                                onChange={(event) => {
+                                    setInputs({
+                                        ...inputs,
+                                        testStatus: event.target.value,
+                                    });
+                                }}
+                                disabled={inputs.testStatus === "Test Taken" || inputs.testStatus === "Evaluated"}
+                                IconComponent={() => <ArrowDropDownIcon style={{ marginRight: '10px' }} />}
+                            >
+                                {inputs.testStatus === "Test Not Taken" ? (
+                                    <MenuItem value="Test Cancelled">Cancel Test</MenuItem>
+                                ) : null}
+                                {inputs.testStatus === "Test Cancelled" ? (
+                                    <MenuItem value="Test Not Taken">Test Not Taken</MenuItem>
+                                ) : null}
+                                {inputs.testStatus === "Evaluated" ? (
+                                    <MenuItem value="Evaluated"> Evaluated</MenuItem>
+                                ) : null}
+                                {inputs.testStatus === "Test Taken" ? (
+                                    <MenuItem value="Test Taken"> Test Taken</MenuItem>
+                                ) : null}
+                                {inputs.testStatus && inputs.testStatus !== "Test Taken" && inputs.testStatus !== "Evaluated" ? (
+                                    <MenuItem value={inputs.testStatus}>{inputs.testStatus}</MenuItem>
+                                ) : null}
+                            </Select> */}
 
                             <MDBox mt={4} mb={1}>
                                 {
