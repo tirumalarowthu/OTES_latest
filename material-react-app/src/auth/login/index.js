@@ -39,8 +39,8 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const [inputs, setInputs] = useState({
-    email: "tes@gmail.com",
-    password: "tes@123",
+    email: "eval@gmail.com",
+    password: "eval1234",
   });
 
   const [errors, setErrors] = useState({

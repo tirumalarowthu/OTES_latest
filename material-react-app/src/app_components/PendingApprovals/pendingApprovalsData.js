@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
  
 export default function data() {
   const [pendingApprovals, setPendingApprovals] = useState([]);
@@ -89,6 +90,14 @@ export default function data() {
                       display:"flex"
                     }}
                   >
+                    <MDBox 
+                    
+                    ml={1}>
+                      <Link to ={`/Candidate-List/Edit/${item.email}`}>
+                    <MDBadge  badgeContent="Edit" color="secondary"  variant="gradient" size="sm" />
+
+                      </Link>
+                  </MDBox>
                   <MDBox 
                     onClick={() =>
                             handleApprovals(item._id, true, item.name)
@@ -96,7 +105,7 @@ export default function data() {
                     style ={{
                       cursor: "pointer"
                     }} 
-                    ml={-1}>
+                    ml={1}>
                     <MDBadge  badgeContent="Approve" color="info" variant="gradient" size="sm" />
                   </MDBox>
                   <MDBox 

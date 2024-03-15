@@ -156,7 +156,7 @@ export default function data() {
                           style ={{cursor: "pointer"}} ml={0}>
                             {  item.testStatus === "Evaluated" ?
                               <MDBadge sx={{textDecoration: 'underline', color:'#FFFFFF'}} badgeContent={item.testStatus === "Evaluated" ?"Re-Evaluate":"Evaluate"} color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" /> :
-                              <MDBadge  sx={{textDecoration: item.testStatus === "Test Taken"?'underline':"", color:'#FFFFFF'}}  badgeContent={item.testStatus === "Test Not Taken" ?"Evaluate":"Evaluate"} disabled color={item.testStatus === "Test Not Taken" ?"warning" :"secondary"} variant="gradient" size="sm" /> 
+                              <MDBadge  sx={{textDecoration: item.testStatus === "Test Taken"?'underline':"", color:'#FFFFFF'}}  badgeContent={item.testStatus === "Test Not Taken" ?"Evaluate":"Evaluate"} disabled color={item.testStatus === "Test Not Taken" ?"warning" :"c"} variant="gradient" size="sm" /> 
 
                             }
   

@@ -43,6 +43,7 @@ import { AuthContext } from "context";
 import axios from "axios";
 import { Cabin } from "@mui/icons-material";
 import CircularProgress from '@mui/material/CircularProgress';
+import { toast } from "react-toastify";
 
 
 
@@ -77,13 +78,13 @@ useEffect(() => {
 //     const candidate = candidateList.find(candidate => candidate._id === _id);
 //     if (candidate) {
 //         setInputs(candidate);
-//         // console.log(candidate);
+//         // console.log(candidate);/*-
 //     }
 // }, [candidateList, _id]);
 
     const handleEditModalClose = () => {
         // Redirect to a new page
-        navigate('/Candidate-List');
+        navigate(-1);
     };
 
   // const [user, setUser] = useState({});
@@ -126,8 +127,9 @@ useEffect(() => {
     try {
       console.log(inputs._id,"input")
       await axios.put(`${process.env.REACT_APP_API_URL}/edit/${inputs._id}`, inputs);
-    
-      navigate('/Candidate-List');
+      toast.success(`Candidate edited successfully.`)
+      navigate(-1)
+      // navigate('/Candidate-List');
     
     } catch (error) {
       console.log(error);
@@ -229,51 +231,37 @@ useEffect(() => {
               {inputs.testStatus && inputs.testStatus !== "Test Taken" && inputs.testStatus !== "Evaluated" ? (
                   <MenuItem value={inputs.testStatus}>{inputs.testStatus}</MenuItem>
               ) : null}
-          </Select>
+            </Select>
             </FormControl>
             <FormControl sx={{ display: "flex", alignItems: "flex-start",  flexDirection: "column", }}>
             <MDTypography component="label" variant="h6" color="" htmlFor="nameInput">
                 Area
             </MDTypography>
             <Select
-                style={{ width: '100%', height: '40px', textAlign: "start" }}
-                label=""
-                labelId="test-status-label"
-                id="test-status-select"
-                value={inputs.area || "Select Area"}
-                error={errors.areaError}
-                onChange={(event) => {
-                    setInputs({
-                        ...inputs,
-                        area: event.target.value,
-                    });
-                }}
-                disabled
-            >
-                {/* {inputs.testStatus === "Test Not Taken" && (
-                    <>
-                        <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
-                        <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
-                        <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
-                        <MenuItem value="VLSI">VLSI</MenuItem>
-                        <MenuItem value="EMBEDDED">EMBEDDED</MenuItem>
-                        <MenuItem value="Software">SOFTWARE</MenuItem>
-                    </>
-                )} */}
-                {inputs.testStatus === "Test Not Taken" && (
-                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
-                )}
-                {inputs.testStatus === "Evaluated" && (
-                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
-                )}
-                {inputs.testStatus === "Test Taken" && (
-                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
-                )}
-                {inputs.testStatus === "Test Cancelled" && (
-                    <MenuItem value={inputs.area}>{inputs.area}</MenuItem>
-                )}
-            </Select>
-
+              style={{ width: '100%', height: '40px', textAlign: "start" }}
+              label=""
+              labelId="area-label"
+              id="area-select"
+              value={inputs.area || "Select Area"}
+              onChange={(event) => {
+                  setInputs({
+                      ...inputs,
+                      area: event.target.value,
+                  });
+              }}
+              disabled={inputs.testStatus === "Test Taken" || inputs.testStatus === "Evaluated"}
+              IconComponent={() => <ArrowDropDownIcon style={{ marginRight: '10px' }}/>}
+          >
+              {/* <MenuItem value="">Select Status</MenuItem> */}
+                  
+                  <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
+                  <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
+                  <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
+                  <MenuItem value="VLSI">VLSI</MenuItem>
+                  <MenuItem value="EMBEDDED">EMBEDDED</MenuItem>
+                  <MenuItem value="SOFTWARE">SOFTWARE</MenuItem>
+              
+          </Select>
             </FormControl>
             
             

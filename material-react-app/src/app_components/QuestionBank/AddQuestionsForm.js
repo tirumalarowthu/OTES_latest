@@ -8,7 +8,9 @@ import MDTypography from "components/MDTypography";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import { Divider, Select } from "@mui/material";
+import { Divider, MenuItem, Select } from "@mui/material";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 import axios from "axios";
 const AddQuestionsForm = () => {
     const location = useLocation();
@@ -35,7 +37,7 @@ const AddQuestionsForm = () => {
         choice2: "",
         choice3: "",
         choice4: "",
-        correct_choice: "",
+        correct_choice: "1" ,
         image: ""
     });
     // changing input values 
@@ -220,7 +222,30 @@ const AddQuestionsForm = () => {
                                     error={errors.passwordError}
                                 />
                             </MDBox>
-                            <MDBox mb={2}>
+                            
+                            <MDTypography variant='button' fontWeight="light">Correct Choice : </MDTypography>
+                            <Select
+                                style={{ width: '100%', height: '40px', textAlign: "start" }}
+                                label=""
+                                placeholder="hdsklfskfldkl"
+                                labelId="correct"
+                                id="correct"
+                                value={inputs.correct_choice || "Select Status"}
+                                onChange={(event) => {
+                                    setInputs({
+                                        ...inputs,
+                                    correct_choice: event.target.value,
+                                    });
+                                }}
+                                IconComponent={() => <ArrowDropDownIcon style={{ marginRight: '10px' }} />}
+                            >
+                                    
+                                    <MenuItem value="1">Choice 1</MenuItem>
+                                    <MenuItem value="2">Choice 2</MenuItem>
+                                    <MenuItem value="3">Choice 3</MenuItem>
+                                    <MenuItem value="4">Choice 4</MenuItem>
+                            </Select>
+                            {/* <MDBox mb={2}>
                                 <MDInput
                                     type="number"
                                     label="Correct Choice"
@@ -230,7 +255,7 @@ const AddQuestionsForm = () => {
                                     onChange={changeHandler}
                                     error={errors.passwordError}
                                 />
-                            </MDBox>
+                            </MDBox> */}
                             <MDBox mt={4} mb={1}>
                                 {
                                     loading ? <MDButton disabled variant="gradient" color="warning" fullWidth>
@@ -250,7 +275,7 @@ const AddQuestionsForm = () => {
                     </MDBox>
                 </Card>
 
-             
+
             </MDBox>
 
         </Card>
@@ -261,7 +286,7 @@ const AddQuestionsForm = () => {
 
 export default AddQuestionsForm;
 
- {/* <Select
+{/* <Select
                                 style={{ width: '100%', height: '40px', textAlign: "start" }}
                                 label=""
                                 labelId="test-status-label"
@@ -293,7 +318,7 @@ export default AddQuestionsForm;
                                 ) : null}
                             </Select> */}
 
-                               {/* <Row className="" >
+{/* <Row className="" >
           <div style={{display: 'flex', justifyContent: 'start',marginTop: '50px'}}>
             <button
               className="btn"

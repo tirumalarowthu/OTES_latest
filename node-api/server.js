@@ -653,10 +653,11 @@ app.put("/edit/:id", async (req, res) => {
       mcqCount,
       codeCount,
       paragraphCount,
+      area // Add area to the destructuring of req.body
     } = req.body;
     const candidate = await Candidate.findByIdAndUpdate(
       req.params.id,
-      { email, testStatus, name, mcqCount, codeCount, paragraphCount },
+      { email, testStatus, name, mcqCount, codeCount, paragraphCount, area }, // Include area in the update object
       { new: true }
     );
     if (!candidate) {
