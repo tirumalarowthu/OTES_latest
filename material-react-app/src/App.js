@@ -284,16 +284,8 @@ export default function App() {
                     <img
                       src={logoImage}
                       alt="Logo"
-                      style={{ height: "40px", marginRight: "5px" }}
+                      style={{ height: "30px"}}
                     />
-                    <span
-                      style={{
-                        fontSize: "20px",
-                        fontWeight:"bold"
-                      }}
-                    >
-                      testmaster
-                    </span>
                   </div>
                 }
                 routes={routes}

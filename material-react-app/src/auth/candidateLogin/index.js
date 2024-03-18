@@ -66,6 +66,15 @@ function CandidateLogin() {
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true)
+
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
+      setErrors({ ...errors, emailError: true });
+      setLoading(false)
+      return;
+    }
+
     localStorage.setItem("email", JSON.stringify(inputs["email"]));
     axios
       .post(`${process.env.REACT_APP_API_URL}/verify-emails`, inputs)

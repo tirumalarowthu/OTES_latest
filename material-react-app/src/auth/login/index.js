@@ -41,6 +41,8 @@ function Login() {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -155,7 +157,7 @@ function Login() {
           </Grid> */}
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
+          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler} >
             <MDBox mb={2}>
               <MDInput
                 type="email"
@@ -165,6 +167,7 @@ function Login() {
                 name="email"
                 onChange={changeHandler}
                 error={errors.emailError}
+                
               />
             </MDBox>
             <MDBox mb={2}>

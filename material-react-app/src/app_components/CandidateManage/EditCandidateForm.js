@@ -256,7 +256,7 @@ useEffect(() => {
                   
                   <MenuItem value="VLSI_FRESHER_1">VLSI_FRESHER_1</MenuItem>
                   <MenuItem value="VLSI_FRESHER_2">VLSI_FRESHER_2</MenuItem>
-                  <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem>
+                  {/* <MenuItem value="VLSI_FRESHER_3">VLSI_FRESHER_3</MenuItem> */}
                   <MenuItem value="VLSI_FRESHER_1_2">VLSI_FRESHER_1 & VLSI_FRESHER_2</MenuItem>
                   {/*
                   <MenuItem value="VLSI">VLSI</MenuItem>
