@@ -525,33 +525,35 @@ app.get("/getParagraphQuestions", async (req, res) => {
 app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
   try {
     const email = req.params.email.replace(/['"]+/g, ""); // remove quotes from the string
-    const candidate = await Candidate.find({ email: email });
+    const candidate = await Candidate.findOne({ email: email });
+    
     if (!candidate) {
-      res.status(500).json("Candidate not found");
-    } else {
-      const area = candidate[0].area;
-      // console.log(area)
-      // const number = candidate[0].mcqCount;
-      const questions = await MCQQuestion.aggregate([
-        { $match: { area: area } },
-        { $sort: { _id: 1 } },
-        { $project: { correct_choice: 0 } }, // exclude correct_choice
-      ]);
-      // console.log(questions)
-      res.json({ questions });
-      getTest.GetTest.log(
-        "info",
-        `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ${candidate[0].email}`
-      );
+      return res.status(404).json({ error: "Candidate not found" });
     }
+
+    const area = candidate.area;
+    let questions;
+
+    if (area === "VLSI_FRESHER_1_2") {
+      questions = await MCQQuestion.find({ area: { $in: ["VLSI_FRESHER_1", "VLSI_FRESHER_2"] } })
+                                   .sort({ _id: 1 })
+                                   .select("-correct_choice"); // Exclude correct_choice
+    } else {
+      questions = await MCQQuestion.find({ area: area })
+                                   .sort({ _id: 1 })
+                                   .select("-correct_choice"); // Exclude correct_choice
+    }
+
+    res.json({ questions });
+    getTest.GetTest.log(
+      "info",
+      `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and create a test for ${candidate.email}`
+    );
   } catch (error) {
-    console.log(error);
+    console.error("Error occurred while fetching questions:", error);
     getTest.GetTest.log(
       "error",
-      `Unable to create Test for the ${candidate[0].email}`
-    );
-    console.log(
-      "Unable to create Test, Please select the correct number of questions"
+      `Unable to create Test for the ${candidate.email}`
     );
     res.status(500).json({ error: "Internal Server Error" });
   }

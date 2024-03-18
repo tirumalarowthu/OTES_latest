@@ -248,9 +248,11 @@ function AddCandidate() {
                 <option value="VLSI_FRESHER_1">VLSI_FRESHER_1</option>
                 <option value="VLSI_FRESHER_2">VLSI_FRESHER_2</option>
                 <option value="VLSI_FRESHER_3">VLSI_FRESHER_3</option>
-                <option value="VLSI">VLSI</option>
-                <option value="SOFTWARE">SOFTWARE</option>
-                <option value="EMBEDDED">EMBEDDED</option>
+                <option value="VLSI_FRESHER_1_2">VLSI_FRESHER_1 & VLSI_FRESHER_2</option>
+                
+                {/* <option value="VLSI">VLSI</option>  */}
+                {/* <option value="SOFTWARE">SOFTWARE</option> */}
+                {/* <option value="EMBEDDED">EMBEDDED</option> */}
                 {/* <option value="TEXT">Paragraph</option> */}
               </Form.Control>
               {errors.areaError && (

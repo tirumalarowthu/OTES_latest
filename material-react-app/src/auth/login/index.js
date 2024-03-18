@@ -39,8 +39,8 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const [inputs, setInputs] = useState({
-    email: "eval@gmail.com",
-    password: "eval1234",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -176,6 +176,7 @@ function Login() {
                 value={inputs.password}
                 onChange={changeHandler}
                 error={errors.passwordError}
+                autoComplete = "new-password"
               />
             </MDBox>
             {/* <MDBox display="flex" alignItems="center" ml={-1}>
