@@ -177,7 +177,7 @@ app.post("/automatic/testresults", async (req, res) => {
     await candidate.save();
     TestStatus.TestStatus.log(
       "info",
-      `${email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
+      `${candidate.email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
     );
     // Return the new instance as a JSON response
     res.json(testresults);
