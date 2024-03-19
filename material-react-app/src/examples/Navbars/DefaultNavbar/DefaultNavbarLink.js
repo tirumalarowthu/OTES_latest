@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link ,useLocation} from "react-router-dom";
 
 // @mui material components
 import Icon from "@mui/material/Icon";
@@ -27,6 +27,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 function DefaultNavbarLink({ icon, name, route, light }) {
+  const location = useLocation();
+  const isActive = location.pathname === route;
   return (
     <MDBox
       component={Link}
@@ -35,7 +37,8 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       p={1}
       display="flex"
       alignItems="center"
-      sx={{ cursor: "pointer", userSelect: "none" }}
+      sx={isActive && { cursor: "pointer", userSelect: "none",background:'powderblue',borderRadius:"8px"}}
+
     >
       <Icon
         sx={{

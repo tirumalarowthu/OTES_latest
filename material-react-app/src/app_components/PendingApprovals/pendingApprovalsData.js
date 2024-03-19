@@ -39,7 +39,7 @@ export default function data() {
   const handleApprovals = async (id, decide, name) => {
     const confirmMessage = decide
       ? `Do you want to allow "${name}" to write online test ?`
-      : `Do you want to reject ${name}? And also permanently delete ${name}`;
+      : `Do you want to reject  "${name} " ? `;
     if (window.confirm(confirmMessage)) {
       try {
         await axios.patch(`${process.env.REACT_APP_API_URL}/confirm/approval/${id}/${decide}`);

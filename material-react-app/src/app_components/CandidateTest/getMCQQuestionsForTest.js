@@ -25,6 +25,7 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
+import Timer from "./Timer";
 
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
@@ -192,6 +193,28 @@ const getMCQQuestionsForTest = () => {
       <Card
         style={{ backgroundColor: "white", width: "100%", textAlign: "start" }}
       >
+        {/* <MDBox
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        // width="10rem"
+        // height="10rem"
+        padding="10px"
+        borderRadius="10px"
+        bgColor="white"
+        shadow="sm"
+        // borderRadius="50%"
+        position="fixed"
+        top="2rem"
+        right="4rem"
+        // right="2rem"
+        // bottom="2rem"
+        zIndex={99}
+        color="dark"
+        sx={{ cursor: "pointer" }}
+      >
+        <Timer/>
+        </MDBox> */}
         <MDBox
           variant="gradient"
           bgColor="info"

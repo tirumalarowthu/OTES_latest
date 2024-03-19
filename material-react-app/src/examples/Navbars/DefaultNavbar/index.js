@@ -177,6 +177,7 @@ function DefaultNavbar({ transparent, light, action }) {
               name="evaluator login"
               route="/auth/login"
               light={light}
+              
             />
             <DefaultNavbarLink
               icon="account_circle"
