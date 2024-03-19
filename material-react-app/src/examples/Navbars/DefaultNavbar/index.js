@@ -88,6 +88,7 @@ function DefaultNavbar({ transparent, light, action }) {
         px={{ xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2 }}
         my={3}
         mx={3}
+        p={0.5}
         width="calc(100% - 48px)"
         borderRadius="lg"
         shadow={transparent ? "none" : "md"}

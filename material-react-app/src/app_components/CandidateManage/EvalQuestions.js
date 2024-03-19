@@ -77,7 +77,12 @@ function EvalQuestions() {
         setTotal(totalQuestions);
       })
       .catch((error) => {
-        toast.warn("Something went wrong ,please try after sometime.")
+        toast.warn("Something went wrong ,please try after sometime.", 
+        {
+          style: {
+            fontSize: '18px', 
+          },
+        })
         navigate('/Candidate-List')
         console.error(error, "eval")
         console.error(error)
@@ -112,7 +117,12 @@ function EvalQuestions() {
           setLoading(false)
         })
         .catch((error) => {
-          toast.warn("Something went wrong ,please try after sometime.")
+          toast.warn("Something went wrong ,please try after sometime.", 
+          {
+            style: {
+              fontSize: '18px', 
+            },
+          })
           navigate('/Candidate-List')
           console.error(error, "eval")
         });
@@ -187,10 +197,20 @@ function EvalQuestions() {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.warn(data.message || "Failed to update candidate result.");
+        toast.warn(data.message || "Failed to update candidate result.", 
+        {
+          style: {
+            fontSize: '18px', 
+          },
+        });
       } else {
         console.log(data)
-        toast.info("Candidate result updated successfully.")
+        toast.info("Candidate result updated successfully.", 
+        {
+          style: {
+            fontSize: '18px', 
+          },
+        })
         window.location.reload()
       }
 

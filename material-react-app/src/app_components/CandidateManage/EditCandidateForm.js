@@ -127,7 +127,12 @@ useEffect(() => {
     try {
       console.log(inputs._id,"input")
       await axios.put(`${process.env.REACT_APP_API_URL}/edit/${inputs._id}`, inputs);
-      toast.success(`Candidate edited successfully.`)
+      toast.success(`Candidate edited successfully.`, 
+      {
+        style: {
+          fontSize: '16px', 
+        },
+      })
       navigate(-1)
       // navigate('/Candidate-List');
     

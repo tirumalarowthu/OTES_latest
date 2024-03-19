@@ -80,7 +80,12 @@ function CandidateLogin() {
       .post(`${process.env.REACT_APP_API_URL}/verify-emails`, inputs)
       .then((res) => {
         if (res.status === 200) {
-          toast.success("Login Successfully")
+          toast.success("Login Successfully", 
+          {
+            style: {
+              fontSize: '16px', 
+            },
+          })
           navigate("/candidate/instructions");
         } else {
           console.log("Email is not valid");
@@ -90,7 +95,12 @@ function CandidateLogin() {
       })
       .catch((error) => {
         // setErrorMessage(error.response.data.status);
-        toast.warning(error.response.data.status)
+        toast.warning(error.response.data.status, 
+          {
+            style: {
+              fontSize: '16px', 
+            },
+          })
         setLoading(false)
       });
   };

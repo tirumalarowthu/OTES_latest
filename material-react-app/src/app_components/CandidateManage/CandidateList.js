@@ -86,7 +86,7 @@ function CandidateList() {
       Name: candidate.name.props.name,
       Email: candidate.name.props.email,
       Area: candidate.action.props.children.props.children[0].props.children.props.to.state.item.area,
-      TestStatus: candidate.status.props.children.props.children,
+      Test_Status: candidate.status.props.children.props.children,
       Marks: candidate.Marks.props.children,
       Result: candidate.Result.props.children,
     }));

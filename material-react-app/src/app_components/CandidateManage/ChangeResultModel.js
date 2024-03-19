@@ -55,7 +55,12 @@ function ChangeResultModel({ result }) {
         // Implement logic to update candidate result
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/update/TestResult/${email}`, { result })
-            toast.success(`Please wait,Changing result to: ${result}`, {
+            toast.success(`Please wait,Changing result to: ${result}`, 
+            {
+              style: {
+                fontSize: '16px', 
+              },
+            }, {
                 onClose: () => {
                     window.location.reload();
                 }
