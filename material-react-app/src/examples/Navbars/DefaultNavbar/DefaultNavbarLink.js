@@ -36,13 +36,17 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       mx={1}
       p={1}
       display="flex"
+      color="white"
       alignItems="center"
-      sx={isActive && { cursor: "pointer", userSelect: "none",background:'powderblue',borderRadius:"8px"}}
+      variant= {isActive && "gradient"}
+      sx={isActive && { cursor: "pointer", userSelect: "none",background:'#007aff',borderRadius:"8px"}}
 
     >
       <Icon
         sx={{
-          color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
+          color: ({ palette: { white, secondary } }) => (isActive ? white.main : secondary.main),
+          // color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
+          // color:"white",
           verticalAlign: "middle",
         }}
       >
@@ -50,8 +54,10 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       </Icon>
       <MDTypography
         variant="button"
+        // color={isActive && "white"}
         fontWeight="regular"
-        color={light ? "white" : "dark"}
+        // color={light ? "white" : "dark"}
+        color={isActive ? "white" : "dark"}
         textTransform="capitalize"
         sx={{ width: "100%", lineHeight: 0 }}
       >
