@@ -13,6 +13,9 @@ import {
   Radio,
   Icon,
 } from "@mui/material";
+import MDInput from "components/MDInput";
+import CircularProgress from '@mui/material/CircularProgress';
+
 import BasicLayoutLanding from "layouts/authentication/components/CandidateTestLayout";
 import {
   Dialog,
@@ -58,6 +61,7 @@ const getMCQQuestionsForTest = () => {
     // Check if the MCQ questions have already been fetched
     if (!hasFetched && mcqquestions.length === 0) {
       setIsLoading(true);
+      // setLoading(true)
       axios
         .get(`${process.env.REACT_APP_API_URL}/getMCQQuestionsforTest/${email}`)
         .then((response) => {
@@ -77,6 +81,7 @@ const getMCQQuestionsForTest = () => {
             "mcqquestions",
             JSON.stringify(randomizedQuestions)
           );
+          setIsLoading(false)
           setMCQQuestions(randomizedQuestions);
           setHasFetched(true);
           localStorage.setItem("hasFetched", true);
@@ -214,6 +219,11 @@ const getMCQQuestionsForTest = () => {
             MCQ Questions:
           </MDTypography>
           <MDBox>
+          {isLoading ? (
+                  <MDBox align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></MDBox>
+                ) : (
+                  <>
             {mcqquestions.map((question, index) => (
               <MDBox
                 key={question._id}
@@ -303,6 +313,8 @@ const getMCQQuestionsForTest = () => {
                 </MDBox>
               </MDBox>
             ))}
+            </>
+          )}
           </MDBox>
           <center>
             <MDBox mb={5}>

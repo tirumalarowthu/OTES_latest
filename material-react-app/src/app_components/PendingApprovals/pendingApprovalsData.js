@@ -27,8 +27,8 @@ import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/avatar.webp";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from 'react-toastify';
+// import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
  
 export default function data() {

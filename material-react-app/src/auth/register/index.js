@@ -69,7 +69,12 @@ function Register() {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, inputs);
       console.log(response);
       setLoading(false);
-      toast.info(response.data);
+      toast.info(response.data, 
+        {
+          style: {
+            fontSize: '16px', 
+          },
+        });
 
       setInputs({
                 name: "",
