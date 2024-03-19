@@ -74,7 +74,7 @@ function AddQuestionsHomepage() {
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            {/* <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 
                 <QuestionsCard
@@ -146,7 +146,7 @@ function AddQuestionsHomepage() {
                   chart={tasks}
                 />
               </MDBox>
-            </Grid>
+            </Grid> */}
           </Grid>
         </MDBox>
     
