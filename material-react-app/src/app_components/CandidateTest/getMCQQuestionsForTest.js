@@ -168,7 +168,7 @@ const getMCQQuestionsForTest = () => {
     <BasicLayoutLanding >
       
       <Card style={{ backgroundColor: 'white', width: '100%', textAlign: 'start' }}>
-        {/* <MDBox
+        <MDBox
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -189,7 +189,7 @@ const getMCQQuestionsForTest = () => {
         sx={{ cursor: "pointer" }}
       >
         <Timer/>
-        </MDBox> */}
+        </MDBox>
         <MDBox
           variant="gradient"
           bgColor="info"
