@@ -30,6 +30,7 @@ import axios from "axios";
 // import { ToastContainer, toast } from 'react-toastify';
 // import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
  
 export default function data() {
   const [pendingApprovals, setPendingApprovals] = useState([]);
@@ -37,18 +38,29 @@ export default function data() {
 
   //for handling pending approvals : 
   const handleApprovals = async (id, decide, name) => {
-    const confirmMessage = decide
-      ? `Do you want to allow "${name}" to write online test ?`
-      : `Do you want to reject  "${name} " ? `;
-    if (window.confirm(confirmMessage)) {
+    if (!decide) {
+      const confirmMessage = `Do you want to reject "${name}"?`;
+      if (window.confirm(confirmMessage)) {
+        try {
+          await axios.patch(`${process.env.REACT_APP_API_URL}/confirm/approval/${id}/${decide}`);
+          window.location.reload(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
       try {
-        await axios.patch(`${process.env.REACT_APP_API_URL}/confirm/approval/${id}/${decide}`);
+        await axios.patch(`${process.env.REACT_APP_API_URL}/confirm/approval/${id}/${decide}`)
+        .then(()=>{
+          toast.success("Candidate approved successfully.")
+        })
         window.location.reload(false);
       } catch (error) {
         console.log(error);
       }
     }
   };
+  
 
   useEffect(() => { 
     getPendingApprovals();
