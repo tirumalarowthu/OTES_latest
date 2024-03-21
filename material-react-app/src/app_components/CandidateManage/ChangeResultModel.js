@@ -56,10 +56,13 @@ function ChangeResultModel({ result }) {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/update/TestResult/${email}`, { result })
             toast.success(`Please wait,Changing result to: ${result}`, {
+                style: {
+                  fontSize: '16px', 
+                },
                 onClose: () => {
-                    window.location.reload();
+                  window.location.reload();
                 }
-            });
+              });
         } catch (error) {
             console.log(error)
         }
@@ -68,8 +71,9 @@ function ChangeResultModel({ result }) {
 
     return (
         <MDBox>
-            <MDButton onClick={openModal} sx={{textDecoration :"underline"}} variant="contained" color={generateResultColor(result)} >
-                {result}
+            <MDButton onClick={openModal} sx={{textDecoration :"underline", marginTop: '10px'}} variant="contained" color="primary" >
+                {/* {result} */}
+                Re-Evaluate
             </MDButton>
             <CandidateResultChangeModal open={showModal} onClose={closeModal} onChangeResult={handleChangeResult} />
         </MDBox>

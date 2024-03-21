@@ -123,7 +123,7 @@ const Timer = () => {
     };
 
     return (
-        <MDTypography>
+        <MDTypography variant="h6">
              <AccessAlarmsIcon
                 color="primary"
              />

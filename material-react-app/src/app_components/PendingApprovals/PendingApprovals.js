@@ -33,14 +33,40 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import authorsTableData from "layouts/tables/data/authorsTableData";
 import pendingApprovalsData from "./pendingApprovalsData";
 import MDInput from "components/MDInput";
-import { useState } from "react";
+import { Select, MenuItem, InputLabel, FormControl, Divider } from '@mui/material';
+
+import { useState, useEffect } from "react";
+import SearchIcon from '@mui/icons-material/Search';
+
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function PendingApprovals() {
   // const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const { columns, rows, loading } = pendingApprovalsData();
   // console.log(rows,"rows data")
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
+
+  const filterCandidates = () => {
+    if (!searchQuery) {
+      return rows;
+    } else {
+      return rows.filter((candidate) => {
+        const name = candidate.name.props.name.toLowerCase();
+        const email = candidate.name.props.email.toLowerCase();
+        return name.includes(searchQuery.toLowerCase()) || email.includes(searchQuery.toLowerCase());
+      });
+    }
+  };
+
+  // State to hold filtered data for display
+  const [filteredCandidates, setFilteredCandidates] = useState(filterCandidates());
+
+  // Update filteredCandidates when searchQuery changes
+  useEffect(() => {
+    setFilteredCandidates(filterCandidates());
+  }, [searchQuery, rows]);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -52,14 +78,14 @@ function PendingApprovals() {
                 mx={2}
                 mt={-3}
                 py={3}
-                px={2}
+                px={2} p={1.5}
                 variant="gradient"
                 bgColor="warning"
                 borderRadius="lg"
                 coloredShadow="info"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <MDTypography variant="h6" color="white">
+                <MDTypography variant="h6" color="white" mt={0.7} >
                   Pending Approvals Table
                 </MDTypography>
                 {/* <MDTypography style={{ background: "white", width: "50%", marginBottom: "10px", borderRadius: "10px" }}>
@@ -67,26 +93,48 @@ function PendingApprovals() {
                   onChange={(e)=>setSearchQuery(e.target.value)}
                   style={{ width: "100%" }} autofil={false} label="Search user by name or email" />
                 </MDTypography> */}
-
+            <FormControl>
+                  <MDInput
+                  type="search"
+                  placeholder="Search by name or email"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{
+                    borderColor: '#1A73E8',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '8px',
+                    width: '275px',
+                  
+                  '& input': {
+                    // border: '2px solid black',
+                    // borderColor: '#1A73E8', 
+                    // backgroundColor: '#FFFFFF',
+                    padding: '8px',
+                    paddingLeft: '40px', 
+                  },
+                }}
+                />
+                <SearchIcon sx={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#1A73E8' }} />
+              </FormControl>
               </MDBox>
               <MDBox pt={3}>
               {loading ? (
-                  <div align="center" variant="h6" mb={2} ml={4}>
-                    <CircularProgress color='black' size={30} /></div>
+                  <MDBox align="center" variant="h6" mb={2} ml={4}>
+                    <CircularProgress color='black' size={30} /></MDBox>
                 ) : (
                   <>
-                    {rows.length > 0 ? (
+                    {filteredCandidates.length > 0 ? (
                       <DataTable
-                        table={{ columns, rows }}
-                        isSorted={true}
+                        table={{ columns, rows:filteredCandidates }}
+                        isSorted={false}
                         entriesPerPage={false}
                         showTotalEntries={true}
                         noEndBorder
                       />
                     ) : (
                       <MDTypography align="center" variant="h6" mb={2} ml={4}>
-                        No Candidates
-                      </MDTypography>
+                        {rows.length > 0 && searchQuery != "" ? "No Matching Candidates Found" : ""}
+                        {rows.length === 0 && searchQuery === "" ? "No Candidates" : ""}                      </MDTypography>
                     )}
                   </>
                 )}

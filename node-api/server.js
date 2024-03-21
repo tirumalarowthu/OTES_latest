@@ -69,7 +69,7 @@ app.use(bodyParser.json());
 app.get("/get/candidates", async (req, res) => {
   const { search, filter } = req.query;
   // Create a dynamic filter object based on provided parameters
-  const filterObj = {};
+  const filterObj = {}; 
   if (search) {
       filterObj.$or = [
           { email: { $regex: search, $options: 'i' } },
@@ -82,7 +82,7 @@ app.get("/get/candidates", async (req, res) => {
     const filters = filter.split(",");
     filters.forEach((f) => {
       const [key, value] = f.split(":");
-      query[key] = value;
+      filterObj[key] = value;
     });
   }
 
@@ -91,7 +91,7 @@ app.get("/get/candidates", async (req, res) => {
 
     // Pagination
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 15;
+    const limit = parseInt(req.query.limit) || 1000;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
@@ -177,7 +177,7 @@ app.post("/automatic/testresults", async (req, res) => {
     await candidate.save();
     TestStatus.TestStatus.log(
       "info",
-      `${email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
+      `${candidate.email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
     );
     // Return the new instance as a JSON response
     res.json(testresults);
@@ -525,33 +525,35 @@ app.get("/getParagraphQuestions", async (req, res) => {
 app.get("/getMCQQuestionsforTest/:email", async (req, res) => {
   try {
     const email = req.params.email.replace(/['"]+/g, ""); // remove quotes from the string
-    const candidate = await Candidate.find({ email: email });
+    const candidate = await Candidate.findOne({ email: email });
+    
     if (!candidate) {
-      res.status(500).json("Candidate not found");
-    } else {
-      const area = candidate[0].area;
-      // console.log(area)
-      // const number = candidate[0].mcqCount;
-      const questions = await MCQQuestion.aggregate([
-        { $match: { area: area } },
-        { $sort: { _id: 1 } },
-        { $project: { correct_choice: 0 } }, // exclude correct_choice
-      ]);
-      // console.log(questions)
-      res.json({ questions });
-      getTest.GetTest.log(
-        "info",
-        `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and created test for ${candidate[0].email}`
-      );
+      return res.status(404).json({ error: "Candidate not found" });
     }
+
+    const area = candidate.area;
+    let questions;
+
+    if (area === "VLSI_FRESHER_1_2") {
+      questions = await MCQQuestion.find({ area: { $in: ["VLSI_FRESHER_1", "VLSI_FRESHER_2"] } })
+                                   .sort({ _id: 1 })
+                                   .select("-correct_choice"); // Exclude correct_choice
+    } else {
+      questions = await MCQQuestion.find({ area: area })
+                                   .sort({ _id: 1 })
+                                   .select("-correct_choice"); // Exclude correct_choice
+    }
+
+    res.json({ questions });
+    getTest.GetTest.log(
+      "info",
+      `getMCQQuestionsforTest/:email is triggered to fetch the questions from the MongoDB database and create a test for ${candidate.email}`
+    );
   } catch (error) {
-    console.log(error);
+    console.error("Error occurred while fetching questions:", error);
     getTest.GetTest.log(
       "error",
-      `Unable to create Test for the ${candidate[0].email}`
-    );
-    console.log(
-      "Unable to create Test, Please select the correct number of questions"
+      `Unable to create Test for the ${candidate.email}`
     );
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -653,10 +655,11 @@ app.put("/edit/:id", async (req, res) => {
       mcqCount,
       codeCount,
       paragraphCount,
+      area // Add area to the destructuring of req.body
     } = req.body;
     const candidate = await Candidate.findByIdAndUpdate(
       req.params.id,
-      { email, testStatus, name, mcqCount, codeCount, paragraphCount },
+      { email, testStatus, name, mcqCount, codeCount, paragraphCount, area }, // Include area in the update object
       { new: true }
     );
     if (!candidate) {

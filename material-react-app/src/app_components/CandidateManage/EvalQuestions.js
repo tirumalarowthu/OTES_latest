@@ -23,9 +23,6 @@ import { useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
 import ChangeResultModel from "./ChangeResultModel";
 import CircularProgress from '@mui/material/CircularProgress';
-import ScrollToggle from "./ScrollToggle";
-
-
 
 // import { store } from "./App";
 

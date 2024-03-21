@@ -29,17 +29,22 @@ import DataTable from "examples/Tables/DataTable";
 import IconButton from '@mui/material/IconButton';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
 import CandidateListData from "./CandidateListData";
 import MDInput from "components/MDInput";
-import { useState, useEffect } from "react";
+import { useState ,useEffect } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import { Select, MenuItem, InputLabel, FormControl, Divider } from '@mui/material';
-import { DownloadExcel } from 'react-excel-export';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
+import { Form } from "react-router-dom";
+// import SearchIcon from '@mui/icons-material/Search';
+// import ClearIcon from '@mui/icons-material/Clear';
+
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function CandidateList() {
@@ -50,26 +55,46 @@ function CandidateList() {
   // console.log(loading)
   // console.log(rows,"rows data")
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
-  const filteredCandidates = rows.filter((candidate) => {
-    const name = candidate.name.props.children || "";
-    const email = candidate.name.props.email || "";
-    return (
-      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      email.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+
+
+  const filterCandidates = () => {
+    if (!searchQuery) {
+      return rows;
+    } else {
+      return rows.filter((candidate) => {
+        const name = candidate.name.props.name.toLowerCase();
+        const email = candidate.name.props.email.toLowerCase();
+        return name.includes(searchQuery.toLowerCase()) || email.includes(searchQuery.toLowerCase());
+      });
+    }
+  };
+
+  // State to hold filtered data for display
+  const [filteredCandidates, setFilteredCandidates] = useState(filterCandidates());
+
+  // Update filteredCandidates when searchQuery changes
+  useEffect(() => {
+    setFilteredCandidates(filterCandidates());
+  }, [searchQuery, rows]);
+
 
   const handleExportExcel = () => {
     // Map the rows data to the format required by the Excel export
     const formattedData = rows.map((candidate, index) => ({
+      
       S_No: index + 1,
       Name: candidate.name.props.name,
       Email: candidate.name.props.email,
       Area: candidate.action.props.children.props.children[0].props.children.props.to.state.item.area,
-      TestStatus: candidate.status.props.children.props.badgeContent,
+      Test_Status: candidate.status.props.children.props.children,
       Marks: candidate.Marks.props.children,
       Result: candidate.Result.props.children,
     }));
+
+    // formattedData.forEach(candidate => {
+    //   console.log("Candidate:", candidate);
+    // });
+    
   
     // Convert the data to an array of objects suitable for xlsx library
     const worksheet = XLSX.utils.json_to_sheet(formattedData);
@@ -107,42 +132,53 @@ function CandidateList() {
                 mt={-3}
                 py={1}
                 px={2}
+                p={2}
                 variant="gradient"
                 bgColor="info"
                 borderRadius="lg"
                 coloredShadow="info"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <MDTypography variant="h6" color="white" sx={{paddingTop:'10px'}}>
+                <MDTypography variant="h6" color="white" sx={{paddingTop:'7px'}}>
                   Candidate List Table
                 </MDTypography>
                 <MDBox>
-                <Button sx={{color: '#FBFAEC'}} onClick={handleExportExcel} title="Download Excel" startIcon={<CloudDownloadIcon />} >Download </Button>
-
-                <FormControl component="div" sx={{color: 'black'}}>
+                {!loading && (
+                <Button sx={{color: '#FFFFFF', marginRight:'5px',
+                '&:hover': {
+                  color: '#FFFFFF', // Remove background color on hover
+                },
+                }} onClick={handleExportExcel} title="Download Excel" startIcon={<CloudDownloadIcon />} style={{fontSize:'11px',}} >Download </Button>
+                )}
+                <FormControl>
                   <MDInput
-                    type="text" 
-                    sx={{
-                      '& input': {
-                        border: '2px solid black',
-                        borderColor: '#1A73E8', 
-                        backgroundColor: '#FFFFFF',
-                        width: '300px',
-                        borderRadius: '8px',
-                        padding: '8px',
-                      }
-                    }}
-                    placeholder="Search by email"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </FormControl>
+                  type="search"
+                  placeholder="Search by name or email"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{
+                    borderColor: '#1A73E8',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '8px',
+                    width: '275px',
+                  
+                  '& input': {
+                    // border: '2px solid black',
+                    // borderColor: '#1A73E8', 
+                    // backgroundColor: '#FFFFFF',
+                    padding: '8px',
+                    paddingLeft: '40px', 
+                  },
+                }}
+                />
+                <SearchIcon sx={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#1A73E8' }} />
+              </FormControl>
                 {/* <Button sx={{color: 'lightblue', marginLeft: '0px'}} onClick={handleExportExcel} title="Download" startIcon={<CloudDownloadIcon />} ></Button> */}
                 </MDBox>
 
               </MDBox>
               <MDBox>
-              
+                
               </MDBox>
               <MDBox pt={3}>
                 {loading ? (
@@ -150,17 +186,20 @@ function CandidateList() {
                     <CircularProgress color='black' size={30} /></div>
                 ) : (
                   <>
-                    {rows.length > 0 ? (
+                    {filteredCandidates.length > 0 ? (
                       <DataTable
                         table={{ columns, rows:filteredCandidates }}
-                        isSorted={true}
+                        isSorted={false}
                         entriesPerPage={false}
                         showTotalEntries={true}
                         noEndBorder
                       />
+                      
                     ) : (
                       <MDTypography align="center" variant="h6" mb={2} ml={4}>
-                        No Candidates
+                        
+                        {rows.length > 0 && searchQuery != "" ? "No Matching Candidates Found" : ""}
+                        {rows.length === 0 && searchQuery === "" ? "No Candidates" : ""}
                       </MDTypography>
                     )}
                   </>

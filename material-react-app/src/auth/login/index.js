@@ -29,17 +29,20 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import AuthService from "services/auth-service";
 import { AuthContext } from "context";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 function Login() {
   const authContext = useContext(AuthContext);
-
+  const [loading,setLoading] = useState(false)
   // const [user, setUser] = useState({});
   const [credentialsErros, setCredentialsError] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
 
   const [inputs, setInputs] = useState({
-    email: "tes@gmail.com",
-    password: "tes@123",
+    email: "",
+    password: "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -49,7 +52,7 @@ function Login() {
 
   // const addUserHandler = (newUser) => setUser(newUser);
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  // const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const changeHandler = (e) => {
     setInputs({
@@ -61,16 +64,19 @@ function Login() {
   const submitHandler = async (e) => {
     // check rememeber me?
     e.preventDefault();
+    setLoading(true)
 
     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
       setErrors({ ...errors, emailError: true });
+      setLoading(false)
       return;
     }
 
     if (inputs.password.trim().length < 6) {
       setErrors({ ...errors, passwordError: true });
+      setLoading(false)
       return;
     }
 
@@ -95,8 +101,10 @@ function Login() {
     } catch (res) {
       if (res.hasOwnProperty("message")) {
         setCredentialsError(res.message);
+        setLoading(false)
       } else {
         setCredentialsError(res.errors[0].detail);
+        setLoading(false)
       }
     }
 
@@ -149,7 +157,7 @@ function Login() {
           </Grid> */}
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
+          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler} >
             <MDBox mb={2}>
               <MDInput
                 type="email"
@@ -159,6 +167,7 @@ function Login() {
                 name="email"
                 onChange={changeHandler}
                 error={errors.emailError}
+                
               />
             </MDBox>
             <MDBox mb={2}>
@@ -170,6 +179,7 @@ function Login() {
                 value={inputs.password}
                 onChange={changeHandler}
                 error={errors.passwordError}
+                autoComplete = "new-password"
               />
             </MDBox>
             {/* <MDBox display="flex" alignItems="center" ml={-1}>
@@ -185,9 +195,14 @@ function Login() {
               </MDTypography>
             </MDBox> */}
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth type="submit">
+              {
+                loading ?  <MDButton variant="gradient" disabled color="info" fullWidth>
+               <CircularProgress color='black' size={20} /> Please Wait...
+              </MDButton>  :  <MDButton variant="gradient" color="info" fullWidth type="submit">
                 Log in
               </MDButton>
+              }
+              
             </MDBox>
             {credentialsErros && (
               <MDTypography variant="caption" color="error" fontWeight="light">

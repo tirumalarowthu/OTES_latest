@@ -67,6 +67,7 @@ import EvalQuestions from "app_components/CandidateManage/EvalQuestions";
 import AddQuestions from "app_components/QuestionBank/AddQuestions";
 import AddQuestionsHomepage from "app_components/QuestionBank/AddQuestionsHomepage";
 import AddCandidate from "app_components/CandidateManage/AddCandidate";
+import FilterTable from "app_components/FilterTables/FilterTable";
 
 const routes = [
   {
@@ -128,6 +129,15 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/view-questions/:area",
     component: <ViewQuestions />,
+  },
+  // for test taken/not taken/ evaluated requests: 
+  {
+    type: "examples",
+    name: "View Questions By area",
+    key: "view-questions-area",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/Candidate-List/Filter/:f_option_key/:f_option_value",
+    component: <FilterTable />,
   },
   {
     type: "examples",

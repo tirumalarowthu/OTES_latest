@@ -79,7 +79,7 @@ export default function data() {
                 const selectedAnswers = testResult.selectedAnswers;
                 // // console.log(selectedAnswers)
                 const totalQuestions = Object.keys(selectedAnswers).length;
-                console.log(totalQuestions)
+                // console.log(totalQuestions)
                 return {
                     ...list1,
                     totalScore: testResult.totalScore,
@@ -100,13 +100,23 @@ export default function data() {
                         {index+1}
                       </MDTypography>,
                 name: <Author image={team4} name={item.name} email={item.email} />,
+                area: (
+                  <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+                    {item.area}
+                  </MDTypography>
+                ),
                 status: (
                     <MDBox ml={-1}>
-                        {item.testStatus === 'Evaluated' ? (
-                            <MDBadge badgeContent={item.testStatus} color="success" variant="gradient" size="sm" />
+                      <MDTypography component="a"
+                  href="#"
+                  variant="caption"
+                  color="text"
+                  fontWeight="medium">{item.testStatus}</MDTypography>
+                        {/* {item.testStatus === 'Evaluated' ? (
+                            <MDBadge badgeContent={item.testStatus} color="" variant="gradient" size="sm" />
                         ) : (
-                            <MDBadge badgeContent={item.testStatus} color="warning" variant="gradient" size="sm" />
-                        )}
+                            <MDBadge badgeContent={item.testStatus} color="" variant="gradient" size="sm" />
+                        )} */}
                     </MDBox>
                 ),
                 Marks: (
@@ -135,7 +145,7 @@ export default function data() {
                             ml={-1}>
                             
                             <Link to={{ pathname: `/Candidate-List/Edit/${item.email}`, state: { item }}}  >
-                                <MDBadge  badgeContent="Edit" color="info" variant="gradient" size="sm" />
+                                <MDBadge sx={{textDecoration: 'underline', color:'#FFFFFF'}}  badgeContent="Edit" color="info" variant="gradient" size="sm" />
                             </Link>
                         </MDBox>
                        
@@ -144,12 +154,14 @@ export default function data() {
                               handleEvaluateCandidate(item)
                           }
                           style ={{cursor: "pointer"}} ml={0}>
-                              <MDBadge badgeContent="Evaluate" color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" />
-                          {/* <Link to={{ pathname: `/Candidate-List/EvalQuestions/${item.email}`, state: { item }}} onClick={() => console.log(item.email)} >
-                              <MDBadge badgeContent="Evaluate" color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" />
-                          </Link> */}
+                            {  item.testStatus === "Evaluated" ?
+                              <MDBadge sx={{textDecoration: 'underline', color:'#FFFFFF'}} badgeContent={item.testStatus === "Evaluated" ?"Re-Evaluate":"Evaluate"} color={item.testStatus === "Evaluated" ?"primary" :"secondary"} variant="gradient" size="sm" /> :
+                              <MDBadge  sx={{textDecoration: item.testStatus === "Test Taken"?'underline':"", color:'#FFFFFF'}}  badgeContent={item.testStatus === "Test Not Taken" ?"Evaluate":"Evaluate"} disabled color={item.testStatus === "Test Not Taken" ?"warning" :"c"} variant="gradient" size="sm" /> 
+
+                            }
+  
                       </MDBox>
-                        
+                                                    
                     </MDTypography>
                   </>
                 ),
@@ -189,11 +201,13 @@ export default function data() {
     
     columns: [
       { Header: "S.No", accessor: "s_no", align: "left", width: "10%" },
-      { Header: "Name", accessor: "name", width: "30%", align: "left" },
+      { Header: "Name", accessor: "name", width: "25%", align: "left" },
+      { Header: "Area", accessor: "area", width: "", align: "left" },
+
     //   { Header: "Email", accessor: "email", align: "left" },
       { Header: "Status", accessor: "status", align: "left" },
       // { Header: "Registered ", accessor: "registered_date", align: "center" },
-      { Header: "Action", accessor: "action", align: "center" },
+      { Header: "Action", accessor: "action", align: "left" },
       { Header: "Marks", accessor: "Marks", align: "center" },
       { Header: "Result", accessor: "Result", align: "center" },
     ],

@@ -88,6 +88,7 @@ function DefaultNavbar({ transparent, light, action }) {
         px={{ xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2 }}
         my={3}
         mx={3}
+        p={1.5}
         width="calc(100% - 48px)"
         borderRadius="lg"
         shadow={transparent ? "none" : "md"}
@@ -118,17 +119,17 @@ function DefaultNavbar({ transparent, light, action }) {
           <img
             src={logo}
             alt="logo"
-            height={40} // Adjust the height based on your design
+            height={30} // Adjust the height based on your design
             style={{ marginRight: '1px', marginBottom: '-9px' }}
           />
-          <MDTypography
+          {/* <MDTypography
             variant="button"
             fontWeight="bold"
             fontSize={25}
             color={light ? "white" : "dark"}
           >
             testmaster
-          </MDTypography>
+          </MDTypography> */}
         </MDBox>
         {/* {authContext.isAuthenticated && (
           <MDBox
@@ -176,6 +177,7 @@ function DefaultNavbar({ transparent, light, action }) {
               name="evaluator login"
               route="/auth/login"
               light={light}
+              
             />
             <DefaultNavbarLink
               icon="account_circle"

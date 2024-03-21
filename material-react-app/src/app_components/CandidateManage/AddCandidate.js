@@ -86,7 +86,12 @@ function AddCandidate() {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`,inputs)
       if (response && response.data) {
         // console.log(response.data)
-        toast.success(`${inputs.name} added successfully` )
+        toast.success(`${inputs.name} added successfully`, 
+        {
+          style: {
+            fontSize: '16px', 
+          },
+        } )
       } 
 
       setInputs({
@@ -189,7 +194,7 @@ function AddCandidate() {
             <MDBox mb={2} >
               <MDInput
                 type="text"
-                label="Name"
+                label="Name of the candidate"
                 fullWidth
                 name="name"
                 value={inputs.name}
@@ -205,7 +210,7 @@ function AddCandidate() {
             <MDBox mb={2} >
               <MDInput
                 type="email"
-                label="Email"
+                label="Email of the candidate"
                 fullWidth
                 value={inputs.email}
                 name="email"
@@ -245,12 +250,14 @@ function AddCandidate() {
                 style={{ width: "100%", height: '45px', marginBottom: "0px", border: "1px solid #ced4da", borderRadius: "6px", padding: '10px', color: '#495057' }}
               >
                 <option value="">Select Area</option>
-                <option value="VLSI_FRESHER_1">VLSI_FRESHER_1</option>
-                <option value="VLSI_FRESHER_2">VLSI_FRESHER_2</option>
-                <option value="VLSI_FRESHER_3">VLSI_FRESHER_3</option>
-                <option value="VLSI">VLSI</option>
-                <option value="SOFTWARE">SOFTWARE</option>
-                <option value="EMBEDDED">EMBEDDED</option>
+                <option value="VLSI_FRESHER_1">VLSI_FRESHER_1 (50 Questions)</option>
+                <option value="VLSI_FRESHER_2">VLSI_FRESHER_2 (50 Questions)</option>
+                {/* <option value="VLSI_FRESHER_3">VLSI_FRESHER_3</option> */}
+                <option value="VLSI_FRESHER_1_2">VLSI_FRESHER_1 & VLSI_FRESHER_2 (100 Questions)</option>
+                
+                {/* <option value="VLSI">VLSI</option>  */}
+                {/* <option value="SOFTWARE">SOFTWARE</option> */}
+                {/* <option value="EMBEDDED">EMBEDDED</option> */}
                 {/* <option value="TEXT">Paragraph</option> */}
               </Form.Control>
               {errors.areaError && (

@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import PropTypes from "prop-types";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link ,useLocation} from "react-router-dom";
 
 // @mui material components
 import Icon from "@mui/material/Icon";
@@ -27,6 +27,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 function DefaultNavbarLink({ icon, name, route, light }) {
+  const location = useLocation();
+  const isActive = location.pathname === route;
   return (
     <MDBox
       component={Link}
@@ -34,12 +36,17 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       mx={1}
       p={1}
       display="flex"
+      color="white"
       alignItems="center"
-      sx={{ cursor: "pointer", userSelect: "none" }}
+      variant= {isActive && "gradient"}
+      sx={isActive && { cursor: "pointer", userSelect: "none",background:'#007aff',borderRadius:"8px"}}
+
     >
       <Icon
         sx={{
-          color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
+          color: ({ palette: { white, secondary } }) => (isActive ? white.main : secondary.main),
+          // color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
+          // color:"white",
           verticalAlign: "middle",
         }}
       >
@@ -47,8 +54,10 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       </Icon>
       <MDTypography
         variant="button"
+        // color={isActive && "white"}
         fontWeight="regular"
-        color={light ? "white" : "dark"}
+        // color={light ? "white" : "dark"}
+        color={isActive ? "white" : "dark"}
         textTransform="capitalize"
         sx={{ width: "100%", lineHeight: 0 }}
       >

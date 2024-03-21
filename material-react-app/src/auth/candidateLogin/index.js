@@ -31,16 +31,18 @@ import { AuthContext } from "context";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { CircularProgress } from "@mui/material";
 
 function CandidateLogin() {
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
 
   // const [user, setUser] = useState({});
-  const [credentialsErros, setCredentialsError] = useState(null);
+  // const [credentialsErros, setCredentialsError] = useState(null);
   // const [rememberMe, setRememberMe] = useState(false);
-
+  const [loading,setLoading] = useState(false)
   const [inputs, setInputs] = useState({
-    email: "te23@gmail.com",
+    email: "",
+    // email: "te23@gmail.com",
     // password: "tes@123",
   });
 
@@ -63,24 +65,147 @@ function CandidateLogin() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    setLoading(true)
+
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (inputs.email.trim().length === 0 || !inputs.email.trim().match(mailFormat)) {
+      setErrors({ ...errors, emailError: true });
+      setLoading(false)
+      return;
+    }
+
     localStorage.setItem("email", JSON.stringify(inputs["email"]));
     axios
       .post(`${process.env.REACT_APP_API_URL}/verify-emails`, inputs)
-      .then((res) => { 
+      .then((res) => {
         if (res.status === 200) {
-          toast.success("Login Successfully")
+          toast.success("Login Successfully", 
+          {
+            style: {
+              fontSize: '16px', 
+            },
+          })
           navigate("/candidate/instructions");
         } else {
           console.log("Email is not valid");
+          setLoading(false)
           // setErrorMessage("Email not registered");
         }
-      }) 
+      })
       .catch((error) => {
         // setErrorMessage(error.response.data.status);
-        toast.warning(error.response.data.status)
+        toast.warning(error.response.data.status, 
+          {
+            style: {
+              fontSize: '16px', 
+            },
+          })
+        setLoading(false)
       });
   };
-  // const submitHandler = async (e) => {
+ 
+  return (
+    <BasicLayoutLanding image={bgImage} >
+      <Card
+        sx={{
+          marginTop: '50px',
+        }}
+      >
+        <MDBox
+          variant="gradient"
+          bgColor="info"
+          borderRadius="lg"
+          coloredShadow="info"
+          mx={2}
+          mt={-3}
+          p={2}
+          mb={1}
+          textAlign="center"
+        >
+          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+            Candidate Login
+          </MDTypography>
+          {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <FacebookIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <GitHubIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+            <Grid item xs={2}>
+              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+                <GoogleIcon color="inherit" />
+              </MDTypography>
+            </Grid>
+          </Grid> */}
+        </MDBox>
+        <MDBox pt={4} pb={3} px={3}>
+          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
+            <MDBox>
+              <MDInput
+                type="email"
+                label="Email"
+                fullWidth
+                value={inputs.email}
+                name="email"
+                onChange={changeHandler}
+                error={errors.emailError}
+              />
+            </MDBox>
+            <MDBox mt={4} mb={1}>
+              {
+                loading ? <MDButton variant="gradient" disabled color="info" fullWidth>
+                  <CircularProgress color='black' size={20} /> Please Wait...
+                </MDButton> : <MDButton variant="gradient" color="info" fullWidth type="submit">
+                  Log in
+                </MDButton>
+              }
+
+            </MDBox>
+            {/* <MDBox mb={2}>
+              <MDInput
+                type="password"
+                label="Password"
+                fullWidth
+                name="password"
+                value={inputs.password}
+                onChange={changeHandler}
+                error={errors.passwordError}
+              />
+            </MDBox> */}
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
+              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
+              <MDTypography
+                variant="button"
+                fontWeight="regular"
+                color="text"
+                onClick={handleSetRememberMe}
+                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+              >
+                &nbsp;&nbsp;Remember me
+              </MDTypography>
+            </MDBox> */}
+            {/* {credentialsErros && (
+              <MDTypography variant="caption" color="error" fontWeight="light">
+                {credentialsErros}
+              </MDTypography>
+            )} */}
+
+          </MDBox>
+        </MDBox>
+      </Card>
+    </BasicLayoutLanding>
+  );
+}
+
+export default CandidateLogin;
+
+ // const submitHandler = async (e) => {
   //   // check rememeber me?
   //   e.preventDefault();
 
@@ -134,98 +259,3 @@ function CandidateLogin() {
   //     });
   //   };
   // };
-
-  return (
-    <BasicLayoutLanding image={bgImage} >
-      <Card
-      sx={{
-        marginTop: '50px',
-      }}
-      >
-        <MDBox
-          variant="gradient"
-          bgColor="info"
-          borderRadius="lg"
-          coloredShadow="info"
-          mx={2}
-          mt={-3}
-          p={2}
-          mb={1}
-          textAlign="center"
-        >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Candidate Login
-          </MDTypography>
-          {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-          </Grid> */}
-        </MDBox>
-        <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form" method="POST" onSubmit={submitHandler}>
-            <MDBox>
-              <MDInput
-                type="email"
-                label="Email"
-                fullWidth
-                value={inputs.email}
-                name="email"
-                onChange={changeHandler}
-                error={errors.emailError}
-              />
-            </MDBox>
-            <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth type="submit">
-                Log in
-              </MDButton>
-            </MDBox>
-            {/* <MDBox mb={2}>
-              <MDInput
-                type="password"
-                label="Password"
-                fullWidth
-                name="password"
-                value={inputs.password}
-                onChange={changeHandler}
-                error={errors.passwordError}
-              />
-            </MDBox> */}
-            {/* <MDBox display="flex" alignItems="center" ml={-1}>
-              <Switch checked={rememberMe} onChange={handleSetRememberMe} />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;Remember me
-              </MDTypography>
-            </MDBox> */}
-            {/* {credentialsErros && (
-              <MDTypography variant="caption" color="error" fontWeight="light">
-                {credentialsErros}
-              </MDTypography>
-            )} */}
- 
-          </MDBox>
-        </MDBox>
-      </Card>
-    </BasicLayoutLanding>
-  );
-}
-
-export default CandidateLogin;
