@@ -125,7 +125,7 @@ app.get("/get/candidates", async (req, res) => {
     // Logging statement
     testresult.TestResult.log(
       "info",
-      "Candidate took and submit the test to save the email & selected answers into the MongoDB database by triggering testresults API"
+      "Filtering table data by Test status "
     );
 
     res.status(200).json({
