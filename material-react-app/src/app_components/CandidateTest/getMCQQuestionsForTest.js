@@ -126,8 +126,7 @@ const getMCQQuestionsForTest = () => {
   async function handleNextClick() {
     setLoading(true);
 
-    const selectedAnswers =
-      (await JSON.parse(localStorage.getItem("selectedAnswers"))) || {};
+    const selectedAnswers =  (await JSON.parse(localStorage.getItem("selectedAnswers"))) || {};
     await mcqquestions.forEach((question) => {
       // Check if the question's _id exists in the answered object
       if (!selectedAnswers.hasOwnProperty(question._id)) {
@@ -184,7 +183,7 @@ const getMCQQuestionsForTest = () => {
       setOpenModal(true);
     } else {
       // All questions are answered, proceed to submit
-      handleNextClick();
+      document.getElementById("submit_test_auto").click()
     }
   }
 

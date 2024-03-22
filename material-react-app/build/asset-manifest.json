@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.1aa1b982.css",
-    "main.js": "/static/js/main.4a91c427.js",
+    "main.js": "/static/js/main.a0d49e1b.js",
     "static/media/pattern-tree.svg": "/static/media/pattern-tree.431da656681abcdffac51bee04d7f581.svg",
     "static/media/home-decor-3.jpg": "/static/media/home-decor-3.74d13fcbd3c631fc7908.jpg",
     "static/media/home-decor-2.jpg": "/static/media/home-decor-2.b4e5397c9846645ba275.jpg",
@@ -34,10 +34,10 @@
     "static/media/logo-asana.svg": "/static/media/logo-asana.5c9ced4f9006cfb2d4c10f905cf6d310.svg",
     "index.html": "/index.html",
     "main.1aa1b982.css.map": "/static/css/main.1aa1b982.css.map",
-    "main.4a91c427.js.map": "/static/js/main.4a91c427.js.map"
+    "main.a0d49e1b.js.map": "/static/js/main.a0d49e1b.js.map"
   },
   "entrypoints": [
     "static/css/main.1aa1b982.css",
-    "static/js/main.4a91c427.js"
+    "static/js/main.a0d49e1b.js"
   ]
 }
