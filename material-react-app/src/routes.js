@@ -80,7 +80,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "CandidateList",
+    name: "Candidate List",
     key: "Candidate-List",
     icon: <Icon fontSize="small">list</Icon>,
     route: "/Candidate-List",
