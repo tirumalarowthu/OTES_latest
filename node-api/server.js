@@ -123,9 +123,9 @@ app.get("/get/candidates", async (req, res) => {
       .skip(startIndex);
 
     // Logging statement
-    testresult.TestResult.log(
+    logger.Logger.log(
       "info",
-      "Candidate took and submit the test to save the email & selected answers into the MongoDB database by triggering testresults API"
+      "Filtering table data by Test status "
     );
 
     res.status(200).json({
@@ -143,53 +143,106 @@ app.get("/get/candidates", async (req, res) => {
 
 
 ///Automatic Evaluation 
+
 app.post("/automatic/testresults", async (req, res) => {
   try {
-    const { selectedAnswers } = req.body;
-    // Create a new instance of the TestResults model
-    const questions = await MCQQuestion.find({});
-    // Initialize total score
-    let totalScore = 0;
+    const { email, selectedAnswers } = req.body;
 
-    // Iterate through each question and compare selected answer with correct choice
+    // Retrieve candidate by email from the database
+    const candidate = await Candidate.findOne({ email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" });
+    }
+
+    // Calculate total score
+    const questions = await MCQQuestion.find({});
+    let totalScore = 0;
     questions.forEach(question => {
       const questionId = question._id.toString();
       const selectedAnswer = selectedAnswers[questionId];
       if (selectedAnswer && selectedAnswer === question.correct_choice) {
-        // Increase total score if selected answer is correct
         totalScore++;
       }
     });
-    const testresults = new TestResults({...req.body,totalScore});
-    // Save the new instance to the database
-    await testresults.save();
-    console.log(testresults,"auto evaluate")
-    testresult.TestResult.log(
-      "info",
-      "Candidate took the test and it is autosumitted the test to save the email & selected answeres into the MongoDB database by triggering testresults API"
-    );
-    //Change test status as Evaluated
-    const candidate = await Candidate.findOne({ email: testresults.email });
-    if (!candidate) {
-      return res.status(404).json({ message: "Candidate not found" });
-    }
+
+    // Save test results
+    const testResults = new TestResults({ ...req.body, totalScore });
+    await testResults.save();
+
+    // Update test status for the candidate
     candidate.testStatus = 'Test Taken';
     await candidate.save();
+
+    // Log the event
+    testresult.TestResult.log(
+      "info",
+      `Test results saved for candidate with email: ${email}`
+    );
     TestStatus.TestStatus.log(
       "info",
-      `${candidate.email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
+      `Test status updated to 'Test Taken' for candidate with email: ${email}`
     );
-    // Return the new instance as a JSON response
-    res.json(testresults);
+
+    // Return the saved test results
+    res.json(testResults);
+
   } catch (err) {
-    console.log(err); // log the error message
+    console.error(err); // Log the error message
     testresult.TestResult.log(
       "error",
-      "issue in saving testresults in to the database"
+      "Issue in saving test results to the database"
     );
     return res.status(500).send("Server Error");
   }
 });
+
+// app.post("/automatic/testresults", async (req, res) => {
+//   try {
+//     const { selectedAnswers } = req.body;
+//     // Create a new instance of the TestResults model
+//     const questions = await MCQQuestion.find({});
+//     // Initialize total score
+//     let totalScore = 0;
+
+//     // Iterate through each question and compare selected answer with correct choice
+//     questions.forEach(question => {
+//       const questionId = question._id.toString();
+//       const selectedAnswer = selectedAnswers[questionId];
+//       if (selectedAnswer && selectedAnswer === question.correct_choice) {
+//         // Increase total score if selected answer is correct
+//         totalScore++;
+//       }
+//     });
+//     const testresults = new TestResults({...req.body,totalScore});
+//     // Save the new instance to the database
+//     await testresults.save();
+//     console.log(testresults,"auto evaluate")
+//     testresult.TestResult.log(
+//       "info",
+//       "Candidate took the test and it is autosumitted the test to save the email & selected answeres into the MongoDB database by triggering testresults API"
+//     );
+//     //Change test status as Evaluated
+//     const candidate = await Candidate.findOne({ email: testresults.email });
+//     if (!candidate) {
+//       return res.status(404).json({ message: "Candidate not found" });
+//     }
+//     candidate.testStatus = 'Test Taken';
+//     await candidate.save();
+//     TestStatus.TestStatus.log(
+//       "info",
+//       `${candidate.email} took the test and submitted,"updateCandidateTeststatus" API is triggered and updated the status in database`
+//     );
+//     // Return the new instance as a JSON response
+//     res.json(testresults);
+//   } catch (err) {
+//     console.log(err); // log the error message
+//     testresult.TestResult.log(
+//       "error",
+//       "issue in saving testresults in to the database"
+//     );
+//     return res.status(500).send("Server Error");
+//   }
+// });
 
 
 // API to add evaluator

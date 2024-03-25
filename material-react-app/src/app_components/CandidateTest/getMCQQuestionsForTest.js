@@ -26,6 +26,7 @@ import {
   Button,
 } from "@mui/material";
 import Timer from "./Timer";
+import { toast } from "react-toastify";
 
 const getMCQQuestionsForTest = () => {
   const navigate = useNavigate();
@@ -123,39 +124,7 @@ const getMCQQuestionsForTest = () => {
     event.preventDefault();
     event.returnValue = "";
   }
-  async function handleNextClick() {
-    setLoading(true);
-
-    const selectedAnswers =
-      (await JSON.parse(localStorage.getItem("selectedAnswers"))) || {};
-    await mcqquestions.forEach((question) => {
-      // Check if the question's _id exists in the answered object
-      if (!selectedAnswers.hasOwnProperty(question._id)) {
-        // If it doesn't exist, add it to the answered object with an empty string value
-        selectedAnswers[question._id] = "";
-      }
-    });
-    console.log(selectedAnswers);
-    const requestBody = {
-      email,
-      selectedAnswers,
-    };
-
-    await axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/automatic/testresults`,
-        requestBody
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setLoading(false);
-    navigate("/Results");
-    localStorage.clear();
-  }
+  
 
   function handleRadioChange(event, questionId) {
     const selectedAnswer = event.target.value;
@@ -172,7 +141,7 @@ const getMCQQuestionsForTest = () => {
     );
   }
 
-  function handleTestSubmissionAttempt() {
+  async function handleTestSubmissionAttempt() {
     // Check if there are any unanswered questions
     const isEveryQuestionAnswered = mcqquestions.every(
       (question) =>
@@ -184,7 +153,30 @@ const getMCQQuestionsForTest = () => {
       setOpenModal(true);
     } else {
       // All questions are answered, proceed to submit
-      handleNextClick();
+      setLoading(true);
+
+    const selectedAnswers =  (await JSON.parse(localStorage.getItem("selectedAnswers"))) || {};
+    await mcqquestions.forEach((question) => {
+      // Check if the question's _id exists in the answered object
+      if (!selectedAnswers.hasOwnProperty(question._id)) {
+        // If it doesn't exist, add it to the answered object with an empty string value
+        selectedAnswers[question._id] = "";
+      }
+    });
+    console.log(selectedAnswers);
+    const requestBody = {
+      email,
+      selectedAnswers,
+    };
+
+    await axios.post( `${process.env.REACT_APP_API_URL}/automatic/testresults`,requestBody).then((response) => {
+      navigate("/Results")
+      console.log(response)
+    }).catch((error) => { console.log(error)}).finally(()=>{
+      setLoading(false);
+      localStorage.clear();
+    });
+    
     }
   }
 
@@ -375,10 +367,31 @@ const getMCQQuestionsForTest = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenModal(false)}>No</Button>
-            <Button
-              onClick={() => {
-                handleNextClick();
+            <Button 
+              onClick={async() => {
+                setLoading(true);
                 setOpenModal(false);
+    const selectedAnswers =  (await JSON.parse(localStorage.getItem("selectedAnswers"))) || {};
+    await mcqquestions.forEach((question) => {
+      // Check if the question's _id exists in the answered object
+      if (!selectedAnswers.hasOwnProperty(question._id)) {
+        // If it doesn't exist, add it to the answered object with an empty string value
+        selectedAnswers[question._id] = "";
+      }
+    });
+    console.log(selectedAnswers);
+    const requestBody = {
+      email,
+      selectedAnswers,
+    };
+
+    await axios.post( `${process.env.REACT_APP_API_URL}/automatic/testresults`,requestBody).then((response) => {
+      navigate("/Results")
+      console.log(response)
+    }).catch((error) => { console.log(error)}).finally(()=>{
+      setLoading(false);
+      localStorage.clear();
+    });
               }}
               autoFocus
             >
